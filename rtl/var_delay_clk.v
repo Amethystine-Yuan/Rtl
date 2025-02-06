@@ -3,31 +3,31 @@
 module var_delay_clk (
     input din,
     input mode,
-    input [1:0] delay_sel, // from ctrl, select proper configuration ('0'=leading/'1'=origin/'2'=lagging)
+    input delay_sel, // from ctrl, select proper configuration ('0'=leading/'1'=origin/'2'=lagging)
     input [3:0] var_clk_sel_origin,  // from scan in, configuration for origin phase
     input [3:0] var_clk_sel_leading, // from scan in, configuration for leading phase
-    input [3:0] var_clk_sel_lagging, // from scan in, configuration for lagging phase
+    // input [3:0] var_clk_sel_lagging, // from scan in, configuration for lagging phase
     output reg dout
 );
 
     // /* below for simualtion */
     reg din1;
     reg din2;
-    reg din3;
+    // reg din3;
     reg dout_sel;
 
     always @(din) begin
         // $display("din is changing at %d ns, din is %b", $time, din);
         din1 = din;
         #0.1 din2 = din;
-        #0.1 din3 = din;
+        // #0.1 din3 = din;
     end
     
     always @(*) begin
         case (delay_sel)
-            2'd0 : dout_sel = din1;
-            2'd1 : dout_sel = din2;
-            2'd2 : dout_sel = din3;
+            1'd0 : dout_sel = din1;
+            1'd1 : dout_sel = din2;
+            //2'd2 : dout_sel = din3;
             default: dout_sel = din2;
         endcase
     end

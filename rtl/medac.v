@@ -13,16 +13,19 @@ module medac (
     // input [2:0] delay_sel_d2,
     input [3:0] var_clk_sel_origin,
     input [3:0] var_clk_sel_leading,
-    input [3:0] var_clk_sel_lagging,
+    // input [3:0] var_clk_sel_lagging,
     output clkout,
     output [31:0] error_origin_cnt,
     output [31:0] error_ptr_cnt
     //output [31:0] cycle_cnt
 );
 
-	wire clk_origin, clk_leading, clk_lagging;
-    wire error_origin, error_leading, error_lagging;
-    wire [1:0] clk_sel;
+	// wire clk_origin, clk_leading, clk_lagging;
+    wire clk_origin, clk_leading;
+    // wire error_origin, error_leading, error_lagging;
+    wire error_origin, error_leading;
+    // wire [1:0] clk_sel;
+    wire clk_sel;
 
     /* clock division  */
     wire clkin_div, clkin_divb;
@@ -43,12 +46,12 @@ module medac (
         .rst_n(rst_n),
         .win_sel(win_sel),
         .error(error_leading));
-    meta_detector md_lagging (
-        .clkin(clkin_div),
-        .clk(clk_lagging),
-        .rst_n(rst_n),
-        .win_sel(win_sel),
-        .error(error_lagging));
+    // meta_detector md_lagging (
+    //     .clkin(clkin_div),
+    //     .clk(clk_lagging),
+    //     .rst_n(rst_n),
+    //     .win_sel(win_sel),
+    //     .error(error_lagging));
 
     var_delay d1 (
         .din(clk),
@@ -62,12 +65,12 @@ module medac (
         .dout(clk_origin)
         //.dout(clk_origin_tobuf)
     );
-    var_delay d3 (
-        .din(clk_origin),
-        .delay_sel(var_clk_sel_lagging),
-        .dout(clk_lagging)
-        //.dout(clk_lagging_tobuf)
-    );
+    // var_delay d3 (
+    //     .din(clk_origin),
+    //     .delay_sel(var_clk_sel_lagging),
+    //     .dout(clk_lagging)
+    //     //.dout(clk_lagging_tobuf)
+    // );
 	
     // /* d1 for leading phase detection */
     // var_delay d1 (
@@ -96,7 +99,7 @@ module medac (
         .rst_n(rst_n),
         .error_origin(error_origin),
         .error_leading(error_leading),
-        .error_lagging(error_lagging),
+        // .error_lagging(error_lagging),
         .clk_sel(clk_sel)
     );
 
@@ -106,7 +109,7 @@ module medac (
         .delay_sel(clk_sel),
         .var_clk_sel_origin(var_clk_sel_origin),
         .var_clk_sel_leading(var_clk_sel_leading),
-        .var_clk_sel_lagging(var_clk_sel_lagging),
+        // .var_clk_sel_lagging(var_clk_sel_lagging),
         .dout(clkout)
     );
 

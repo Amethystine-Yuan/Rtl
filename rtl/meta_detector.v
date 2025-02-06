@@ -47,6 +47,13 @@ module meta_detector (
         #0.05 clkd = clk;
         // #0.1 clkd = clk;
     end
+
+    //New 
+    reg clkin_d;
+    always @(clkin) begin
+        #0.025 clkin_d = clkin;
+        // #0.05 clkd = clk;
+    end
     // /* above for simulation */
 
     /* below for synthesis */
@@ -72,8 +79,8 @@ module meta_detector (
 
     
 
-    sync sync1 (.clk(clk),  .rst_n(rst_n), .din(clkin), .dout(dout1));
-    sync_shadow sync2 (.clk(clk),  .clkd(clkd), .rst_n(rst_n), .din(clkin), .dout(dout2));
+    sync sync1 (.clk(clk),  .rst_n(rst_n), .din(clkin_d), .dout(dout1));
+    sync_shadow sync2 (.clk(clk),  .clkd(clkd), .rst_n(rst_n), .din(clkin_d), .dout(dout2));
     XOR2D0BWP30P140 xor1 (.A1(dout1), .A2(dout2), .Z(error));
 
 endmodule
