@@ -4,8 +4,8 @@ module fifo_medac_top #(parameter DSIZE = 40, parameter ASIZE = 4) (
     output [DSIZE-1:0] rdata,
     output wfull,
     output rempty_n,
-    //output error_w,
-    //output error_r,
+    output error_w,
+    output error_r,
     input medac_mode,
 	input [2:0] sync_sel,
     input [DSIZE-1:0] wdata,
@@ -34,7 +34,7 @@ module fifo_medac_top #(parameter DSIZE = 40, parameter ASIZE = 4) (
     output [31:0] error_ptr_cnt_r
     //output [31:0] cycle_cnt_r
 );
-	wire error_w, error_r;
+	// wire error_w, error_r;
 	wire wclk_sync, rclk_sync;
 
 	wire cnt_full, start_not_full;

@@ -92,10 +92,12 @@ module medac (
     // );
 
     /* ctrl */
-	BUFFD4BWP30P140LVT clk_lagging_buffer (.I(clk_lagging), .Z(clk_lagging_buf));
+	// BUFFD4BWP30P140LVT clk_lagging_buffer (.I(clk_lagging), .Z(clk_lagging_buf));
+    BUFFD4BWP30P140LVT clk_origin_buffer (.I(clk_origin), .Z(clk_origin_buf));
     ctrl ctrl (
         // .clk(clk),
-        .clk(clk_lagging_buf),
+        // .clk(clk_lagging_buf),
+        .clk(clk_origin_buf),
         .rst_n(rst_n),
         .error_origin(error_origin),
         .error_leading(error_leading),

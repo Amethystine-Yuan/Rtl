@@ -211,6 +211,7 @@ module meta_detector_bits #(parameter ADDRSIZE = 3) (
 	output error
 );
 	wire [ADDRSIZE:0] ptr_out_shadow;
+	wire [ADDRSIZE:0] ptr_out_shadow_d;
 	wire [ADDRSIZE:0] ptr_xor;
 
 	// /* below for simulation */
@@ -220,6 +221,12 @@ module meta_detector_bits #(parameter ADDRSIZE = 3) (
         #0.05 clkd = clks;
 		// #0.1 clkd = clks;
     end
+
+	//New
+	reg [ADDRSIZE:0] ptr_d;
+	always @(clk) begin
+		#0.025 ptr_d = ptr_in;
+	end
     // /* above for simulation */
 
     /* below for synthesis */
@@ -263,17 +270,25 @@ module meta_detector_bits #(parameter ADDRSIZE = 3) (
 		.ptr_in(ptr_in),
 		.ptr_out(ptr_out)
 	);
+	synchronizer #(ADDRSIZE) sync_shadow2 (
+		.clk(clk),
+		.clks(clks),
+		.rst_n(rst_n),
+		.sync_sel(sync_sel),
+		.ptr_in(ptr_d),
+		.ptr_out(ptr_out_shadow_d)
+	);
 	//synchronizer_shadow #(ADDRSIZE) sync_shadow (
 	synchronizer #(ADDRSIZE) sync_shadow (
 		.clk(clk),
 		.clks(clkd),
 		.rst_n(rst_n),
 		.sync_sel(sync_sel),
-		.ptr_in(ptr_in),
+		.ptr_in(ptr_d),
 		.ptr_out(ptr_out_shadow)
 	);
 
-	assign ptr_xor = (ptr_out ^ ptr_out_shadow);
+	assign ptr_xor = (ptr_out_shadow_d ^ ptr_out_shadow);
 	assign error = | ptr_xor;
 
 endmodule
