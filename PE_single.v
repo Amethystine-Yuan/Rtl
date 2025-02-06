@@ -75,6 +75,12 @@ module PE_single (
         output  wire [`MIN_WIDTH-1:0]           latency_min_circuit,
         output  wire [`MAX_WIDTH-1:0]           latency_max_circuit,
 
+        // Meta. added 
+        input [3:0] win_sel,
+        input [3:0] var_clk_sel_origin,
+        input [3:0] var_clk_sel_leading,
+        input medac_mode, // 1 for medac on; 0 for medac off
+
         // for dbg 20241205
 
         output reg  [10:0]                      send_packet_patch_num,
@@ -838,8 +844,77 @@ module PE_single (
         wire [4:0] four_stage_learning_data_number;
         assign four_stage_learning_data_number = (N==1) ? 2 :(M > N ? N : M);
 
+
+        // Meta. Solution: Clock Switching
+        // M < N, Use Strobe, posedge 
+        wire clkin_div, clkin_divb;
+        INVD1BWP30P140 clkinv (.I(clkin_div), .ZN(clkin_divb));
+        DFCNQD4BWP30P140LVT clkdiv (.D(clkin_divb), .CP(Clock_r2p), .CDN(rst_n), .Q(clkin_div));
+        //DFQD4BWP30P140 clkdiv (.D(clkin_divb), .CP(clkin), .Q(clkin_div));
+
+        // M >= N, Use State, negedge
+        wire clkin_div2, clkin_divb2;
+        INVD1BWP30P140 clkinv2 (.I(Clock_r2p), .ZN(Clock_r2p_inv));
+        INVD1BWP30P140 clkinv3 (.I(clkin_div2), .ZN(clkin_divb2));
+        DFCNQD4BWP30P140LVT clkdiv2 (.D(clkin_divb2), .CP(Clock_r2p_inv), .CDN(rst_n), .Q(clkin_div2));
+
+        wire clkin_div_final = (M>=N) ? clkin_div2 : clkin_div;
+
+        wire clk_grls_origin, clk_grls_leading;
+        wire error_origin, error_leading;
+        /* metastabiity detectors */
+        meta_detector grls_md_origin (
+            .clkin(clkin_div_final),
+            .clk(clk_grls_origin),
+            .rst_n(rst_n),
+            .win_sel(win_sel),
+            .error(error_origin));
+        meta_detector grls_md_leading (
+            .clkin(clkin_div_final),
+            .clk(clk_grls_leading),
+            .rst_n(rst_n),
+            .win_sel(win_sel),
+            .error(error_leading));
+
+        var_delay grls_d1 (
+            .din(clk),
+            .delay_sel(var_clk_sel_leading),
+            .dout(clk_grls_leading)
+            //.dout(clk_leading_tobuf)
+        );
+        var_delay grls_d2 (
+            .din(clk_grls_leading),
+            .delay_sel(var_clk_sel_origin),
+            .dout(clk_grls_origin)
+            //.dout(clk_origin_tobuf)
+        );
+        /* ctrl */
+	    // BUFFD4BWP30P140LVT clk_lagging_buffer (.I(clk_lagging), .Z(clk_lagging_buf));
+        BUFFD4BWP30P140LVT clk_grls_origin_buffer (.I(clk_grls_origin), .Z(clk_grls_origin_buf));
+        wire clk_sel, clkout;
+        ctrl ctrl (
+            // .clk(clk),
+            // .clk(clk_lagging_buf),
+            .clk(clk_grls_origin_buf),
+            .rst_n(rst_n),
+            .error_origin(error_origin),
+            .error_leading(error_leading),
+            // .error_lagging(error_lagging),
+            .clk_sel(clk_sel)
+        );
+
+        var_delay_clk dclk (
+            .din(clk_grls_leading),
+            .mode(medac_mode),
+            .delay_sel(clk_sel),
+            .var_clk_sel_origin(var_clk_sel_origin),
+            .var_clk_sel_leading(var_clk_sel_leading),
+            // .var_clk_sel_lagging(var_clk_sel_lagging),
+            .dout(clkout)
+        );  
+
         // four_stage interface or three_stage interface
-        three_stage inst_four_stage (
+        three_stage inst_three_stage (
         .clk(clk),
         .rst_n(rst_n),
         .M(M), 
