@@ -841,24 +841,24 @@ module PE_single (
         wire [3:0] M = (TX_Index_fixed == 0) ? TX_Index : TX_Index_fixed[3:0];
         
         // Learning Phase Compensation
-        wire [4:0] four_stage_learning_data_number;
-        assign four_stage_learning_data_number = (N==1) ? 2 :(M > N ? N : M);
+        // wire [4:0] four_stage_learning_data_number;
+        // assign four_stage_learning_data_number = (N==1) ? 2 :(M > N ? N : M);
 
 
         // Meta. Solution: Clock Switching
-        // M < N, Use Strobe, posedge 
+        // M >= N, Use State, posedge RX sampling 
         wire clkin_div, clkin_divb;
         INVD1BWP30P140 clkinv (.I(clkin_div), .ZN(clkin_divb));
         DFCNQD4BWP30P140LVT clkdiv (.D(clkin_divb), .CP(Clock_r2p), .CDN(rst_n), .Q(clkin_div));
         //DFQD4BWP30P140 clkdiv (.D(clkin_divb), .CP(clkin), .Q(clkin_div));
 
-        // M >= N, Use State, negedge
+        //  M < N, Use Strobe, negedge RX sampling
         wire clkin_div2, clkin_divb2;
         INVD1BWP30P140 clkinv2 (.I(Clock_r2p), .ZN(Clock_r2p_inv));
         INVD1BWP30P140 clkinv3 (.I(clkin_div2), .ZN(clkin_divb2));
         DFCNQD4BWP30P140LVT clkdiv2 (.D(clkin_divb2), .CP(Clock_r2p_inv), .CDN(rst_n), .Q(clkin_div2));
 
-        wire clkin_div_final = (M>=N) ? clkin_div2 : clkin_div;
+        wire clkin_div_final = (M>=N) ? clkin_div : clkin_div2;
 
         wire clk_grls_origin, clk_grls_leading;
         wire error_origin, error_leading;
@@ -936,7 +936,7 @@ module PE_single (
     // reg mask_four_stage_data_valid;
 
     always @(*) begin
-        RX_Head = (sel_data[`CDATA_WIDTH-1:0] == 1+four_stage_learning_data_number)&&(data_valid);
+        RX_Head = (sel_data[`CDATA_WIDTH-1:0] == 1)&&(data_valid);
         RX_Tail = (sel_data[`CDATASIZE-1] == 1)&&(data_valid);
     end
 
@@ -1075,8 +1075,8 @@ module PE_single (
             error_circuit <= 1'b0;
         else if(error_circuit==1'b1)
             error_circuit <= 1'b1;
-        else if((RX_Head||mask_four_stage_data_valid) && data_valid&&(sel_data[`CDATASIZE-2]==1'b0))
-            error_circuit <= sel_data[`stream_cnt_width-1:0]!=(error_circuit_cnt+four_stage_learning_data_number);
+        else if((RX_Head||mask_four_stage_data_valid) && data_valid)
+            error_circuit <= sel_data[`stream_cnt_width-1:0]!=(error_circuit_cnt);
         else
             error_circuit <= error_circuit;
     end
@@ -1086,7 +1086,7 @@ module PE_single (
         //else if((error_circuit_cnt==Stream_Length+1)&&((RX_Head||mask_four_stage_data_valid))&&(data_valid)&&(sel_data[`CDATASIZE-2]==1'b0))
         else if(((RX_Head||mask_four_stage_data_valid)&&data_valid&&(sel_data[`CDATA_WIDTH-1:0]==Stream_Length+1)))
             error_circuit_cnt <= 1'b1 ;
-        else if(data_valid&&(RX_Head||mask_four_stage_data_valid)&&(sel_data[`CDATASIZE-2]==1'b0))
+        else if(data_valid&&(RX_Head||mask_four_stage_data_valid))
             error_circuit_cnt <= 1'b1 + error_circuit_cnt;
         else error_circuit_cnt <= error_circuit_cnt;
     end
