@@ -76,10 +76,15 @@ module PE_single (
         output  wire [`MAX_WIDTH-1:0]           latency_max_circuit,
 
         // Meta. added 
-        input [3:0] win_sel,
-        input [3:0] var_clk_sel_origin,
-        input [3:0] var_clk_sel_leading,
-        input medac_mode, // 1 for medac on; 0 for medac off
+        input wire [3:0] win_sel,
+        input wire [3:0] var_clk_sel_origin,
+        input wire [3:0] var_clk_sel_leading,
+        input wire medac_mode, // 1 for medac on; 0 for medac off
+
+        output wire state_meta_error,
+        output wire strobe1_meta_error,
+        output wire strobe2_meta_error,
+        output wire strobe3_meta_error,
 
         // for dbg 20241205
 
@@ -847,31 +852,43 @@ module PE_single (
 
         // Meta. Solution: Clock Switching
         // M >= N, Use State, posedge RX sampling 
-        wire clkin_div, clkin_divb;
-        INVD1BWP30P140 clkinv (.I(clkin_div), .ZN(clkin_divb));
-        DFCNQD4BWP30P140LVT clkdiv (.D(clkin_divb), .CP(Clock_r2p), .CDN(rst_n), .Q(clkin_div));
-        //DFQD4BWP30P140 clkdiv (.D(clkin_divb), .CP(clkin), .Q(clkin_div));
-
         //  M < N, Use Strobe, negedge RX sampling
-        wire clkin_div2, clkin_divb2;
-        INVD1BWP30P140 clkinv2 (.I(Clock_r2p), .ZN(Clock_r2p_inv));
-        INVD1BWP30P140 clkinv3 (.I(clkin_div2), .ZN(clkin_divb2));
-        DFCNQD4BWP30P140LVT clkdiv2 (.D(clkin_divb2), .CP(Clock_r2p_inv), .CDN(rst_n), .Q(clkin_div2));
+        
+        wire clkin_div, clkin_divb;
+        wire Clock_r2p_inv, Clock_r2p_in;
 
-        wire clkin_div_final = (M>=N) ? clkin_div : clkin_div2;
+        INVD1BWP30P140 clkinv2 (.I(Clock_r2p), .ZN(Clock_r2p_inv));
+        assign Clock_r2p_in = (M>=N) ? Clock_r2p_inv : Clock_r2p;
+
+        INVD1BWP30P140 clkinv (.I(clkin_div), .ZN(clkin_divb));
+        DFCNQD4BWP30P140LVT clkdiv (.D(clkin_divb), .CP(Clock_r2p_in), .CDN(rst_n), .Q(clkin_div));
+        //DFQD4BWP30P140 clkdiv (.D(clkin_divb), .CP(clkin), .Q(clkin_div));
+        
 
         wire clk_grls_origin, clk_grls_leading;
         wire error_origin, error_leading;
+
+        wire clk_grls_origin_inv, clk_grls_origin_in;
+        wire clk_grls_leading_inv, clk_grls_leading_in;
+       
         /* metastabiity detectors */
+
+        INVD1BWP30P140 clkinv3 (.I(clk_grls_origin), .ZN(clk_grls_origin_inv));
+        assign clk_grls_origin_in = (M>=N) ? clk_grls_origin : clk_grls_origin_inv;
+
         meta_detector grls_md_origin (
-            .clkin(clkin_div_final),
-            .clk(clk_grls_origin),
+            .clkin(clkin_div),
+            .clk(clk_grls_origin_in),
             .rst_n(rst_n),
             .win_sel(win_sel),
             .error(error_origin));
+
+        INVD1BWP30P140 clkinv4 (.I(clk_grls_leading), .ZN(clk_grls_leading_inv));
+        assign clk_grls_leading_in = (M>=N) ? clk_grls_leading : clk_grls_leading_inv;
+    
         meta_detector grls_md_leading (
-            .clkin(clkin_div_final),
-            .clk(clk_grls_leading),
+            .clkin(clkin_div),
+            .clk(clk_grls_leading_in),
             .rst_n(rst_n),
             .win_sel(win_sel),
             .error(error_leading));
@@ -913,13 +930,38 @@ module PE_single (
             .dout(clkout)
         );  
 
+        // Control the selection phase
+
+        reg [4:0] interface_en_cnt;
+        reg interface_en;
+
+        always @(posedge Clock_r2p or negedge rst_n) begin
+            if(!rst_n)
+                interface_en_cnt <= 5'b0;
+            else if(interface_en)
+                interface_en_cnt <= interface_en_cnt;
+            else if(State_r2p)
+                interface_en_cnt <= interface_en_cnt + 1;
+            else interface_en_cnt <= interface_en_cnt;
+            
+        end
+
+        always @(posedge Clock_r2p or negedge rst_n) begin
+            if(!rst_n)
+                interface_en <= 1'b0;
+            else if(interface_en_cnt==M-1 && M!=0)
+                interface_en <= 1'b1;
+            else interface_en <= interface_en;
+        end
+
+
         // four_stage interface or three_stage interface
         three_stage inst_three_stage (
-        .clk(clk),
+        .clk(clkout),
         .rst_n(rst_n),
         .M(M), 
         .N(N), 
-
+        .interface_en(interface_en),
         .CData_r2p(CData_r2p),
         .Strobe_r2p(Strobe_r2p_fixed),
         .State_r2p(State_r2p),
@@ -929,14 +971,19 @@ module PE_single (
         .data_valid(data_valid),
 
         .alert(alert_wire),
-        .Feedback_p2r(Feedback_p2r)
+        .Feedback_p2r(Feedback_p2r),
+        .sync_sel(3'b011),
+        .state_meta_error(state_meta_error),
+        .strobe1_meta_error(strobe1_meta_error),
+        .strobe2_meta_error(strobe2_meta_error),
+        .strobe3_meta_error(strobe3_meta_error)
     );
 
     // There are few datas 
     // reg mask_four_stage_data_valid;
 
     always @(*) begin
-        RX_Head = (sel_data[`CDATA_WIDTH-1:0] == 1)&&(data_valid);
+        RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1)||(sel_data[`CDATA_WIDTH-1:0] == 1+N))&&(data_valid);
         RX_Tail = (sel_data[`CDATASIZE-1] == 1)&&(data_valid);
     end
 
@@ -1069,12 +1116,15 @@ module PE_single (
 
     // Correct Check
     // reg error_circuit;
+    reg first_pc_flag;// learning phase compensation
     reg [`stream_cnt_width-1:0] error_circuit_cnt;
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n) 
             error_circuit <= 1'b0;
         else if(error_circuit==1'b1)
             error_circuit <= 1'b1;
+        else if(data_valid&&(RX_Head||mask_four_stage_data_valid)&&!first_pc_flag)
+            error_circuit <= 1'b0;
         else if((RX_Head||mask_four_stage_data_valid) && data_valid)
             error_circuit <= sel_data[`stream_cnt_width-1:0]!=(error_circuit_cnt);
         else
@@ -1084,11 +1134,20 @@ module PE_single (
         if(!rst_n) 
             error_circuit_cnt <= 1'b1 ;
         //else if((error_circuit_cnt==Stream_Length+1)&&((RX_Head||mask_four_stage_data_valid))&&(data_valid)&&(sel_data[`CDATASIZE-2]==1'b0))
+        else if(data_valid&&(RX_Head||mask_four_stage_data_valid)&&!first_pc_flag)
+            error_circuit_cnt <= 1'b1 + sel_data[`CDATA_WIDTH-1:0];
         else if(((RX_Head||mask_four_stage_data_valid)&&data_valid&&(sel_data[`CDATA_WIDTH-1:0]==Stream_Length+1)))
             error_circuit_cnt <= 1'b1 ;
         else if(data_valid&&(RX_Head||mask_four_stage_data_valid))
             error_circuit_cnt <= 1'b1 + error_circuit_cnt;
         else error_circuit_cnt <= error_circuit_cnt;
+    end
+    always @(posedge clk or negedge rst_n) begin
+        if(!rst_n) 
+            first_pc_flag <= 1'b0 ;
+        else if((RX_Head||mask_four_stage_data_valid)&&data_valid)
+            first_pc_flag <= 1'b1;
+        else first_pc_flag <= first_pc_flag;
     end
 
     // reg error_packet;

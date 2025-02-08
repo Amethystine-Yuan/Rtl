@@ -6,8 +6,8 @@
 `define PDATASIZE 37
 `define PDATA_WIDTH 13
 
-`define CDATASIZE 512
-`define CDATA_WIDTH 486
+`define CDATASIZE 128
+`define CDATA_WIDTH 102
 
 `define Packet_FIFO_DEPTH 4
 `define FIFO_DEPTH 4

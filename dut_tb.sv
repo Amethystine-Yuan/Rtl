@@ -271,6 +271,76 @@ module dut_tb ();
     wire [`MAX_WIDTH-1:0]    latency_max_circuit32;
     wire [`MAX_WIDTH-1:0]    latency_max_circuit33;
 
+
+    wire state_meta_error_00;
+    wire state_meta_error_01;
+    wire state_meta_error_02;
+    wire state_meta_error_03;
+    wire state_meta_error_10;
+    wire state_meta_error_11;
+    wire state_meta_error_12;
+    wire state_meta_error_13;
+    wire state_meta_error_20;
+    wire state_meta_error_21;
+    wire state_meta_error_22;
+    wire state_meta_error_23;
+    wire state_meta_error_30;
+    wire state_meta_error_31;
+    wire state_meta_error_32;
+    wire state_meta_error_33;
+    
+    wire strobe1_meta_error_00;
+    wire strobe1_meta_error_01;
+    wire strobe1_meta_error_02;
+    wire strobe1_meta_error_03;
+    wire strobe1_meta_error_10;
+    wire strobe1_meta_error_11;
+    wire strobe1_meta_error_12;
+    wire strobe1_meta_error_13;
+    wire strobe1_meta_error_20;
+    wire strobe1_meta_error_21;
+    wire strobe1_meta_error_22;
+    wire strobe1_meta_error_23;
+    wire strobe1_meta_error_30;
+    wire strobe1_meta_error_31;
+    wire strobe1_meta_error_32;
+    wire strobe1_meta_error_33;
+    
+    wire strobe2_meta_error_00;
+    wire strobe2_meta_error_01;
+    wire strobe2_meta_error_02;
+    wire strobe2_meta_error_03;
+    wire strobe2_meta_error_10;
+    wire strobe2_meta_error_11;
+    wire strobe2_meta_error_12;
+    wire strobe2_meta_error_13;
+    wire strobe2_meta_error_20;
+    wire strobe2_meta_error_21;
+    wire strobe2_meta_error_22;
+    wire strobe2_meta_error_23;
+    wire strobe2_meta_error_30;
+    wire strobe2_meta_error_31;
+    wire strobe2_meta_error_32;
+    wire strobe2_meta_error_33;
+    
+    wire strobe3_meta_error_00;
+    wire strobe3_meta_error_01;
+    wire strobe3_meta_error_02;
+    wire strobe3_meta_error_03;
+    wire strobe3_meta_error_10;
+    wire strobe3_meta_error_11;
+    wire strobe3_meta_error_12;
+    wire strobe3_meta_error_13;
+    wire strobe3_meta_error_20;
+    wire strobe3_meta_error_21;
+    wire strobe3_meta_error_22;
+    wire strobe3_meta_error_23;
+    wire strobe3_meta_error_30;
+    wire strobe3_meta_error_31;
+    wire strobe3_meta_error_32;
+    wire strobe3_meta_error_33;
+
+
     reg [1:0] test_mode;
     reg [4:0] pe_verify_sel;
 
@@ -520,6 +590,75 @@ module dut_tb ();
         .latency_max_circuit31(latency_max_circuit31),
         .latency_max_circuit32(latency_max_circuit32),
         .latency_max_circuit33(latency_max_circuit33),
+
+        .state_meta_error_00(state_meta_error_00),
+        .state_meta_error_01(state_meta_error_01),
+        .state_meta_error_02(state_meta_error_02),
+        .state_meta_error_03(state_meta_error_03),
+        .state_meta_error_10(state_meta_error_10),
+        .state_meta_error_11(state_meta_error_11),
+        .state_meta_error_12(state_meta_error_12),
+        .state_meta_error_13(state_meta_error_13),
+        .state_meta_error_20(state_meta_error_20),
+        .state_meta_error_21(state_meta_error_21),
+        .state_meta_error_22(state_meta_error_22),
+        .state_meta_error_23(state_meta_error_23),
+        .state_meta_error_30(state_meta_error_30),
+        .state_meta_error_31(state_meta_error_31),
+        .state_meta_error_32(state_meta_error_32),
+        .state_meta_error_33(state_meta_error_33),
+    
+        .strobe1_meta_error_00(strobe1_meta_error_00),
+        .strobe1_meta_error_01(strobe1_meta_error_01),
+        .strobe1_meta_error_02(strobe1_meta_error_02),
+        .strobe1_meta_error_03(strobe1_meta_error_03),
+        .strobe1_meta_error_10(strobe1_meta_error_10),
+        .strobe1_meta_error_11(strobe1_meta_error_11),
+        .strobe1_meta_error_12(strobe1_meta_error_12),
+        .strobe1_meta_error_13(strobe1_meta_error_13),
+        .strobe1_meta_error_20(strobe1_meta_error_20),
+        .strobe1_meta_error_21(strobe1_meta_error_21),
+        .strobe1_meta_error_22(strobe1_meta_error_22),
+        .strobe1_meta_error_23(strobe1_meta_error_23),
+        .strobe1_meta_error_30(strobe1_meta_error_30),
+        .strobe1_meta_error_31(strobe1_meta_error_31),
+        .strobe1_meta_error_32(strobe1_meta_error_32),
+        .strobe1_meta_error_33(strobe1_meta_error_33),
+    
+        .strobe2_meta_error_00(strobe2_meta_error_00),
+        .strobe2_meta_error_01(strobe2_meta_error_01),
+        .strobe2_meta_error_02(strobe2_meta_error_02),
+        .strobe2_meta_error_03(strobe2_meta_error_03),
+        .strobe2_meta_error_10(strobe2_meta_error_10),
+        .strobe2_meta_error_11(strobe2_meta_error_11),
+        .strobe2_meta_error_12(strobe2_meta_error_12),
+        .strobe2_meta_error_13(strobe2_meta_error_13),
+        .strobe2_meta_error_20(strobe2_meta_error_20),
+        .strobe2_meta_error_21(strobe2_meta_error_21),
+        .strobe2_meta_error_22(strobe2_meta_error_22),
+        .strobe2_meta_error_23(strobe2_meta_error_23),
+        .strobe2_meta_error_30(strobe2_meta_error_30),
+        .strobe2_meta_error_31(strobe2_meta_error_31),
+        .strobe2_meta_error_32(strobe2_meta_error_32),
+        .strobe2_meta_error_33(strobe2_meta_error_33),
+    
+        .strobe3_meta_error_00(strobe3_meta_error_00),
+        .strobe3_meta_error_01(strobe3_meta_error_01),
+        .strobe3_meta_error_02(strobe3_meta_error_02),
+        .strobe3_meta_error_03(strobe3_meta_error_03),
+        .strobe3_meta_error_10(strobe3_meta_error_10),
+        .strobe3_meta_error_11(strobe3_meta_error_11),
+        .strobe3_meta_error_12(strobe3_meta_error_12),
+        .strobe3_meta_error_13(strobe3_meta_error_13),
+        .strobe3_meta_error_20(strobe3_meta_error_20),
+        .strobe3_meta_error_21(strobe3_meta_error_21),
+        .strobe3_meta_error_22(strobe3_meta_error_22),
+        .strobe3_meta_error_23(strobe3_meta_error_23),
+        .strobe3_meta_error_30(strobe3_meta_error_30),
+        .strobe3_meta_error_31(strobe3_meta_error_31),
+        .strobe3_meta_error_32(strobe3_meta_error_32),
+        .strobe3_meta_error_33(strobe3_meta_error_33),
+
 
 
         .send_packet_patch_num00(send_packet_patch_num00),
@@ -1584,11 +1723,11 @@ reg clk_test2;
     always @(posedge clk8_ori) clk8 <= #((93+clk_noise8.gussian_dist())*0.8/400.00) ~clk8;
     always @(posedge clk9_ori) clk9 <= #((75+clk_noise9.gussian_dist())*0.8/400.00) ~clk9;
     always @(posedge clk10_ori) clk10 <= #((17+clk_noise10.gussian_dist())*0.8/400.00) ~clk10;
-    always @(posedge clk11_ori) clk11 <= #((89+clk_noise11.gussian_dist())*0.8/400.00) ~clk11;
+    always @(posedge clk11_ori) clk11 <= #((107+clk_noise11.gussian_dist())*0.8/400.00) ~clk11;
     always @(posedge clk12_ori) clk12 <= #((41+clk_noise12.gussian_dist())*0.8/400.00) ~clk12;
     always @(posedge clk13_ori) clk13 <= #((82+clk_noise13.gussian_dist())*0.8/400.00) ~clk13;
     always @(posedge clk14_ori) clk14 <= #((61+clk_noise14.gussian_dist())*0.8/400.00) ~clk14;
-    always @(posedge clk15_ori) clk15 <= #((71+clk_noise15.gussian_dist())*0.8/400.00) ~clk15;
+    always @(posedge clk15_ori) clk15 <= #((1+clk_noise15.gussian_dist())*0.8/400.00) ~clk15;
 
     integer file00, file01, file02, file03;
     integer file10, file11, file12, file13;

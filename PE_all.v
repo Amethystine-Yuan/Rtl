@@ -66,6 +66,12 @@ module PE_all (
         output  wire                     error_circuit,
         output  wire                     error_packet,
 
+        //Meta Detection
+        output wire state_meta_error,
+        output wire strobe1_meta_error,
+        output wire strobe2_meta_error,
+        output wire strobe3_meta_error,
+
         // 20241205 Add dbg signals
         output wire  [10:0]                      send_packet_patch_num,
         output wire  [10:0]                      send_patch_num,
@@ -334,6 +340,16 @@ module PE_all (
         .latency_sum_circuit(latency_sum_circuit),
         .latency_min_circuit(latency_min_circuit),
         .latency_max_circuit(latency_max_circuit),
+
+        .win_sel(),
+        .var_clk_sel_origin(),
+        .var_clk_sel_leading(),
+        .medac_mode(1'b1), // 1 for medac on; 0 for medac off
+
+        .state_meta_error(state_meta_error),
+        .strobe1_meta_error(strobe1_meta_error),
+        .strobe2_meta_error(strobe2_meta_error),
+        .strobe3_meta_error(strobe3_meta_error),
 
         .send_packet_patch_num(send_packet_patch_num),
         .send_patch_num(send_patch_num),

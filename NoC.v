@@ -289,6 +289,74 @@ module NoC (
     output  wire [`MAX_WIDTH-1:0]    latency_max_circuit32,
     output  wire [`MAX_WIDTH-1:0]    latency_max_circuit33,
 
+    output wire state_meta_error_00,
+    output wire state_meta_error_01,
+    output wire state_meta_error_02,
+    output wire state_meta_error_03,
+    output wire state_meta_error_10,
+    output wire state_meta_error_11,
+    output wire state_meta_error_12,
+    output wire state_meta_error_13,
+    output wire state_meta_error_20,
+    output wire state_meta_error_21,
+    output wire state_meta_error_22,
+    output wire state_meta_error_23,
+    output wire state_meta_error_30,
+    output wire state_meta_error_31,
+    output wire state_meta_error_32,
+    output wire state_meta_error_33,
+    
+    output wire strobe1_meta_error_00,
+    output wire strobe1_meta_error_01,
+    output wire strobe1_meta_error_02,
+    output wire strobe1_meta_error_03,
+    output wire strobe1_meta_error_10,
+    output wire strobe1_meta_error_11,
+    output wire strobe1_meta_error_12,
+    output wire strobe1_meta_error_13,
+    output wire strobe1_meta_error_20,
+    output wire strobe1_meta_error_21,
+    output wire strobe1_meta_error_22,
+    output wire strobe1_meta_error_23,
+    output wire strobe1_meta_error_30,
+    output wire strobe1_meta_error_31,
+    output wire strobe1_meta_error_32,
+    output wire strobe1_meta_error_33,
+    
+    output wire strobe2_meta_error_00,
+    output wire strobe2_meta_error_01,
+    output wire strobe2_meta_error_02,
+    output wire strobe2_meta_error_03,
+    output wire strobe2_meta_error_10,
+    output wire strobe2_meta_error_11,
+    output wire strobe2_meta_error_12,
+    output wire strobe2_meta_error_13,
+    output wire strobe2_meta_error_20,
+    output wire strobe2_meta_error_21,
+    output wire strobe2_meta_error_22,
+    output wire strobe2_meta_error_23,
+    output wire strobe2_meta_error_30,
+    output wire strobe2_meta_error_31,
+    output wire strobe2_meta_error_32,
+    output wire strobe2_meta_error_33,
+    
+    output wire strobe3_meta_error_00,
+    output wire strobe3_meta_error_01,
+    output wire strobe3_meta_error_02,
+    output wire strobe3_meta_error_03,
+    output wire strobe3_meta_error_10,
+    output wire strobe3_meta_error_11,
+    output wire strobe3_meta_error_12,
+    output wire strobe3_meta_error_13,
+    output wire strobe3_meta_error_20,
+    output wire strobe3_meta_error_21,
+    output wire strobe3_meta_error_22,
+    output wire strobe3_meta_error_23,
+    output wire strobe3_meta_error_30,
+    output wire strobe3_meta_error_31,
+    output wire strobe3_meta_error_32,
+    output wire strobe3_meta_error_33,
+
     output wire  error_circuit00,
     output wire  error_circuit01,
     output wire  error_circuit02,
@@ -923,6 +991,11 @@ module NoC (
         .error_circuit(error_circuit00),
         .error_packet(error_packet00),
 
+        .state_meta_error(state_meta_error_00),
+        .strobe1_meta_error(strobe1_meta_error_00),
+        .strobe2_meta_error(strobe2_meta_error_00),
+        .strobe3_meta_error(strobe3_meta_error_00),
+
         .send_packet_patch_num(send_packet_patch_num00),
         .send_patch_num(send_patch_num00),
         .req_p2r_cnt(req_p2r_cnt00),
@@ -997,6 +1070,11 @@ module NoC (
 
         .error_circuit(error_circuit01),
         .error_packet(error_packet01),
+
+        .state_meta_error(state_meta_error_01),
+        .strobe1_meta_error(strobe1_meta_error_01),
+        .strobe2_meta_error(strobe2_meta_error_01),
+        .strobe3_meta_error(strobe3_meta_error_01),
 
         .send_packet_patch_num(send_packet_patch_num01),
         .send_patch_num(send_patch_num01),
@@ -1073,6 +1151,12 @@ module NoC (
         .error_circuit(error_circuit02),
         .error_packet(error_packet02),
 
+        .state_meta_error(state_meta_error_02),
+        .strobe1_meta_error(strobe1_meta_error_02),
+        .strobe2_meta_error(strobe2_meta_error_02),
+        .strobe3_meta_error(strobe3_meta_error_02),
+
+
         .send_packet_patch_num(send_packet_patch_num02),
         .send_patch_num(send_patch_num02),
         .req_p2r_cnt(req_p2r_cnt02),
@@ -1146,6 +1230,12 @@ module NoC (
         .receive_packet_finish_flag(receive_packet_finish_flag03),
         .error_circuit(error_circuit03),
         .error_packet(error_packet03),
+
+        .state_meta_error(state_meta_error_03),
+        .strobe1_meta_error(strobe1_meta_error_03),
+        .strobe2_meta_error(strobe2_meta_error_03),
+        .strobe3_meta_error(strobe3_meta_error_03),
+
 
         .send_packet_patch_num(send_packet_patch_num03),
         .send_patch_num(send_patch_num03),
@@ -1223,6 +1313,11 @@ module NoC (
         .error_circuit(error_circuit10),
         .error_packet(error_packet10),
 
+        .state_meta_error(state_meta_error_10),
+        .strobe1_meta_error(strobe1_meta_error_10),
+        .strobe2_meta_error(strobe2_meta_error_10),
+        .strobe3_meta_error(strobe3_meta_error_10),
+
         .send_packet_patch_num(send_packet_patch_num10),
         .send_patch_num(send_patch_num10),
         .req_p2r_cnt(req_p2r_cnt10),
@@ -1299,6 +1394,11 @@ module NoC (
         .error_circuit(error_circuit11),
         .error_packet(error_packet11),
 
+        .state_meta_error(state_meta_error_11),
+        .strobe1_meta_error(strobe1_meta_error_11),
+        .strobe2_meta_error(strobe2_meta_error_11),
+        .strobe3_meta_error(strobe3_meta_error_11),
+
         .send_packet_patch_num(send_packet_patch_num11),
         .send_patch_num(send_patch_num11),
         .req_p2r_cnt(req_p2r_cnt11),
@@ -1374,6 +1474,11 @@ module NoC (
 
         .error_circuit(error_circuit12),
         .error_packet(error_packet12),
+
+        .state_meta_error(state_meta_error_12),
+        .strobe1_meta_error(strobe1_meta_error_12),
+        .strobe2_meta_error(strobe2_meta_error_12),
+        .strobe3_meta_error(strobe3_meta_error_12),
 
         .send_packet_patch_num(send_packet_patch_num12),
         .send_patch_num(send_patch_num12),
@@ -1452,6 +1557,11 @@ module NoC (
         .error_circuit(error_circuit13),
         .error_packet(error_packet13),
 
+        .state_meta_error(state_meta_error_13),
+        .strobe1_meta_error(strobe1_meta_error_13),
+        .strobe2_meta_error(strobe2_meta_error_13),
+        .strobe3_meta_error(strobe3_meta_error_13),
+
         .send_packet_patch_num(send_packet_patch_num13),
         .send_patch_num(send_patch_num13),
         .req_p2r_cnt(req_p2r_cnt13),
@@ -1529,6 +1639,11 @@ module NoC (
         .error_circuit(error_circuit20),
         .error_packet(error_packet20),
 
+        .state_meta_error(state_meta_error_20),
+        .strobe1_meta_error(strobe1_meta_error_20),
+        .strobe2_meta_error(strobe2_meta_error_20),
+        .strobe3_meta_error(strobe3_meta_error_20),
+
         .send_packet_patch_num(send_packet_patch_num20),
         .send_patch_num(send_patch_num20),
         .req_p2r_cnt(req_p2r_cnt20),
@@ -1604,6 +1719,11 @@ module NoC (
 
         .error_circuit(error_circuit21),
         .error_packet(error_packet21),
+
+        .state_meta_error(state_meta_error_21),
+        .strobe1_meta_error(strobe1_meta_error_21),
+        .strobe2_meta_error(strobe2_meta_error_21),
+        .strobe3_meta_error(strobe3_meta_error_21),
 
         .send_packet_patch_num(send_packet_patch_num21),
         .send_patch_num(send_patch_num21),
@@ -1682,6 +1802,11 @@ module NoC (
         .error_circuit(error_circuit22),
         .error_packet(error_packet22),
 
+        .state_meta_error(state_meta_error_22),
+        .strobe1_meta_error(strobe1_meta_error_22),
+        .strobe2_meta_error(strobe2_meta_error_22),
+        .strobe3_meta_error(strobe3_meta_error_22),
+
         .send_packet_patch_num(send_packet_patch_num22),
         .send_patch_num(send_patch_num22),
         .req_p2r_cnt(req_p2r_cnt22),
@@ -1757,6 +1882,11 @@ module NoC (
 
         .error_circuit(error_circuit23),
         .error_packet(error_packet23),
+
+        .state_meta_error(state_meta_error_23),
+        .strobe1_meta_error(strobe1_meta_error_23),
+        .strobe2_meta_error(strobe2_meta_error_23),
+        .strobe3_meta_error(strobe3_meta_error_23),
 
         .send_packet_patch_num(send_packet_patch_num23),
         .send_patch_num(send_patch_num23),
@@ -1834,6 +1964,11 @@ module NoC (
         .error_circuit(error_circuit30),
         .error_packet(error_packet30),
 
+        .state_meta_error(state_meta_error_30),
+        .strobe1_meta_error(strobe1_meta_error_30),
+        .strobe2_meta_error(strobe2_meta_error_30),
+        .strobe3_meta_error(strobe3_meta_error_30),
+
         .send_packet_patch_num(send_packet_patch_num30),
         .send_patch_num(send_patch_num30),
         .req_p2r_cnt(req_p2r_cnt30),
@@ -1909,6 +2044,11 @@ module NoC (
 
         .error_circuit(error_circuit31),
         .error_packet(error_packet31),
+
+        .state_meta_error(state_meta_error_31),
+        .strobe1_meta_error(strobe1_meta_error_31),
+        .strobe2_meta_error(strobe2_meta_error_31),
+        .strobe3_meta_error(strobe3_meta_error_31),
 
         .send_packet_patch_num(send_packet_patch_num31),
         .send_patch_num(send_patch_num31),
@@ -1986,6 +2126,11 @@ module NoC (
         .error_circuit(error_circuit32),
         .error_packet(error_packet32),
 
+        .state_meta_error(state_meta_error_32),
+        .strobe1_meta_error(strobe1_meta_error_32),
+        .strobe2_meta_error(strobe2_meta_error_32),
+        .strobe3_meta_error(strobe3_meta_error_32),
+
         .send_packet_patch_num(send_packet_patch_num32),
         .send_patch_num(send_patch_num32),
         .req_p2r_cnt(req_p2r_cnt32),
@@ -2061,6 +2206,11 @@ module NoC (
 
         .error_circuit(error_circuit33),
         .error_packet(error_packet33),
+
+        .state_meta_error(state_meta_error_33),
+        .strobe1_meta_error(strobe1_meta_error_33),
+        .strobe2_meta_error(strobe2_meta_error_33),
+        .strobe3_meta_error(strobe3_meta_error_33),
 
         .send_packet_patch_num(send_packet_patch_num33),
         .send_patch_num(send_patch_num33),
