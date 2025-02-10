@@ -4,11 +4,12 @@ module PacketSwitching #(
     parameter DATASIZE=40  //src:4bit, dst:4bit, timestamp:8bit, data:22bit, type:2bit
   )(
     input   wire [3:0] ID,
-    input 	wire	clk,
-    input   wire  clk_N,
-    input   wire  clk_S,
-    input   wire  clk_E,
-    input   wire  clk_W,
+    input 	wire	clk_L, // PE Clk
+    input   wire  clk, // All Router Clk
+    // input   wire  clk_N, 
+    // input   wire  clk_S,
+    // input   wire  clk_E,
+    // input   wire  clk_W,
     input 	wire	rst_n,
 
     input	wire	[DATASIZE-1:0]	N_data_in,
@@ -77,6 +78,7 @@ module PacketSwitching #(
     input	wire	S_full_in,
     input	wire	E_full_in,
     input	wire	W_full_in,
+    input wire  L_full_in,
 
     output	wire	N_full_out,
     output	wire	S_full_out,
@@ -169,10 +171,11 @@ module PacketSwitching #(
       .fifo_ready_L(fifo_ready_L),
   
       .clk(clk),
-      .clk_N(clk_N),
-      .clk_S(clk_S),
-      .clk_E(clk_E),
-      .clk_W(clk_W),
+      .clk_L(clk_L),
+      // .clk_N(clk_N),
+      // .clk_S(clk_S),
+      // .clk_E(clk_E),
+      // .clk_W(clk_W),
       .rst_n(rst_n)
   );
 
@@ -279,6 +282,7 @@ module PacketSwitching #(
     .S_full(S_full_in),
     .E_full(E_full_in),
     .W_full(W_full_in),
+    .L_full(L_full_in),
 
     .N_ready(N_ready),
     .W_ready(W_ready),

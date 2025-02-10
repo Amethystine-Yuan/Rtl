@@ -30,6 +30,7 @@ module	SA#(
 	input	wire	S_full,
 	input	wire	E_full,
 	input	wire	W_full,
+	input   wire    L_full,
 
 	output	wire	N_ready,
 	output	wire	S_ready,
@@ -169,6 +170,7 @@ module	SA#(
 		.S_full(S_full),
 		.E_full(E_full),
 		.W_full(W_full),
+		.L_full(L_full),
 
 
 		.L_arb_res(L_arb_res),

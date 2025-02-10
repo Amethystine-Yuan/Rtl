@@ -31,6 +31,7 @@ module switch_alloc#(
 	input	wire	S_full,
 	input	wire	E_full,
 	input	wire	W_full,
+	input   wire    L_full,
 
 
 	input 	wire[4:0]		L_arb_res,
@@ -1209,11 +1210,11 @@ module switch_alloc#(
 	// assign 	 E_ready =  ~E_label_valid | (L_arb_res[1] & ~L_outfifo_wfull) | (W_arb_res[1] & ~W_full & ~W_outfifo_wfull)| (E_arb_res[1] & ~E_full & ~E_outfifo_wfull)| (N_arb_res[1] & ~N_full & ~N_outfifo_wfull)| (S_arb_res[1] & ~S_full & ~S_outfifo_wfull);
 	// assign 	 S_ready =  ~S_label_valid | (L_arb_res[0] & ~L_outfifo_wfull) | (W_arb_res[0] & ~W_full & ~W_outfifo_wfull)| (E_arb_res[0] & ~E_full & ~E_outfifo_wfull)| (N_arb_res[0] & ~N_full & ~N_outfifo_wfull)| (S_arb_res[0] & ~S_full & ~S_outfifo_wfull);
 
-	assign 	 L_ready =  ~L_label_valid | (L_arb_res[4] & ~(L_outfifo_wfull & L_data_in[0])) | (W_arb_res[4] & ~W_full & ~(W_outfifo_wfull & L_data_in[0]))| (E_arb_res[4] & ~E_full & ~(E_outfifo_wfull & L_data_in[0]))| (N_arb_res[4] & ~N_full & ~(N_outfifo_wfull & L_data_in[0]))| (S_arb_res[4] & ~S_full & ~(S_outfifo_wfull & L_data_in[0]));
-	assign 	 W_ready =  ~W_label_valid | (L_arb_res[3] & ~(L_outfifo_wfull & W_data_in[0])) | (W_arb_res[3] & ~W_full & ~(W_outfifo_wfull & W_data_in[0]))| (E_arb_res[3] & ~E_full & ~(E_outfifo_wfull & W_data_in[0]))| (N_arb_res[3] & ~N_full & ~(N_outfifo_wfull & W_data_in[0]))| (S_arb_res[3] & ~S_full & ~(S_outfifo_wfull & W_data_in[0]));
-	assign 	 N_ready =  ~N_label_valid | (L_arb_res[2] & ~(L_outfifo_wfull & N_data_in[0])) | (W_arb_res[2] & ~W_full & ~(W_outfifo_wfull & N_data_in[0]))| (E_arb_res[2] & ~E_full & ~(E_outfifo_wfull & N_data_in[0]))| (N_arb_res[2] & ~N_full & ~(N_outfifo_wfull & N_data_in[0]))| (S_arb_res[2] & ~S_full & ~(S_outfifo_wfull & N_data_in[0]));
-	assign 	 E_ready =  ~E_label_valid | (L_arb_res[1] & ~(L_outfifo_wfull & E_data_in[0])) | (W_arb_res[1] & ~W_full & ~(W_outfifo_wfull & E_data_in[0]))| (E_arb_res[1] & ~E_full & ~(E_outfifo_wfull & E_data_in[0]))| (N_arb_res[1] & ~N_full & ~(N_outfifo_wfull & E_data_in[0]))| (S_arb_res[1] & ~S_full & ~(S_outfifo_wfull & E_data_in[0]));
-	assign 	 S_ready =  ~S_label_valid | (L_arb_res[0] & ~(L_outfifo_wfull & S_data_in[0])) | (W_arb_res[0] & ~W_full & ~(W_outfifo_wfull & S_data_in[0]))| (E_arb_res[0] & ~E_full & ~(E_outfifo_wfull & S_data_in[0]))| (N_arb_res[0] & ~N_full & ~(N_outfifo_wfull & S_data_in[0]))| (S_arb_res[0] & ~S_full & ~(S_outfifo_wfull & S_data_in[0]));
+	assign 	 L_ready =  ~L_label_valid | (L_arb_res[4] & ~L_full & ~(L_outfifo_wfull & L_data_in[0])) | (W_arb_res[4] & ~W_full & ~(W_outfifo_wfull & L_data_in[0]))| (E_arb_res[4] & ~E_full & ~(E_outfifo_wfull & L_data_in[0]))| (N_arb_res[4] & ~N_full & ~(N_outfifo_wfull & L_data_in[0]))| (S_arb_res[4] & ~S_full & ~(S_outfifo_wfull & L_data_in[0]));
+	assign 	 W_ready =  ~W_label_valid | (L_arb_res[3] & ~L_full & ~(L_outfifo_wfull & W_data_in[0])) | (W_arb_res[3] & ~W_full & ~(W_outfifo_wfull & W_data_in[0]))| (E_arb_res[3] & ~E_full & ~(E_outfifo_wfull & W_data_in[0]))| (N_arb_res[3] & ~N_full & ~(N_outfifo_wfull & W_data_in[0]))| (S_arb_res[3] & ~S_full & ~(S_outfifo_wfull & W_data_in[0]));
+	assign 	 N_ready =  ~N_label_valid | (L_arb_res[2] & ~L_full & ~(L_outfifo_wfull & N_data_in[0])) | (W_arb_res[2] & ~W_full & ~(W_outfifo_wfull & N_data_in[0]))| (E_arb_res[2] & ~E_full & ~(E_outfifo_wfull & N_data_in[0]))| (N_arb_res[2] & ~N_full & ~(N_outfifo_wfull & N_data_in[0]))| (S_arb_res[2] & ~S_full & ~(S_outfifo_wfull & N_data_in[0]));
+	assign 	 E_ready =  ~E_label_valid | (L_arb_res[1] & ~L_full & ~(L_outfifo_wfull & E_data_in[0])) | (W_arb_res[1] & ~W_full & ~(W_outfifo_wfull & E_data_in[0]))| (E_arb_res[1] & ~E_full & ~(E_outfifo_wfull & E_data_in[0]))| (N_arb_res[1] & ~N_full & ~(N_outfifo_wfull & E_data_in[0]))| (S_arb_res[1] & ~S_full & ~(S_outfifo_wfull & E_data_in[0]));
+	assign 	 S_ready =  ~S_label_valid | (L_arb_res[0] & ~L_full & ~(L_outfifo_wfull & S_data_in[0])) | (W_arb_res[0] & ~W_full & ~(W_outfifo_wfull & S_data_in[0]))| (E_arb_res[0] & ~E_full & ~(E_outfifo_wfull & S_data_in[0]))| (N_arb_res[0] & ~N_full & ~(N_outfifo_wfull & S_data_in[0]))| (S_arb_res[0] & ~S_full & ~(S_outfifo_wfull & S_data_in[0]));
 
 
 	always @(*) begin
@@ -1374,7 +1375,7 @@ module switch_alloc#(
 		assign E_data_valid = E_data_valid_pre;
 		assign S_data_valid = S_data_valid_pre;
 
-		reg W_full_d, N_full_d, S_full_d, E_full_d;
+		reg W_full_d, N_full_d, S_full_d, E_full_d, L_full_d;
 		reg W_outfifo_wfull_d, N_outfifo_wfull_d, S_outfifo_wfull_d, E_outfifo_wfull_d, L_outfifo_wfull_d;
 		reg W_outfifo_wfull_d2, N_outfifo_wfull_d2, S_outfifo_wfull_d2, E_outfifo_wfull_d2, L_outfifo_wfull_d2;
 
@@ -1405,6 +1406,7 @@ module switch_alloc#(
 		end
 
 		always @(posedge clk) begin
+			L_full_d <= L_full;
 			L_outfifo_wfull_d <= L_outfifo_wfull;
 			L_outfifo_wfull_d2 <= L_outfifo_wfull_d;
 		end
@@ -1544,39 +1546,40 @@ module switch_alloc#(
 
 		// modified ends
 
-		always @(posedge clk or negedge rst_n) begin
-			if (!rst_n) begin
-					L_data_valid_pre	<=		0;
-					L_data_out	<=		0;
-			end
-			else if((L_outfifo_wfull&&L_data_src[0])) begin
-					L_data_valid_pre	<=		1'b0;
-					L_data_out	<=		L_data_out;
-			end
-			else if(L_outfifo_wfull && L_data_valid_pre==0 ) begin
-				L_data_valid_pre	<=		L_port_valid;
-				L_data_out	<=		L_data_src;
-			end
-			else if(L_outfifo_wfull &&L_data_valid_pre ==1&&(L_data_out==L_data_src)) begin
-				L_data_valid_pre	<=		1'b0;
-				L_data_out	<=		L_data_src;
-			end
-			else begin
-					// L_data_valid_pre	<=		(L_data_src != 'hdeadface) &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out) ? (L_data_src!= 'hdeadface) : L_port_valid;
-					// 20241220
-					// L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) ? (L_data_src == L_data_exp)||L_port_valid :	L_port_valid;
-					// 1221
-					L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) ? (L_data_src == L_data_exp)||L_port_valid||(!L_outfifo_wfull_d && L_valid_out_tmp)  :	L_port_valid ;
+		// always @(posedge clk or negedge rst_n) begin
+		// 	if (!rst_n) begin
+		// 			L_data_valid_pre	<=		0;
+		// 			L_data_out	<=		0;
+		// 	end
+		// 	else if((L_outfifo_wfull&&L_data_src[0])) begin
+		// 			L_data_valid_pre	<=		1'b0;
+		// 			L_data_out	<=		L_data_out;
+		// 	end
+		// 	else if(L_outfifo_wfull && L_data_valid_pre==0 ) begin
+		// 		L_data_valid_pre	<=		L_port_valid;
+		// 		L_data_out	<=		L_data_src;
+		// 	end
+		// 	else if(L_outfifo_wfull &&L_data_valid_pre ==1&&(L_data_out==L_data_src)) begin
+		// 		L_data_valid_pre	<=		1'b0;
+		// 		L_data_out	<=		L_data_src;
+		// 	end
+		// 	else begin
+		// 			// L_data_valid_pre	<=		(L_data_src != 'hdeadface) &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out) ? (L_data_src!= 'hdeadface) : L_port_valid;
+		// 			// 20241220
+		// 			// L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) ? (L_data_src == L_data_exp)||L_port_valid :	L_port_valid;
+		// 			// 1221
+		// 			L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) ? (L_data_src == L_data_exp)||L_port_valid||(!L_outfifo_wfull_d && L_valid_out_tmp)  :	L_port_valid ;
 					
 				
-					L_data_out	<=		L_data_src;
-			end
-		end
+		// 			L_data_out	<=		L_data_src;
+		// 	end
+		// end
 
 		reg [DATASIZE-1:0]	S_data_prev;
 		reg [DATASIZE-1:0]	W_data_prev;
 		reg [DATASIZE-1:0]	N_data_prev;
 		reg [DATASIZE-1:0]	E_data_prev;
+		reg [DATASIZE-1:0]	L_data_prev;
 
 		always @(posedge clk or negedge rst_n) begin
 			if(!rst_n)
@@ -1608,6 +1611,14 @@ module switch_alloc#(
 			else if(E_data_valid && (!E_full))
 				E_data_prev <= E_data_out;
 			else E_data_prev <= E_data_prev;
+		end
+
+		always @(posedge clk or negedge rst_n) begin
+			if(!rst_n)
+				L_data_prev <= 'hdeadface;
+			else if(L_data_valid && (!L_full))
+				L_data_prev <= L_data_out;
+			else L_data_prev <= L_data_prev;
 		end
 
 		always @(posedge clk or negedge rst_n) begin
@@ -1722,7 +1733,7 @@ module switch_alloc#(
 			end
 
 			else if(E_outfifo_wfull && E_data_valid_pre==0) begin
-				E_data_valid_pre	<=		(E_full_d) ? (E_data_src!= 'hdeadface) :E_port_valid;
+				E_data_valid_pre	<=		(E_full_d) ? (E_data_src!= 'hdeadface && E_data_src!=E_data_prev) :E_port_valid;
 				E_data_out	<=		E_data_src;
 			end
 			else if(E_outfifo_wfull &&E_data_valid_pre ==1&&(E_data_out==E_data_src)) begin
@@ -1740,6 +1751,38 @@ module switch_alloc#(
 			end
 		end
 
+		always @(posedge clk or negedge rst_n) begin
+			if (!rst_n) begin
+					L_data_valid_pre	<=		0;
+					L_data_out	<=		0;
+			end
+			else if(L_full) begin
+					L_data_valid_pre	<=		L_data_valid_pre;
+					L_data_out	<=		L_data_out;
+			end
+			else if((L_outfifo_wfull&&L_data_src[0])) begin
+					L_data_valid_pre	<=		1'b0;
+					L_data_out	<=		L_data_out;
+			end
+			else if(L_outfifo_wfull && L_data_valid_pre==0 ) begin
+				L_data_valid_pre	<=		(L_full_d) ? (L_data_src!= 'hdeadface && L_data_src!=L_data_prev) :L_port_valid;
+				L_data_out	<=		L_data_src;
+			end
+			else if(L_outfifo_wfull &&L_data_valid_pre ==1&&(L_data_out==L_data_src)) begin
+				L_data_valid_pre	<=		1'b0;
+				L_data_out	<=		L_data_src;
+			end
+			else begin
+					// L_data_valid_pre	<=		(L_data_src != 'hdeadface) &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out) ? (L_data_src!= 'hdeadface) : L_port_valid;
+					// 20241220
+					// L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) ? (L_data_src == L_data_exp)||L_port_valid :	L_port_valid;
+					// 1221
+					L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) || (L_full_d) ? (L_data_src == L_data_exp)||L_port_valid||(!L_outfifo_wfull_d && L_valid_out_tmp)  :	L_port_valid ;
+					
+				
+					L_data_out	<=		L_data_src;
+			end
+		end
 
 		// always @(posedge clk or negedge rst_n) begin
 		// 	if (!rst_n) begin

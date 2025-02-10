@@ -44,73 +44,136 @@ module fifo#(
   input wire fifo_ready_L,
   
   // input wire fifo_clk,
-  input wire clk,
-  input wire clk_N,
-  input wire clk_S,
-  input wire clk_E,
-  input wire clk_W,
+  input wire clk,   // All Router Clk
+  input wire clk_L,  // PE Clk
+  // input wire clk_N,
+  // input wire clk_S,
+  // input wire clk_E,
+  // input wire clk_W,
   input wire rst_n
   );
 
-  fifo_mpam_top #(
-    .DEPTH(DEPTH),
-    .DATASIZE(DATASIZE)
-    ) fifo_N (
+  // N S W E Direction: Sync FIFO
+  // Local Direction: Async FIFO / MPAM
+
+  sync_fifo #(
+    .WIDTH(DATASIZE),
+    .DEPTH(DEPTH)
+  ) fifo_N (
     .wdata(N_data_in),
     .wfull(N_full_out),
     .winc(N_valid_in),
     .rinc(fifo_ready_N),
     .rempty_n(N_valid_out),
     .rdata(N_data_out),
-    .wclk(clk_N),
-    .rclk(clk),
+    .clk(clk),
     .rst_n(rst_n)
-    );
+  );
 
-  fifo_mpam_top #(
-    .DEPTH(DEPTH),
-    .DATASIZE(DATASIZE)
-    ) fifo_S (
+  sync_fifo #(
+    .WIDTH(DATASIZE),
+    .DEPTH(DEPTH)
+  ) fifo_S (
     .wdata(S_data_in),
     .wfull(S_full_out),
     .winc(S_valid_in),
     .rinc(fifo_ready_S),
     .rempty_n(S_valid_out),
     .rdata(S_data_out),
-    .wclk(clk_S),
-    .rclk(clk),
+    .clk(clk),
     .rst_n(rst_n)
-    );
-  
-  fifo_mpam_top #(
-    .DEPTH(DEPTH),
-    .DATASIZE(DATASIZE)
-    ) fifo_E (
-    .wdata(E_data_in),
-    .wfull(E_full_out),
-    .winc(E_valid_in),
-    .rinc(fifo_ready_E),
-    .rempty_n(E_valid_out),
-    .rdata(E_data_out),
-    .wclk(clk_E),
-    .rclk(clk),
-    .rst_n(rst_n)
-    );
+  );
 
-  fifo_mpam_top #(
-    .DEPTH(DEPTH),
-    .DATASIZE(DATASIZE)
-    ) fifo_W (
+
+  sync_fifo #(
+    .WIDTH(DATASIZE),
+    .DEPTH(DEPTH)
+  ) fifo_W (
     .wdata(W_data_in),
     .wfull(W_full_out),
     .winc(W_valid_in),
     .rinc(fifo_ready_W),
     .rempty_n(W_valid_out),
     .rdata(W_data_out),
-    .wclk(clk_W),
-    .rclk(clk),
+    .clk(clk),
     .rst_n(rst_n)
-    );
+  );
+
+
+  sync_fifo #(
+    .WIDTH(DATASIZE),
+    .DEPTH(DEPTH)
+  ) fifo_E (
+    .wdata(E_data_in),
+    .wfull(E_full_out),
+    .winc(E_valid_in),
+    .rinc(fifo_ready_E),
+    .rempty_n(E_valid_out),
+    .rdata(E_data_out),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
+
+
+  // fifo_mpam_top #(
+  //   .DEPTH(DEPTH),
+  //   .DATASIZE(DATASIZE)
+  //   ) fifo_N (
+  //   .wdata(N_data_in),
+  //   .wfull(N_full_out),
+  //   .winc(N_valid_in),
+  //   .rinc(fifo_ready_N),
+  //   .rempty_n(N_valid_out),
+  //   .rdata(N_data_out),
+  //   .wclk(clk_N),
+  //   .rclk(clk),
+  //   .rst_n(rst_n)
+  //   );
+
+  // fifo_mpam_top #(
+  //   .DEPTH(DEPTH),
+  //   .DATASIZE(DATASIZE)
+  //   ) fifo_S (
+  //   .wdata(S_data_in),
+  //   .wfull(S_full_out),
+  //   .winc(S_valid_in),
+  //   .rinc(fifo_ready_S),
+  //   .rempty_n(S_valid_out),
+  //   .rdata(S_data_out),
+  //   .wclk(clk_S),
+  //   .rclk(clk),
+  //   .rst_n(rst_n)
+  //   );
+  
+  // fifo_mpam_top #(
+  //   .DEPTH(DEPTH),
+  //   .DATASIZE(DATASIZE)
+  //   ) fifo_E (
+  //   .wdata(E_data_in),
+  //   .wfull(E_full_out),
+  //   .winc(E_valid_in),
+  //   .rinc(fifo_ready_E),
+  //   .rempty_n(E_valid_out),
+  //   .rdata(E_data_out),
+  //   .wclk(clk_E),
+  //   .rclk(clk),
+  //   .rst_n(rst_n)
+  //   );
+
+  // fifo_mpam_top #(
+  //   .DEPTH(DEPTH),
+  //   .DATASIZE(DATASIZE)
+  //   ) fifo_W (
+  //   .wdata(W_data_in),
+  //   .wfull(W_full_out),
+  //   .winc(W_valid_in),
+  //   .rinc(fifo_ready_W),
+  //   .rempty_n(W_valid_out),
+  //   .rdata(W_data_out),
+  //   .wclk(clk_W),
+  //   .rclk(clk),
+  //   .rst_n(rst_n)
+  //   );
 
   fifo_mpam_top #(
     .DEPTH(DEPTH),
@@ -122,7 +185,7 @@ module fifo#(
     .rinc(fifo_ready_L),
     .rempty_n(L_valid_out),
     .rdata(L_data_out),
-    .wclk(clk),
+    .wclk(clk_L),
     .rclk(clk),
     .rst_n(rst_n)
     );

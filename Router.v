@@ -3,11 +3,12 @@
 module Router (
     input   wire [3:0]              ID,
     input   wire	                  rst_n,
-    input   wire	                  clk,
-    input   wire                    clk_W,
-    input   wire                    clk_N,
-    input   wire                    clk_E,
-    input   wire                    clk_S,
+    input   wire	                  clk_L,               // Local PE Clock
+    input   wire                    clk,                 // ALL Router Clock
+    // input   wire                    clk_W,
+    // input   wire                    clk_N,
+    // input   wire                    clk_E,
+    // input   wire                    clk_S,
     input   wire [1:0]              test_mode,
 
     // PacketSwitching
@@ -27,6 +28,8 @@ module Router (
     input   wire                    N_packet_full_in,
     input   wire                    E_packet_full_in,
     input   wire                    S_packet_full_in,
+    //New
+    input   wire                    L_packet_full_in,
 
     output	wire [`PDATASIZE-1:0]    L_packet_data_out,
     output	wire [`PDATASIZE-1:0]    W_packet_data_out,
@@ -47,29 +50,29 @@ module Router (
     output  wire                    S_packet_full_out,
 
     // CircuitSwitching_handshake
-    input   wire                    Tail4,//Local
-    input   wire                    Tail3,//West
-    input   wire                    Tail2,//North
-    input   wire                    Tail1,//East
-    input   wire                    Tail0,//South
+    // input   wire                    Tail4,//Local
+    // input   wire                    Tail3,//West
+    // input   wire                    Tail2,//North
+    // input   wire                    Tail1,//East
+    // input   wire                    Tail0,//South
 
-    input   wire                    Stream4,
-    input   wire                    Stream3,
-    input   wire                    Stream2,
-    input   wire                    Stream1,
-    input   wire                    Stream0,
+    // input   wire                    Stream4,
+    // input   wire                    Stream3,
+    // input   wire                    Stream2,
+    // input   wire                    Stream1,
+    // input   wire                    Stream0,
 
-    output  wire                    Tail_Out4,
-    output  wire                    Tail_Out3,
-    output  wire                    Tail_Out2,
-    output  wire                    Tail_Out1,
-    output  wire                    Tail_Out0,
+    // output  wire                    Tail_Out4,
+    // output  wire                    Tail_Out3,
+    // output  wire                    Tail_Out2,
+    // output  wire                    Tail_Out1,
+    // output  wire                    Tail_Out0,
 
-    output  wire                    Stream_Out4,
-    output  wire                    Stream_Out3,
-    output  wire                    Stream_Out2,
-    output  wire                    Stream_Out1,
-    output  wire                    Stream_Out0,
+    // output  wire                    Stream_Out4,
+    // output  wire                    Stream_Out3,
+    // output  wire                    Stream_Out2,
+    // output  wire                    Stream_Out1,
+    // output  wire                    Stream_Out0,
 
     //CircuitSwitching
     input   wire                    Ack4,//local
@@ -200,7 +203,7 @@ module Router (
 
   PacketSwitching #(`Packet_FIFO_DEPTH, `PDATASIZE) PacketSwitching(
     .ID(ID), .rst_n(rst_n),
-    .clk(clk), .clk_W(clk_W), .clk_N(clk_N), .clk_E(clk_E), .clk_S(clk_S),
+    .clk_L(clk_L), .clk(clk), 
 
     .L_data_in(L_packet_data_in),
     .W_data_in(W_packet_data_in),
@@ -218,6 +221,7 @@ module Router (
     .N_full_in(N_packet_full_in),
     .E_full_in(E_packet_full_in),
     .S_full_in(S_packet_full_in),
+    .L_full_in(L_packet_full_in),
     
     .L_data_out(L_packet_data_out),
     .W_data_out(W_packet_data_out),

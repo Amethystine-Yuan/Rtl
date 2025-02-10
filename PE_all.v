@@ -3,7 +3,7 @@
 module PE_all (
         input   wire [3:0]                      ID,
         input   wire                            clk,
-        // input   wire                            clk_global,
+        input   wire                            clk_global, // All Router clk
         input   wire                            rst_n,
         // input   wire                            rst_n1,
         // input   wire                            rst_n2,
@@ -23,6 +23,8 @@ module PE_all (
         // output  reg                             packet_side_valid,  //side transfer
         input   wire [`PDATASIZE-1:0]           packet_data_r2p,
         input   wire                            packet_valid_r2p,
+        output  wire                            L_full,
+
         input   wire                            packet_fifo_wfull,
 
         input   wire                            Ack_r2p,
@@ -47,10 +49,10 @@ module PE_all (
         input   wire [`TIME_WIDTH-1:0]          time_stamp_global,
 
         // handshake
-        output  wire                             Tail_p2r,
-        output  wire                            Stream_p2r,
-        input   wire                            Tail_r2p,
-        input   wire                            Stream_r2p,
+        // output  wire                             Tail_p2r,
+        // output  wire                            Stream_p2r,
+        // input   wire                            Tail_r2p,
+        // input   wire                            Stream_r2p,
 
 
         // for test
@@ -142,43 +144,43 @@ module PE_all (
 
 
 
-    wire [`PDATASIZE-1:0]           packet_data_p2r_dut;
-    wire [`PDATASIZE-1:0]           packet_data_p2r_handshake;
-    wire [`PDATASIZE-1:0]           packet_data_p2r_afifo;
+    // wire [`PDATASIZE-1:0]           packet_data_p2r_dut;
+    // wire [`PDATASIZE-1:0]           packet_data_p2r_handshake;
+    // wire [`PDATASIZE-1:0]           packet_data_p2r_afifo;
 
-    wire packet_valid_p2r_dut;
-    wire packet_valid_p2r_handshake;
-    wire packet_valid_p2r_afifo;
+    // wire packet_valid_p2r_dut;
+    // wire packet_valid_p2r_handshake;
+    // wire packet_valid_p2r_afifo;
 
-    wire Ack_p2r_dut;
-    wire Ack_p2r_handshake;
-    wire Ack_p2r_afifo;
+    // wire Ack_p2r_dut;
+    // wire Ack_p2r_handshake;
+    // wire Ack_p2r_afifo;
 
-    wire [`CDATASIZE-1:0]            CData_p2r_dut;
-    wire [`CDATASIZE-1:0]            CData_p2r_handshake;
-    wire [`CDATASIZE-1:0]            CData_p2r_afifo;
+    // wire [`CDATASIZE-1:0]            CData_p2r_dut;
+    // wire [`CDATASIZE-1:0]            CData_p2r_handshake;
+    // wire [`CDATASIZE-1:0]            CData_p2r_afifo;
 
-    wire receive_finish_flag_dut;
-    wire receive_finish_flag_handshake;
-    wire receive_finish_flag_afifo;
+    // wire receive_finish_flag_dut;
+    // wire receive_finish_flag_handshake;
+    // wire receive_finish_flag_afifo;
 
-    wire  [`TIME_WIDTH-1:0]  cdata_stream_latency_dut;
-    wire  [10:0]                receive_patch_num_dut;
-    wire [`SUM_WIDTH-1:0]    latency_sum_circuit_dut;
-    wire [`MIN_WIDTH-1:0]    latency_min_circuit_dut;
-    wire [`MAX_WIDTH-1:0]    latency_max_circuit_dut;
+    // wire  [`TIME_WIDTH-1:0]  cdata_stream_latency_dut;
+    // wire  [10:0]                receive_patch_num_dut;
+    // wire [`SUM_WIDTH-1:0]    latency_sum_circuit_dut;
+    // wire [`MIN_WIDTH-1:0]    latency_min_circuit_dut;
+    // wire [`MAX_WIDTH-1:0]    latency_max_circuit_dut;
 
-    wire  [`TIME_WIDTH-1:0]  cdata_stream_latency_handshake;
-    wire  [10:0]                receive_patch_num_handshake;
-    wire [`SUM_WIDTH-1:0]    latency_sum_circuit_handshake;
-    wire [`MIN_WIDTH-1:0]    latency_min_circuit_handshake;
-    wire [`MAX_WIDTH-1:0]    latency_max_circuit_handshake;
+    // wire  [`TIME_WIDTH-1:0]  cdata_stream_latency_handshake;
+    // wire  [10:0]                receive_patch_num_handshake;
+    // wire [`SUM_WIDTH-1:0]    latency_sum_circuit_handshake;
+    // wire [`MIN_WIDTH-1:0]    latency_min_circuit_handshake;
+    // wire [`MAX_WIDTH-1:0]    latency_max_circuit_handshake;
 
-    wire  [`TIME_WIDTH-1:0]  cdata_stream_latency_afifo;
-    wire  [10:0]                receive_patch_num_afifo;
-    wire [`SUM_WIDTH-1:0]    latency_sum_circuit_afifo;
-    wire [`MIN_WIDTH-1:0]    latency_min_circuit_afifo;
-    wire [`MAX_WIDTH-1:0]    latency_max_circuit_afifo;
+    // wire  [`TIME_WIDTH-1:0]  cdata_stream_latency_afifo;
+    // wire  [10:0]                receive_patch_num_afifo;
+    // wire [`SUM_WIDTH-1:0]    latency_sum_circuit_afifo;
+    // wire [`MIN_WIDTH-1:0]    latency_min_circuit_afifo;
+    // wire [`MAX_WIDTH-1:0]    latency_max_circuit_afifo;
 
     // always @(*) begin
     //   case (test_mode_test)
@@ -287,6 +289,24 @@ module PE_all (
     //     packet_side_valid <= packet_side_valid_dut;
     // end
 
+    wire [`PDATASIZE-1:0]           packet_data_r2p_sync;
+    wire                            packet_valid_r2p_sync;
+
+    fifo_mpam_top #(
+    .DEPTH(8),
+    .DATASIZE(`PDATASIZE)
+      ) fifo_packet_PE (
+    .wdata(packet_data_r2p),
+    .wfull(L_full),
+    .winc(packet_valid_r2p),
+    .rinc(1'b1),
+    .rempty_n(packet_valid_r2p_sync),
+    .rdata(packet_data_r2p_sync),
+    .wclk(clk_global),
+    .rclk(clk),
+    .rst_n(rst_n)
+    );
+
     PE_single PE_dut(
         .ID(ID),
         .clk(clk),
@@ -305,8 +325,8 @@ module PE_all (
 
         // .packet_side_valid(packet_side_valid), //side transfer
 
-        .packet_data_r2p(packet_data_r2p),
-        .packet_valid_r2p(packet_valid_r2p),
+        .packet_data_r2p(packet_data_r2p_sync),
+        .packet_valid_r2p(packet_valid_r2p_sync),
         .packet_fifo_wfull(packet_fifo_wfull),
 
         .Ack_p2r(Ack_p2r),
