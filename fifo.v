@@ -1,5 +1,6 @@
 
 module fifo#(
+  parameter SYNC_FIFO_DEPTH=16,
   parameter DEPTH=8,
   parameter DATASIZE=40
   )(
@@ -58,7 +59,7 @@ module fifo#(
 
   sync_fifo #(
     .WIDTH(DATASIZE),
-    .DEPTH(DEPTH)
+    .DEPTH(SYNC_FIFO_DEPTH)
   ) fifo_N (
     .wdata(N_data_in),
     .wfull(N_full_out),
@@ -72,7 +73,7 @@ module fifo#(
 
   sync_fifo #(
     .WIDTH(DATASIZE),
-    .DEPTH(DEPTH)
+    .DEPTH(SYNC_FIFO_DEPTH)
   ) fifo_S (
     .wdata(S_data_in),
     .wfull(S_full_out),
@@ -87,7 +88,7 @@ module fifo#(
 
   sync_fifo #(
     .WIDTH(DATASIZE),
-    .DEPTH(DEPTH)
+    .DEPTH(SYNC_FIFO_DEPTH)
   ) fifo_W (
     .wdata(W_data_in),
     .wfull(W_full_out),
@@ -102,7 +103,7 @@ module fifo#(
 
   sync_fifo #(
     .WIDTH(DATASIZE),
-    .DEPTH(DEPTH)
+    .DEPTH(SYNC_FIFO_DEPTH)
   ) fifo_E (
     .wdata(E_data_in),
     .wfull(E_full_out),

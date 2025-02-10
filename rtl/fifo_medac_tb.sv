@@ -61,6 +61,36 @@ module aa_tb ();
         // .cycle_cnt_r(cycle_cnt_r)
     );
 
+    wire rempty_n_fifo;
+    wire [DSIZE-1:0] rdata_fifo;
+    wire wfull_fifo;
+    FIFO_async2 #(32, 4) fifo (
+		.rdata(rdata_fifo),
+        .wfull(wfull_fifo),
+        .rempty_n(rempty_n_fifo),
+        .wdata(wdata),
+        .winc(winc), .wclk(wclk),
+        .rinc(rinc), .rclk(rclk),
+        .rst_n(rst_n));
+
+    wire rempty_n_sfifo;
+    wire [DSIZE-1:0] rdata_sfifo;
+    wire wfull_sfifo;
+    sync_fifo #(
+        .WIDTH(32),
+        .DEPTH(16)
+    ) fifo_S (
+        .wdata(wdata),
+        .wfull(wfull_sfifo),
+        .winc(winc),
+        .rinc(rinc),
+        .rempty_n(rempty_n_sfifo),
+        .rdata(rdata_sfifo),
+        .clk(wclk),
+        .rst_n(rst_n)
+  );
+
+
 class gdist;
     int seed = 1;
     int mean = 0;
@@ -103,7 +133,7 @@ gdist clk_noise1 = new;
         delay_sel_d2 = 3'b0;
         rst_n = 0;
         start = 0;
-        wdata = 0;
+        wdata = 1;
         winc = 0;
         rinc = 0;
         medac_mode = 1;
@@ -112,8 +142,13 @@ gdist clk_noise1 = new;
         #(10*period2) rst_n = 1;
         #(10*period2) 
         winc = 1;
-        rinc = 1;
+        rinc = 0;
         start = 1;
+
+        #(20*period2) 
+        rinc = 1;
+        #(period2) 
+        rinc = 0;
 
         #(10000*period1)
         medac_mode = 0;

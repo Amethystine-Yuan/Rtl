@@ -112,7 +112,9 @@ module rc_sub#(
       //   $error("valid failed");
     end
     // else if((infifo_wfull_d ||infifo_wfull_d2)&&(valid_out==1'b0)) valid_out <= 1'b1;
-    else if((!infifo_wfull)&&(infifo_wfull_d)&&(valid_out==1'b0)&&(data_in[0])) valid_out <= 1'b1;
+    // else if((!infifo_wfull)&&(infifo_wfull_d)&&(valid_out==1'b0)&&(data_in[0])) valid_out <= 1'b1;
+    // 0210
+    else if((!infifo_wfull)&&(infifo_wfull_d)&&(valid_out==1'b0)&&(data_in[0])&&(valid_cnt>0)) valid_out <= 1'b1;
 
     else valid_out <= (valid_in);
   end

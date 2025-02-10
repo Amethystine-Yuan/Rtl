@@ -9,6 +9,8 @@
 `define CDATASIZE 128
 `define CDATA_WIDTH 102
 
+`define SYNC_FIFO_DEPTH 16
+
 `define Packet_FIFO_DEPTH 4
 `define FIFO_DEPTH 4
 `define PE_FIFO_DEPTH 2

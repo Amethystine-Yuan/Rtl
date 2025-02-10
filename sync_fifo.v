@@ -10,7 +10,7 @@ module sync_fifo#(
 	input 		[WIDTH-1:0]	wdata	,
 
 	output wire					wfull	,
-	output wire					rempty_n	,
+	output reg					rempty_n	,
 	output wire [WIDTH-1:0]	rdata
 );
 
@@ -21,7 +21,7 @@ module sync_fifo#(
 	wire [ADDR_WIDTH:0] wptr_bin_next;
 	wire [ADDR_WIDTH:0] rptr_bin_next;
 	wire rempty;
-	reg rempty_val;
+	wire rempty_val;
 	
 	assign wptr_bin_next = wptr_bin + (winc & !wfull);
 	assign rptr_bin_next = rptr_bin + (rinc & !rempty);
@@ -39,11 +39,11 @@ module sync_fifo#(
 /**********************************Part-II:Empty&Full Logic************************************/
 	assign wfull = (wptr_bin == {~rptr_bin[ADDR_WIDTH],rptr_bin[ADDR_WIDTH-1 : 0]}) ? 1'b1 : 1'b0;
 	assign rempty = (wptr_bin == rptr_bin) ? 1'b1 : 1'b0;
-	assign rempty_n = rinc;
+	assign rempty_val = rinc && (!rempty);
 
     always @(posedge clk or negedge rst_n)
-        if (!rst_n)    rempty_val <= 1'b1;
-        else           rempty_val <= rempty;
+        if (!rst_n)    rempty_n <= 1'b0;
+        else           rempty_n <= rempty_val;
 
 
 /**********************************Part-III:RAM************************************/

@@ -1422,6 +1422,9 @@ module switch_alloc#(
 				S_data_exp <= 'hdeadface;
 			else if(S_port_valid)
 				S_data_exp <= S_data_src;
+			//20250210
+			else if(S_data_valid&&!S_full&&(S_data_src==S_data_exp))
+				S_data_exp <= (S_data_exp[0]&&S_outfifo_wfull) ? S_data_exp :'hdeadface;
 			else S_data_exp <= S_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
@@ -1429,6 +1432,9 @@ module switch_alloc#(
 				W_data_exp <= 'hdeadface;
 			else if(W_port_valid)
 				W_data_exp <= W_data_src;
+			//20250210
+			else if(W_data_valid&&!W_full&&(W_data_src==W_data_exp))
+				W_data_exp <= (W_data_exp[0]&&W_outfifo_wfull) ? W_data_exp :'hdeadface;
 			else W_data_exp <= W_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
@@ -1436,6 +1442,9 @@ module switch_alloc#(
 				N_data_exp <= 'hdeadface;
 			else if(N_port_valid)
 				N_data_exp <= N_data_src;
+			//20250210
+			else if(N_data_valid&&!N_full&&(N_data_src==N_data_exp))
+				N_data_exp <= (N_data_exp[0]&&N_outfifo_wfull) ? N_data_exp :'hdeadface;
 			else N_data_exp <= N_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
@@ -1443,6 +1452,9 @@ module switch_alloc#(
 				E_data_exp <= 'hdeadface;
 			else if(E_port_valid)
 				E_data_exp <= E_data_src;
+			//20250210
+			else if(E_data_valid&&!E_full&&(E_data_src==E_data_exp))
+				E_data_exp <= (E_data_exp[0]&&E_outfifo_wfull) ? E_data_exp :'hdeadface;
 			else E_data_exp <= E_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
@@ -1450,6 +1462,11 @@ module switch_alloc#(
 				L_data_exp <= 'hdeadface;
 			else if(L_port_valid)
 				L_data_exp <= L_data_src;
+			//20250210
+			else if(L_data_valid&&!L_full&&(L_data_src==L_data_exp))
+				L_data_exp <= (L_data_exp[0]&&L_outfifo_wfull) ? L_data_exp : 'hdeadface;
+			else if(L_data_valid&&!L_full&&L_data_out[0]&&L_outfifo_wfull)
+				L_data_exp <= 'hdeadface;
 			else L_data_exp <= L_data_exp;
 		end
 
@@ -1635,7 +1652,9 @@ module switch_alloc#(
 				W_data_out	<=		W_data_out;
 			end
 			else if(W_outfifo_wfull &&W_data_valid_pre ==0) begin
-				W_data_valid_pre	<=		(W_full_d) ? (W_data_src!= 'hdeadface && W_data_src!=W_data_prev) :W_port_valid;
+				// W_data_valid_pre	<=		(W_full_d) ? (W_data_src!= 'hdeadface && W_data_src!=W_data_prev) :W_port_valid;
+				// 0210
+				W_data_valid_pre	<=		(W_full_d) ? ( W_data_src!= 'h0 && W_data_src!= 'hdeadface && W_data_src!=W_data_prev) :W_port_valid;
 				W_data_out	<=		W_data_src;
 			end
 			else if(W_outfifo_wfull &&W_data_valid_pre ==1&&(W_data_out==W_data_src)) begin
@@ -1647,7 +1666,9 @@ module switch_alloc#(
 					// 20241220
 					// W_data_valid_pre		<=	((W_data_src != 'hdeadface)  &&(W_outfifo_wfull_d||W_outfifo_wfull_d2)&&(W_data_valid_pre==1'b0)&&(W_data_src!=W_data_out)) || (W_full_d) ? (W_data_src == W_data_exp)||W_port_valid :	W_port_valid;	
 					// 1221
-					W_data_valid_pre		<=	((W_data_src != 'hdeadface)  &&(W_outfifo_wfull_d||W_outfifo_wfull_d2)&&(W_data_valid_pre==1'b0)&&(W_data_src!=W_data_out)) || (W_full_d) ? (W_data_src == W_data_exp)||W_port_valid||(!W_outfifo_wfull_d && W_valid_out_tmp)  :	W_port_valid ;
+					// W_data_valid_pre		<=	((W_data_src != 'hdeadface)  &&(W_outfifo_wfull_d||W_outfifo_wfull_d2)&&(W_data_valid_pre==1'b0)&&(W_data_src!=W_data_out)) || (W_full_d) ? (W_data_src == W_data_exp)||W_port_valid||(!W_outfifo_wfull_d && W_valid_out_tmp)  :	W_port_valid ;
+					// 0210
+					W_data_valid_pre		<=	((W_data_src != 'hdeadface)  &&(W_outfifo_wfull_d||W_outfifo_wfull_d2)&&(W_data_valid_pre==1'b0)&&(W_data_src!=W_data_out)) || (W_full_d) ? (W_data_src!= 'hdeadface && (W_data_src == W_data_exp))||W_port_valid||(!W_outfifo_wfull_d && W_valid_out_tmp)  :	W_port_valid ;
 					W_data_out			<=		W_data_src;
 			end
 		end
@@ -1667,7 +1688,9 @@ module switch_alloc#(
 			end
 
 			else if(S_outfifo_wfull && S_data_valid_pre==0) begin
-				S_data_valid_pre	<=		(S_full_d) ? (S_data_src!= 'hdeadface && S_data_src!=S_data_prev) :S_port_valid;
+				// S_data_valid_pre	<=		(S_full_d) ? (S_data_src!= 'hdeadface && S_data_src!=S_data_prev) :S_port_valid;
+				// 0210
+				S_data_valid_pre	<=		(S_full_d) ? (S_data_src!= 'h0 && S_data_src!= 'hdeadface && S_data_src!=S_data_prev) :S_port_valid;
 				S_data_out	<=		S_data_src;
 			end
 			else if(S_outfifo_wfull &&S_data_valid_pre ==1&&(S_data_out==S_data_src)) begin
@@ -1679,7 +1702,9 @@ module switch_alloc#(
 					// 20241220
 					// S_data_valid_pre		<=	((S_data_src != 'hdeadface)  &&(S_outfifo_wfull_d||S_outfifo_wfull_d2)&&(S_data_valid_pre==1'b0)&&(S_data_src!=S_data_out)) || (S_full_d) ? (S_data_src == S_data_exp)||S_port_valid :	S_port_valid ;
 					// 1221
-					S_data_valid_pre		<=	((S_data_src != 'hdeadface)  &&(S_outfifo_wfull_d||S_outfifo_wfull_d2)&&(S_data_valid_pre==1'b0)&&(S_data_src!=S_data_out)) || (S_full_d) ? (S_data_src == S_data_exp)||S_port_valid||(!S_outfifo_wfull_d && S_valid_out_tmp)  :	S_port_valid ;
+					// S_data_valid_pre		<=	((S_data_src != 'hdeadface)  &&(S_outfifo_wfull_d||S_outfifo_wfull_d2)&&(S_data_valid_pre==1'b0)&&(S_data_src!=S_data_out)) || (S_full_d) ? (S_data_src == S_data_exp)||S_port_valid||(!S_outfifo_wfull_d && S_valid_out_tmp)  :	S_port_valid ;
+					// 0210
+					S_data_valid_pre		<=	((S_data_src != 'hdeadface)  &&(S_outfifo_wfull_d||S_outfifo_wfull_d2)&&(S_data_valid_pre==1'b0)&&(S_data_src!=S_data_out)) || (S_full_d) ? (S_data_src!= 'hdeadface&& (S_data_src == S_data_exp))||S_port_valid||(!S_outfifo_wfull_d && S_valid_out_tmp)  :	S_port_valid ;
 					S_data_out			<=		S_data_src;
 			end
 		end
@@ -1700,7 +1725,9 @@ module switch_alloc#(
 			end
 
 			else if(N_outfifo_wfull && N_data_valid_pre==0) begin
-				N_data_valid_pre	<=		(N_full_d) ? (N_data_src!= 'hdeadface && N_data_src!=N_data_prev) : N_port_valid;
+				// N_data_valid_pre	<=		(N_full_d) ? (N_data_src!= 'hdeadface && N_data_src!=N_data_prev) : N_port_valid;
+				// 0210
+				N_data_valid_pre	<=		(N_full_d) ? (N_data_src!= 'h0 && N_data_src!= 'hdeadface && N_data_src!=N_data_prev) : N_port_valid;
 				N_data_out	<=		N_data_src;
 			end
 			else if(N_outfifo_wfull &&N_data_valid_pre ==1&&(N_data_out==N_data_src)) begin
@@ -1712,7 +1739,9 @@ module switch_alloc#(
 					// 20241220
 					//N_data_valid_pre		<=	((N_data_src != 'hdeadface)  &&(N_outfifo_wfull_d||N_outfifo_wfull_d2)&&(N_data_valid_pre==1'b0)&&(N_data_src!=N_data_out)) || (N_full_d) ? (N_data_src == N_data_exp)||N_port_valid  :	N_port_valid ;
 					// 1221
-					N_data_valid_pre		<=	((N_data_src != 'hdeadface)  &&(N_outfifo_wfull_d||N_outfifo_wfull_d2)&&(N_data_valid_pre==1'b0)&&(N_data_src!=N_data_out)) || (N_full_d) ? (N_data_src == N_data_exp)||N_port_valid||(!N_outfifo_wfull_d && N_valid_out_tmp)  :	N_port_valid ;
+					// N_data_valid_pre		<=	((N_data_src != 'hdeadface)  &&(N_outfifo_wfull_d||N_outfifo_wfull_d2)&&(N_data_valid_pre==1'b0)&&(N_data_src!=N_data_out)) || (N_full_d) ? (N_data_src == N_data_exp)||N_port_valid||(!N_outfifo_wfull_d && N_valid_out_tmp)  :	N_port_valid ;
+					//0210
+					N_data_valid_pre		<=	((N_data_src != 'hdeadface)  &&(N_outfifo_wfull_d||N_outfifo_wfull_d2)&&(N_data_valid_pre==1'b0)&&(N_data_src!=N_data_out)) || (N_full_d) ? ((N_data_src!= 'hdeadface)&&(N_data_src == N_data_exp))||N_port_valid||(!N_outfifo_wfull_d && N_valid_out_tmp)  :	N_port_valid ;
 					N_data_out			<=		N_data_src;
 			end
 		end
@@ -1733,7 +1762,9 @@ module switch_alloc#(
 			end
 
 			else if(E_outfifo_wfull && E_data_valid_pre==0) begin
-				E_data_valid_pre	<=		(E_full_d) ? (E_data_src!= 'hdeadface && E_data_src!=E_data_prev) :E_port_valid;
+				// E_data_valid_pre	<=		(E_full_d) ? (E_data_src!= 'hdeadface && E_data_src!=E_data_prev) :E_port_valid;
+				// 0210
+				E_data_valid_pre	<=		(E_full_d) ? ( E_data_src!= 'h0 &&  E_data_src!= 'hdeadface && E_data_src!=E_data_prev) :E_port_valid;
 				E_data_out	<=		E_data_src;
 			end
 			else if(E_outfifo_wfull &&E_data_valid_pre ==1&&(E_data_out==E_data_src)) begin
@@ -1745,8 +1776,9 @@ module switch_alloc#(
 					// 20241220
 					// E_data_valid_pre		<=	((E_data_src != 'hdeadface)  &&(E_outfifo_wfull_d||E_outfifo_wfull_d2)&&(E_data_valid_pre==1'b0)&&(E_data_src!=E_data_out)) || (E_full_d) ? (E_data_src == E_data_exp)||E_port_valid :	E_port_valid;// ||(_d && !)
 					// 1221
-					E_data_valid_pre		<=	((E_data_src != 'hdeadface)  &&(E_outfifo_wfull_d||E_outfifo_wfull_d2)&&(E_data_valid_pre==1'b0)&&(E_data_src!=E_data_out)) || (E_full_d) ? (E_data_src == E_data_exp)||E_port_valid||(!E_outfifo_wfull_d && E_valid_out_tmp)  :	E_port_valid ;
-				
+					// E_data_valid_pre		<=	((E_data_src != 'hdeadface)  &&(E_outfifo_wfull_d||E_outfifo_wfull_d2)&&(E_data_valid_pre==1'b0)&&(E_data_src!=E_data_out)) || (E_full_d) ? (E_data_src == E_data_exp)||E_port_valid||(!E_outfifo_wfull_d && E_valid_out_tmp)  :	E_port_valid ;
+					// 0210
+					E_data_valid_pre		<=	((E_data_src != 'hdeadface)  &&(E_outfifo_wfull_d||E_outfifo_wfull_d2)&&(E_data_valid_pre==1'b0)&&(E_data_src!=E_data_out)) || (E_full_d) ? (E_data_src!= 'hdeadface&& (E_data_src == E_data_exp))||E_port_valid||(!E_outfifo_wfull_d && E_valid_out_tmp)  :	E_port_valid ;
 					E_data_out			<=		E_data_src;
 			end
 		end
@@ -1765,7 +1797,9 @@ module switch_alloc#(
 					L_data_out	<=		L_data_out;
 			end
 			else if(L_outfifo_wfull && L_data_valid_pre==0 ) begin
-				L_data_valid_pre	<=		(L_full_d) ? (L_data_src!= 'hdeadface && L_data_src!=L_data_prev) :L_port_valid;
+				// L_data_valid_pre	<=		(L_full_d) ? (L_data_src!= 'hdeadface && L_data_src!=L_data_prev) :L_port_valid;
+				// 0210
+				L_data_valid_pre	<=		(L_full_d) ? (L_data_src!= 'h0 && L_data_src!= 'hdeadface && L_data_src!=L_data_prev) :L_port_valid;
 				L_data_out	<=		L_data_src;
 			end
 			else if(L_outfifo_wfull &&L_data_valid_pre ==1&&(L_data_out==L_data_src)) begin
@@ -1777,8 +1811,9 @@ module switch_alloc#(
 					// 20241220
 					// L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) ? (L_data_src == L_data_exp)||L_port_valid :	L_port_valid;
 					// 1221
-					L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) || (L_full_d) ? (L_data_src == L_data_exp)||L_port_valid||(!L_outfifo_wfull_d && L_valid_out_tmp)  :	L_port_valid ;
-					
+					// L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) || (L_full_d) ? (L_data_src == L_data_exp)||L_port_valid||(!L_outfifo_wfull_d && L_valid_out_tmp)  :	L_port_valid ;
+					// 0210
+					L_data_valid_pre		<=	((L_data_src != 'hdeadface)  &&(L_outfifo_wfull_d||L_outfifo_wfull_d2)&&(L_data_valid_pre==1'b0)&&(L_data_src!=L_data_out)) || (L_full_d) ? (L_data_src!= 'hdeadface && (L_data_src == L_data_exp))||L_port_valid||(!L_outfifo_wfull_d && L_valid_out_tmp)  :	L_port_valid ;
 				
 					L_data_out	<=		L_data_src;
 			end

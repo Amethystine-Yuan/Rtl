@@ -201,7 +201,7 @@ module Router (
   wire [4:0] rdata_sync_outfifo_3;
   wire [4:0] rdata_sync_outfifo_4;
 
-  PacketSwitching #(`Packet_FIFO_DEPTH, `PDATASIZE) PacketSwitching(
+  PacketSwitching #(`SYNC_FIFO_DEPTH, `Packet_FIFO_DEPTH, `PDATASIZE) PacketSwitching(
     .ID(ID), .rst_n(rst_n),
     .clk_L(clk_L), .clk(clk), 
 

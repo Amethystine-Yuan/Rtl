@@ -1,5 +1,6 @@
 
 module PacketSwitching #(
+    parameter SYNC_FIFO_DEPTH=16,
     parameter DEPTH=4,
     parameter DATASIZE=40  //src:4bit, dst:4bit, timestamp:8bit, data:22bit, type:2bit
   )(
@@ -132,6 +133,7 @@ module PacketSwitching #(
 
 
   fifo	#(
+      .SYNC_FIFO_DEPTH(SYNC_FIFO_DEPTH),
       .DEPTH(DEPTH),
       .DATASIZE(DATASIZE)
       ) fifo(
