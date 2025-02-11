@@ -190,16 +190,16 @@ module Router (
   wire [4:0]  Circuit_DirectionIn_out3;
   wire [4:0]  Circuit_DirectionIn_out4;
 
-  wire rclk_sync_outfifo_0;
-  wire rclk_sync_outfifo_1;
-  wire rclk_sync_outfifo_2;
-  wire rclk_sync_outfifo_3;
-  wire rclk_sync_outfifo_4;
-  wire [4:0] rdata_sync_outfifo_0;
-  wire [4:0] rdata_sync_outfifo_1;
-  wire [4:0] rdata_sync_outfifo_2;
-  wire [4:0] rdata_sync_outfifo_3;
-  wire [4:0] rdata_sync_outfifo_4;
+  // wire rclk_sync_outfifo_0;
+  // wire rclk_sync_outfifo_1;
+  // wire rclk_sync_outfifo_2;
+  // wire rclk_sync_outfifo_3;
+  // wire rclk_sync_outfifo_4;
+  // wire [4:0] rdata_sync_outfifo_0;
+  // wire [4:0] rdata_sync_outfifo_1;
+  // wire [4:0] rdata_sync_outfifo_2;
+  // wire [4:0] rdata_sync_outfifo_3;
+  // wire [4:0] rdata_sync_outfifo_4;
 
   PacketSwitching #(`SYNC_FIFO_DEPTH, `Packet_FIFO_DEPTH, `PDATASIZE) PacketSwitching(
     .ID(ID), .rst_n(rst_n),
@@ -277,17 +277,29 @@ module Router (
     .E_outfifo_wfull(full_outport1),
     .S_outfifo_wfull(full_outport0),
 
-    .L_outfifo_rclk_sync(rclk_sync_outfifo_4),
-    .W_outfifo_rclk_sync(rclk_sync_outfifo_3),
-    .N_outfifo_rclk_sync(rclk_sync_outfifo_2),
-    .E_outfifo_rclk_sync(rclk_sync_outfifo_1),
-    .S_outfifo_rclk_sync(rclk_sync_outfifo_0),
+    // .L_outfifo_rclk_sync(rclk_sync_outfifo_4),
+    // .W_outfifo_rclk_sync(rclk_sync_outfifo_3),
+    // .N_outfifo_rclk_sync(rclk_sync_outfifo_2),
+    // .E_outfifo_rclk_sync(rclk_sync_outfifo_1),
+    // .S_outfifo_rclk_sync(rclk_sync_outfifo_0),
 
-    .L_outfifo_rdata_sync(rdata_sync_outfifo_4),
-    .W_outfifo_rdata_sync(rdata_sync_outfifo_3),
-    .N_outfifo_rdata_sync(rdata_sync_outfifo_2),
-    .E_outfifo_rdata_sync(rdata_sync_outfifo_1),
-    .S_outfifo_rdata_sync(rdata_sync_outfifo_0)
+    // .L_outfifo_rdata_sync(rdata_sync_outfifo_4),
+    // .W_outfifo_rdata_sync(rdata_sync_outfifo_3),
+    // .N_outfifo_rdata_sync(rdata_sync_outfifo_2),
+    // .E_outfifo_rdata_sync(rdata_sync_outfifo_1),
+    // .S_outfifo_rdata_sync(rdata_sync_outfifo_0)
+
+    .L_outfifo_rclk_sync(RD_out4),
+    .W_outfifo_rclk_sync(RD_out3),
+    .N_outfifo_rclk_sync(RD_out2),
+    .E_outfifo_rclk_sync(RD_out1),
+    .S_outfifo_rclk_sync(RD_out0),
+
+    .L_outfifo_rdata_sync(Circuit_DirectionIn_out4),
+    .W_outfifo_rdata_sync(Circuit_DirectionIn_out3),
+    .N_outfifo_rdata_sync(Circuit_DirectionIn_out2),
+    .E_outfifo_rdata_sync(Circuit_DirectionIn_out1),
+    .S_outfifo_rdata_sync(Circuit_DirectionIn_out0)
   );
 
     wire [`CDATASIZE-1:0]    CData_Out4_dut;
@@ -430,7 +442,8 @@ module Router (
     //   endcase
     // end
 
-  CircuitSwitching #(`CDATASIZE) CircuitSwitching(
+  CircuitSwitching_new #(`CDATASIZE) CircuitSwitching(
+    .clk(clk),
     .rst_n(rst_n),
     .Ack0(Ack0), 
     .Ack1(Ack1), 
@@ -593,130 +606,284 @@ module Router (
   //   );
 
   // 2024/07/26 Original
-  FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport4(
-    .wclk(clk), 
-    .rclk(RD_in4),
-    .rst_n(rst_n),
-    // .winc((WR_in4)&&(Packet_DirectionIn_in4!=4'b1111)),
-    .winc(WR_in4),
-    .wdata(Packet_DirectionIn_in4),
-    .rdata(Circuit_DirectionIn_in4),
-    .wfull(full_inport4),
-    .rempty()
-    );
+  // FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport4(
+  //   .wclk(clk), 
+  //   .rclk(RD_in4),
+  //   .rst_n(rst_n),
+  //   // .winc((WR_in4)&&(Packet_DirectionIn_in4!=4'b1111)),
+  //   .winc(WR_in4),
+  //   .wdata(Packet_DirectionIn_in4),
+  //   .rdata(Circuit_DirectionIn_in4),
+  //   .wfull(full_inport4),
+  //   .rempty()
+  //   );
   
-  FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport3(
-    .wclk(clk), 
-    .rclk(RD_in3),
-    .rst_n(rst_n),
-    // .winc((WR_in3)&&(Packet_DirectionIn_in3!=4'b1111)),
-    .winc(WR_in3),
-    .wdata(Packet_DirectionIn_in3),
-    .rdata(Circuit_DirectionIn_in3),
+  // FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport3(
+  //   .wclk(clk), 
+  //   .rclk(RD_in3),
+  //   .rst_n(rst_n),
+  //   // .winc((WR_in3)&&(Packet_DirectionIn_in3!=4'b1111)),
+  //   .winc(WR_in3),
+  //   .wdata(Packet_DirectionIn_in3),
+  //   .rdata(Circuit_DirectionIn_in3),
+  //   .wfull(full_inport3),
+  //   .rempty()
+  //   );
+
+  // FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport2(
+  //   .wclk(clk), 
+  //   .rclk(RD_in2),
+  //   .rst_n(rst_n),
+  //   // .winc((WR_in2)&&(Packet_DirectionIn_in2!=4'b1111)),
+  //   .winc(WR_in2),
+  //   .wdata(Packet_DirectionIn_in2),
+  //   .rdata(Circuit_DirectionIn_in2),
+  //   .wfull(full_inport2),
+  //   .rempty()
+  //   );
+
+  // FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport1(
+  //   .wclk(clk), 
+  //   .rclk(RD_in1),
+  //   .rst_n(rst_n),
+  //   // .winc((WR_in1)&&(Packet_DirectionIn_in1!=4'b1111)),
+  //   .winc(WR_in1),
+  //   .wdata(Packet_DirectionIn_in1),
+  //   .rdata(Circuit_DirectionIn_in1),
+  //   .wfull(full_inport1),
+  //   .rempty()
+  //   );
+
+  // FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport0(
+  //   .wclk(clk), 
+  //   .rclk(RD_in0),
+  //   .rst_n(rst_n),
+  //   // .winc((WR_in0)&&(Packet_DirectionIn_in0!=4'b1111)),
+  //   .winc(WR_in0),
+  //   .wdata(Packet_DirectionIn_in0),
+  //   .rdata(Circuit_DirectionIn_in0),
+  //   .wfull(full_inport0),
+  //   .rempty()
+  //   );
+
+  // FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport4(
+  //   .wclk(clk), 
+  //   .rclk(RD_out4),
+  //   .rst_n(rst_n),
+  //   .winc(WR_out4),
+  //   .wdata(Packet_DirectionIn_out4),
+  //   .rdata(Circuit_DirectionIn_out4),
+  //   .wfull(full_outport4),
+  //   .rempty(),
+  //   .rclk_sync(rclk_sync_outfifo_4),
+  //   .rdata_sync(rdata_sync_outfifo_4)
+  //   );
+
+  // FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport3(
+  //   .wclk(clk), 
+  //   .rclk(RD_out3),
+  //   .rst_n(rst_n),
+  //   .winc(WR_out3),
+  //   .wdata(Packet_DirectionIn_out3),
+  //   .rdata(Circuit_DirectionIn_out3),
+  //   .wfull(full_outport3),
+  //   .rempty(),
+  //   .rclk_sync(rclk_sync_outfifo_3),
+  //   .rdata_sync(rdata_sync_outfifo_3)
+  //   );
+
+  // FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport2(
+  //   .wclk(clk), 
+  //   .rclk(RD_out2),
+  //   .rst_n(rst_n),
+  //   .winc(WR_out2),
+  //   .wdata(Packet_DirectionIn_out2),
+  //   .rdata(Circuit_DirectionIn_out2),
+  //   .wfull(full_outport2),
+  //   .rempty(),
+  //   .rclk_sync(rclk_sync_outfifo_2),
+  //   .rdata_sync(rdata_sync_outfifo_2)
+  //   );
+
+  // FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport1(
+  //   .wclk(clk), 
+  //   .rclk(RD_out1),
+  //   .rst_n(rst_n),
+  //   .winc(WR_out1),
+  //   .wdata(Packet_DirectionIn_out1),
+  //   .rdata(Circuit_DirectionIn_out1),
+  //   .wfull(full_outport1),
+  //   .rempty(),
+  //   .rclk_sync(rclk_sync_outfifo_1),
+  //   .rdata_sync(rdata_sync_outfifo_1)
+  //   );
+
+  // FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport0(
+  //   .wclk(clk), 
+  //   .rclk(RD_out0),
+  //   .rst_n(rst_n),
+  //   .winc(WR_out0),
+  //   .wdata(Packet_DirectionIn_out0),
+  //   .rdata(Circuit_DirectionIn_out0),
+  //   .wfull(full_outport0),
+  //   .rempty(),
+  //   .rclk_sync(rclk_sync_outfifo_0),
+  //   .rdata_sync(rdata_sync_outfifo_0)
+  //   );
+
+  //decoder
+  wire [4:0] Packet_DirectionIn_in4_new;
+  wire [4:0] Packet_DirectionIn_in3_new;
+  wire [4:0] Packet_DirectionIn_in2_new;
+  wire [4:0] Packet_DirectionIn_in1_new;
+  wire [4:0] Packet_DirectionIn_in0_new;
+  
+  direction_decoder inst_decoder0(.direction(Packet_DirectionIn_in0), .direction_new(Packet_DirectionIn_in0_new));
+  direction_decoder inst_decoder1(.direction(Packet_DirectionIn_in1), .direction_new(Packet_DirectionIn_in1_new));
+  direction_decoder inst_decoder2(.direction(Packet_DirectionIn_in2), .direction_new(Packet_DirectionIn_in2_new));
+  direction_decoder inst_decoder3(.direction(Packet_DirectionIn_in3), .direction_new(Packet_DirectionIn_in3_new));
+  direction_decoder inst_decoder4(.direction(Packet_DirectionIn_in4), .direction_new(Packet_DirectionIn_in4_new));
+
+  //20250210 Sync FIFO
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_inport4_new (
+    .wdata(Packet_DirectionIn_in4_new),
+    .wfull(full_inport4),
+    .winc(WR_in4),
+    .rinc(RD_in4),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_in4),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
+
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_inport3_new (
+    .wdata(Packet_DirectionIn_in3_new),
     .wfull(full_inport3),
-    .rempty()
-    );
+    .winc(WR_in3),
+    .rinc(RD_in3),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_in3),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport2(
-    .wclk(clk), 
-    .rclk(RD_in2),
-    .rst_n(rst_n),
-    // .winc((WR_in2)&&(Packet_DirectionIn_in2!=4'b1111)),
-    .winc(WR_in2),
-    .wdata(Packet_DirectionIn_in2),
-    .rdata(Circuit_DirectionIn_in2),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_inport2_new (
+    .wdata(Packet_DirectionIn_in2_new),
     .wfull(full_inport2),
-    .rempty()
-    );
+    .winc(WR_in2),
+    .rinc(RD_in2),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_in2),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport1(
-    .wclk(clk), 
-    .rclk(RD_in1),
-    .rst_n(rst_n),
-    // .winc((WR_in1)&&(Packet_DirectionIn_in1!=4'b1111)),
-    .winc(WR_in1),
-    .wdata(Packet_DirectionIn_in1),
-    .rdata(Circuit_DirectionIn_in1),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_inport1_new (
+    .wdata(Packet_DirectionIn_in1_new),
     .wfull(full_inport1),
-    .rempty()
-    );
+    .winc(WR_in1),
+    .rinc(RD_in1),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_in1),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_inport #(5, `FIFO_DEPTH) fifo_inport0(
-    .wclk(clk), 
-    .rclk(RD_in0),
-    .rst_n(rst_n),
-    // .winc((WR_in0)&&(Packet_DirectionIn_in0!=4'b1111)),
-    .winc(WR_in0),
-    .wdata(Packet_DirectionIn_in0),
-    .rdata(Circuit_DirectionIn_in0),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_inport0_new (
+    .wdata(Packet_DirectionIn_in0_new),
     .wfull(full_inport0),
-    .rempty()
-    );
+    .winc(WR_in0),
+    .rinc(RD_in0),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_in0),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport4(
-    .wclk(clk), 
-    .rclk(RD_out4),
-    .rst_n(rst_n),
-    .winc(WR_out4),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_outport4_new (
     .wdata(Packet_DirectionIn_out4),
-    .rdata(Circuit_DirectionIn_out4),
     .wfull(full_outport4),
-    .rempty(),
-    .rclk_sync(rclk_sync_outfifo_4),
-    .rdata_sync(rdata_sync_outfifo_4)
-    );
+    .winc(WR_out4),
+    .rinc(RD_out4),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_out4),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport3(
-    .wclk(clk), 
-    .rclk(RD_out3),
-    .rst_n(rst_n),
-    .winc(WR_out3),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_outport3_new (
     .wdata(Packet_DirectionIn_out3),
-    .rdata(Circuit_DirectionIn_out3),
     .wfull(full_outport3),
-    .rempty(),
-    .rclk_sync(rclk_sync_outfifo_3),
-    .rdata_sync(rdata_sync_outfifo_3)
-    );
+    .winc(WR_out3),
+    .rinc(RD_out3),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_out3),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport2(
-    .wclk(clk), 
-    .rclk(RD_out2),
-    .rst_n(rst_n),
-    .winc(WR_out2),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_outport2_new (
     .wdata(Packet_DirectionIn_out2),
-    .rdata(Circuit_DirectionIn_out2),
     .wfull(full_outport2),
-    .rempty(),
-    .rclk_sync(rclk_sync_outfifo_2),
-    .rdata_sync(rdata_sync_outfifo_2)
-    );
+    .winc(WR_out2),
+    .rinc(RD_out2),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_out2),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport1(
-    .wclk(clk), 
-    .rclk(RD_out1),
-    .rst_n(rst_n),
-    .winc(WR_out1),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_outport1_new (
     .wdata(Packet_DirectionIn_out1),
-    .rdata(Circuit_DirectionIn_out1),
     .wfull(full_outport1),
-    .rempty(),
-    .rclk_sync(rclk_sync_outfifo_1),
-    .rdata_sync(rdata_sync_outfifo_1)
-    );
+    .winc(WR_out1),
+    .rinc(RD_out1),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_out1),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
 
-  FIFO_bridge_outport #(5, `FIFO_DEPTH) fifo_outport0(
-    .wclk(clk), 
-    .rclk(RD_out0),
-    .rst_n(rst_n),
-    .winc(WR_out0),
+  sync_fifo_bridge #(
+    .WIDTH(5),
+    .DEPTH(16)
+  ) fifo_outport0_new (
     .wdata(Packet_DirectionIn_out0),
-    .rdata(Circuit_DirectionIn_out0),
     .wfull(full_outport0),
-    .rempty(),
-    .rclk_sync(rclk_sync_outfifo_0),
-    .rdata_sync(rdata_sync_outfifo_0)
-    );
+    .winc(WR_out0),
+    .rinc(RD_out0),
+    .rempty_n(),
+    .rdata(Circuit_DirectionIn_out0),
+    .clk(clk),
+    .rst_n(rst_n)
+  );
   
   // 20240726 New
 

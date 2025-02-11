@@ -307,6 +307,21 @@ module PE_all (
     .rst_n(rst_n)
     );
 
+    wire Ack_p2r_pe;
+    wire Ack_r2p_pe;
+    Ack_transfer_e2l inst_ack_transfer_e2l(
+      .Ack_in(Ack_p2r_pe),
+      .Ack_out(Ack_p2r),
+      .clk(clk),
+      .rst_n(rst_n)
+    );
+    Ack_transfer_l2e inst_ack_transfer_l2e(
+      .Ack_in(Ack_r2p),
+      .Ack_out(Ack_r2p_pe),
+      .clk(clk),
+      .rst_n(rst_n)
+    );
+
     PE_single PE_dut(
         .ID(ID),
         .clk(clk),
@@ -329,12 +344,12 @@ module PE_all (
         .packet_valid_r2p(packet_valid_r2p_sync),
         .packet_fifo_wfull(packet_fifo_wfull),
 
-        .Ack_p2r(Ack_p2r),
+        .Ack_p2r(Ack_p2r_pe),
         .CData_p2r(CData_p2r),
         .Strobe_p2r(Strobe_p2r),
         .State_p2r(State_p2r),
         .Clock_p2r(Clock_p2r_dut),
-        .Ack_r2p(Ack_r2p),
+        .Ack_r2p(Ack_r2p_pe),
         .CData_r2p(CData_r2p),
         .Strobe_r2p(Strobe_r2p),
         .State_r2p(State_r2p),

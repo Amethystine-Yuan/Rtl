@@ -147,11 +147,11 @@ module switch_alloc#(
 		if(!rst_n) begin
 			Local_reqfor_W_cnt <= 5'b0;
 		end
-		else if((W_arb_res[4])&&((W_outfifo_rclk_sync==W_outfifo_rclk)|(W_outfifo_rdata!=5'b10000))) begin
+		else if((W_arb_res[4])&&((!W_outfifo_rclk)|(W_outfifo_rdata!=5'b10000))) begin
 		// else if((W_arb_res[4])&&(1)) begin
 			Local_reqfor_W_cnt <= Local_reqfor_W_cnt + 1'b1;
 		end
-		else if((!W_arb_res[4])&&(W_outfifo_rclk_sync!=W_outfifo_rclk)&&(W_outfifo_rdata==5'b10000)) begin
+		else if((!W_arb_res[4])&&(W_outfifo_rclk)&&(W_outfifo_rdata==5'b10000)) begin
 		// else if((!W_arb_res[4])&&(1)) begin
 			Local_reqfor_W_cnt <= Local_reqfor_W_cnt - 1'b1;
 		end
@@ -185,11 +185,11 @@ module switch_alloc#(
 		if(!rst_n) begin
 			Local_reqfor_N_cnt <= 5'b0;
 		end
-		else if((N_arb_res[4])&&((N_outfifo_rclk_sync==N_outfifo_rclk)|(N_outfifo_rdata!=5'b10000))) begin
+		else if((N_arb_res[4])&&((!N_outfifo_rclk)|(N_outfifo_rdata!=5'b10000))) begin
 		// else if((N_arb_res[4])&&(1)) begin
 			Local_reqfor_N_cnt <= Local_reqfor_N_cnt + 1'b1;
 		end
-		else if((!N_arb_res[4])&&(N_outfifo_rclk_sync!=N_outfifo_rclk)&&(N_outfifo_rdata==5'b10000)) begin
+		else if((!N_arb_res[4])&&(N_outfifo_rclk)&&(N_outfifo_rdata==5'b10000)) begin
 		// else if((!N_arb_res[4])&&(1)) begin
 			Local_reqfor_N_cnt <= Local_reqfor_N_cnt - 1'b1;
 		end
@@ -223,11 +223,11 @@ module switch_alloc#(
 		if(!rst_n) begin
 			Local_reqfor_E_cnt <= 5'b0;
 		end
-		else if((E_arb_res[4])&&((E_outfifo_rclk_sync==E_outfifo_rclk)|(E_outfifo_rdata!=5'b10000))) begin
+		else if((E_arb_res[4])&&((!E_outfifo_rclk)|(E_outfifo_rdata!=5'b10000))) begin
 		// else if((E_arb_res[4])&&(1)) begin
 			Local_reqfor_E_cnt <= Local_reqfor_E_cnt + 1'b1;
 		end
-		else if((!E_arb_res[4])&&(E_outfifo_rclk_sync!=E_outfifo_rclk)&&(E_outfifo_rdata==5'b10000)) begin
+		else if((!E_arb_res[4])&&(E_outfifo_rclk)&&(E_outfifo_rdata==5'b10000)) begin
 		// else if((!E_arb_res[4])&&(1)) begin
 			Local_reqfor_E_cnt <= Local_reqfor_E_cnt - 1'b1;
 		end
@@ -261,11 +261,11 @@ module switch_alloc#(
 		if(!rst_n) begin
 			Local_reqfor_S_cnt <= 5'b0;
 		end
-		else if((S_arb_res[4])&&((S_outfifo_rclk_sync==S_outfifo_rclk)|(S_outfifo_rdata!=5'b10000))) begin
+		else if((S_arb_res[4])&&((!S_outfifo_rclk)|(S_outfifo_rdata!=5'b10000))) begin
 		// else if((S_arb_res[4])&&(1)) begin
 			Local_reqfor_S_cnt <= Local_reqfor_S_cnt + 1'b1;
 		end
-		else if((!S_arb_res[4])&&(S_outfifo_rclk_sync!=S_outfifo_rclk)&&(S_outfifo_rdata==5'b10000)) begin
+		else if((!S_arb_res[4])&&(S_outfifo_rclk)&&(S_outfifo_rdata==5'b10000)) begin
 		// else if((!S_arb_res[4])&&(1)) begin
 			Local_reqfor_S_cnt <= Local_reqfor_S_cnt - 1'b1;
 		end

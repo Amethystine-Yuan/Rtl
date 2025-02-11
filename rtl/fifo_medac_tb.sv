@@ -76,7 +76,7 @@ module aa_tb ();
     wire rempty_n_sfifo;
     wire [DSIZE-1:0] rdata_sfifo;
     wire wfull_sfifo;
-    sync_fifo #(
+    sync_fifo_bridge #(
         .WIDTH(32),
         .DEPTH(16)
     ) fifo_S (

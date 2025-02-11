@@ -664,25 +664,28 @@ module PE_single (
             end
 
             // Ack_p2r sync.
-            reg Ack_r2p_sync1, Ack_r2p_sync2, Ack_r2p_reg;
+            // 20250211 Do not Synchronization
+            // reg Ack_r2p_sync1, Ack_r2p_sync2, Ack_r2p_reg;
+            reg Ack_r2p_reg;
             always@(posedge clk or negedge rst_n) begin
                 if(!rst_n) Ack_r2p_reg <= 1'b0;
-                else if(State_p2r) Ack_r2p_reg <= Ack_r2p_sync2;
+                // else if(State_p2r) Ack_r2p_reg <= Ack_r2p_sync2;
+                else if(State_p2r) Ack_r2p_reg <= Ack_r2p;
                 else Ack_r2p_reg <= Ack_r2p_reg;
             end
 
-            always@(posedge clk or negedge rst_n) begin
-                if(!rst_n) begin
-                    Ack_r2p_sync1 <= 1'b0;
-                    Ack_r2p_sync2 <= 1'b0;
-                end else begin
-                    Ack_r2p_sync1 <= Ack_r2p;
-                    Ack_r2p_sync2 <= Ack_r2p_sync1;
-                end
-            end
+            // always@(posedge clk or negedge rst_n) begin
+            //     if(!rst_n) begin
+            //         Ack_r2p_sync1 <= 1'b0;
+            //         Ack_r2p_sync2 <= 1'b0;
+            //     end else begin
+            //         Ack_r2p_sync1 <= Ack_r2p;
+            //         Ack_r2p_sync2 <= Ack_r2p_sync1;
+            //     end
+            // end
             always@(posedge clk or negedge rst_n) begin
                 if(!rst_n) clock_p2r_valid <= 1'b0;
-                else if((Ack_r2p_reg!=Ack_r2p_sync2)&&(!clock_p2r_valid)) clock_p2r_valid <= 1'b1;
+                else if((Ack_r2p_reg!=Ack_r2p)&&(!clock_p2r_valid)) clock_p2r_valid <= 1'b1;
                 else if((counter==(Stream_Length+1))) clock_p2r_valid <= 1'b0;
                 else clock_p2r_valid <= clock_p2r_valid;
             end
@@ -957,7 +960,8 @@ module PE_single (
 
         // four_stage interface or three_stage interface
         three_stage inst_three_stage (
-        .clk(clkout),
+            .clk(clk),
+        // .clk(clkout),
         .rst_n(rst_n),
         .M(M), 
         .N(N), 
@@ -1196,13 +1200,13 @@ module PE_single (
     reg Ack_r2p_reg_dbg;
     always@(posedge clk or negedge rst_n) begin
         if(!rst_n) Ack_r2p_reg_dbg <= 1'b0;
-        else Ack_r2p_reg_dbg <= Ack_r2p_sync2;
+        else Ack_r2p_reg_dbg <= Ack_r2p;
     end
 
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n)
             ack_r2p_cnt <= 0;
-        else if((Ack_r2p_reg_dbg!=Ack_r2p_sync2))
+        else if((Ack_r2p_reg_dbg!=Ack_r2p))
             ack_r2p_cnt <= ack_r2p_cnt + 1'b1;
         else ack_r2p_cnt <= ack_r2p_cnt;
     end
