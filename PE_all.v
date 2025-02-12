@@ -36,7 +36,7 @@ module PE_all (
         input   wire                            State_r2p,
         output  wire                            State_p2r,
         input   wire                            Clock_r2p,
-        output  reg                            Clock_p2r,
+        output  wire                            Clock_p2r,
 
         output  wire                            Feedback_p2r,
         input   wire                            Feedback_r2p,
@@ -279,9 +279,9 @@ module PE_all (
     // end
 
     //
-    always @(*) begin
-        Clock_p2r = 0;
-    end
+    // always @(*) begin
+    //     Clock_p2r = 0;
+    // end
 
 
     // wire packet_side_valid_dut;
@@ -348,7 +348,7 @@ module PE_all (
         .CData_p2r(CData_p2r),
         .Strobe_p2r(Strobe_p2r),
         .State_p2r(State_p2r),
-        .Clock_p2r(Clock_p2r_dut),
+        .Clock_p2r(Clock_p2r),
         .Ack_r2p(Ack_r2p_pe),
         .CData_r2p(CData_r2p),
         .Strobe_r2p(Strobe_r2p),

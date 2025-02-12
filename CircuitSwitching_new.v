@@ -44,16 +44,16 @@ module CircuitSwitching_new #(
   output wire State_Out2,
   output wire State_Out1,
   output wire State_Out0,
-  // input wire Clock4,
-  // input wire Clock3,
-  // input wire Clock2,
-  // input wire Clock1,
-  // input wire Clock0,
-  // output wire Clock_Out4,
-  // output wire Clock_Out3,
-  // output wire Clock_Out2,
-  // output wire Clock_Out1,
-  // output wire Clock_Out0,
+  input wire Clock4,
+  input wire Clock3,
+  input wire Clock2,
+  input wire Clock1,
+  input wire Clock0,
+  output wire Clock_Out4,
+  output wire Clock_Out3,
+  output wire Clock_Out2,
+  output wire Clock_Out1,
+  output wire Clock_Out0,
   
   input wire Feedback4,
   input wire Feedback3,
@@ -144,6 +144,8 @@ module CircuitSwitching_new #(
             .RoutingDirection(DirectionIn_out4), .output_wire(Strobe_Out4));
   mux mux_stateout4(.rst_n(rst_n), .input0(State0_4), .input1(State1_4), .input2(State2_4), .input3(State3_4), .input4(State4_4),
             .RoutingDirection(DirectionIn_out4), .output_wire(State_Out4));
+  mux_clk mux_clockout4(.rst_n(rst_n), .input0(Clock0_4), .input1(Clock1_4), .input2(Clock2_4), .input3(Clock3_4), .input4(Clock4_4),
+            .RoutingDirection(DirectionIn_out4), .output_wire(Clock_Out4));
     //
   mux mux_ack4(.rst_n(rst_n), .input0(Ack0_4), .input1(Ack1_4), .input2(Ack2_4), .input3(Ack3_4), .input4(Ack4_4),
             .RoutingDirection(DirectionIn_in4), .output_wire(Ack_Out4));
@@ -153,6 +155,10 @@ module CircuitSwitching_new #(
   demux demux_state4(.rst_n(rst_n), .input_wire(State4), .RoutingDirection(DirectionIn_in4), 
                           .output0(State4_0), .output1(State4_1), 
                           .output2(State4_2), .output3(State4_3), .output4(State4_4));
+  demux demux_clock4(.rst_n(rst_n), .input_wire(Clock4), .RoutingDirection(DirectionIn_in4), 
+                          .output0(Clock4_0), .output1(Clock4_1), 
+                          .output2(Clock4_2), .output3(Clock4_3), .output4(Clock4_4));
+
   generate 
     for(i=0;i<DATASIZE;i=i+1) begin: CDataout4_demux
       demux demux_cdataout4(.rst_n(rst_n), .input_wire(CData4[i]), .RoutingDirection(DirectionIn_in4), 
@@ -183,6 +189,8 @@ module CircuitSwitching_new #(
             .RoutingDirection(DirectionIn_out3), .output_wire(Strobe_Out3));
   mux mux_stateout3(.rst_n(rst_n), .input0(State0_3), .input1(State1_3), .input2(State2_3), .input3(State3_3), .input4(State4_3),
             .RoutingDirection(DirectionIn_out3), .output_wire(State_Out3));
+  mux_clk mux_clockout3(.rst_n(rst_n), .input0(Clock0_3), .input1(Clock1_3), .input2(Clock2_3), .input3(Clock3_3), .input4(Clock4_3),
+            .RoutingDirection(DirectionIn_out3), .output_wire(Clock_Out3));
     //
   mux mux_ack3(.rst_n(rst_n), .input0(Ack0_3), .input1(Ack1_3), .input2(Ack2_3), .input3(Ack3_3), .input4(Ack4_3),
             .RoutingDirection(DirectionIn_in3), .output_wire(Ack_Out3));
@@ -192,6 +200,9 @@ module CircuitSwitching_new #(
   demux demux_state3(.rst_n(rst_n), .input_wire(State3), .RoutingDirection(DirectionIn_in3), 
                           .output0(State3_0), .output1(State3_1), 
                           .output2(State3_2), .output3(State3_3), .output4(State3_4));
+  demux demux_clock3(.rst_n(rst_n), .input_wire(Clock3), .RoutingDirection(DirectionIn_in3), 
+                          .output0(Clock3_0), .output1(Clock3_1), 
+                          .output2(Clock3_2), .output3(Clock3_3), .output4(Clock3_4));
   generate 
     for(i=0;i<DATASIZE;i=i+1) begin: CDataout3_demux
       demux demux_cdataout3(.rst_n(rst_n), .input_wire(CData3[i]), .RoutingDirection(DirectionIn_in3), 
@@ -222,6 +233,8 @@ module CircuitSwitching_new #(
             .RoutingDirection(DirectionIn_out2), .output_wire(Strobe_Out2));
   mux mux_stateout2(.rst_n(rst_n), .input0(State0_2), .input1(State1_2), .input2(State2_2), .input3(State3_2), .input4(State4_2),
             .RoutingDirection(DirectionIn_out2), .output_wire(State_Out2));
+  mux_clk mux_clockout2(.rst_n(rst_n), .input0(Clock0_2), .input1(Clock1_2), .input2(Clock2_2), .input3(Clock3_2), .input4(Clock4_2),
+            .RoutingDirection(DirectionIn_out2), .output_wire(Clock_Out2));
     //
   mux mux_ack2(.rst_n(rst_n), .input0(Ack0_2), .input1(Ack1_2), .input2(Ack2_2), .input3(Ack3_2), .input4(Ack4_2),
             .RoutingDirection(DirectionIn_in2), .output_wire(Ack_Out2));
@@ -231,6 +244,9 @@ module CircuitSwitching_new #(
   demux demux_state2(.rst_n(rst_n), .input_wire(State2), .RoutingDirection(DirectionIn_in2), 
                           .output0(State2_0), .output1(State2_1), 
                           .output2(State2_2), .output3(State2_3), .output4(State2_4));
+  demux demux_clock2(.rst_n(rst_n), .input_wire(Clock2), .RoutingDirection(DirectionIn_in2), 
+                          .output0(Clock2_0), .output1(Clock2_1), 
+                          .output2(Clock2_2), .output3(Clock2_3), .output4(Clock2_4));
   generate 
     for(i=0;i<DATASIZE;i=i+1) begin: CDataout2_demux
       demux demux_cdataout2(.rst_n(rst_n), .input_wire(CData2[i]), .RoutingDirection(DirectionIn_in2), 
@@ -262,6 +278,8 @@ module CircuitSwitching_new #(
             .RoutingDirection(DirectionIn_out1), .output_wire(Strobe_Out1));
   mux mux_stateout1(.rst_n(rst_n), .input0(State0_1), .input1(State1_1), .input2(State2_1), .input3(State3_1), .input4(State4_1),
             .RoutingDirection(DirectionIn_out1), .output_wire(State_Out1));
+  mux_clk mux_clockout1(.rst_n(rst_n), .input0(Clock0_1), .input1(Clock1_1), .input2(Clock2_1), .input3(Clock3_1), .input4(Clock4_1),
+            .RoutingDirection(DirectionIn_out1), .output_wire(Clock_Out1));
     //
   mux mux_ack1(.rst_n(rst_n), .input0(Ack0_1), .input1(Ack1_1), .input2(Ack2_1), .input3(Ack3_1), .input4(Ack4_1),
             .RoutingDirection(DirectionIn_in1), .output_wire(Ack_Out1));
@@ -271,6 +289,9 @@ module CircuitSwitching_new #(
   demux demux_state1(.rst_n(rst_n), .input_wire(State1), .RoutingDirection(DirectionIn_in1), 
                           .output0(State1_0), .output1(State1_1), 
                           .output2(State1_2), .output3(State1_3), .output4(State1_4));
+  demux demux_clock1(.rst_n(rst_n), .input_wire(Clock1), .RoutingDirection(DirectionIn_in1), 
+                          .output0(Clock1_0), .output1(Clock1_1), 
+                          .output2(Clock1_2), .output3(Clock1_3), .output4(Clock1_4));
   generate 
     for(i=0;i<DATASIZE;i=i+1) begin: CDataout1_demux
       demux demux_cdataout1(.rst_n(rst_n), .input_wire(CData1[i]), .RoutingDirection(DirectionIn_in1), 
@@ -301,6 +322,8 @@ module CircuitSwitching_new #(
             .RoutingDirection(DirectionIn_out0), .output_wire(Strobe_Out0));
   mux mux_stateout0(.rst_n(rst_n), .input0(State0_0), .input1(State1_0), .input2(State2_0), .input3(State3_0), .input4(State4_0),
             .RoutingDirection(DirectionIn_out0), .output_wire(State_Out0));
+  mux_clk mux_clockout0(.rst_n(rst_n), .input0(Clock0_0), .input1(Clock1_0), .input2(Clock2_0), .input3(Clock3_0), .input4(Clock4_0),
+            .RoutingDirection(DirectionIn_out0), .output_wire(Clock_Out0));
     //
   mux mux_ack0(.rst_n(rst_n), .input0(Ack0_0), .input1(Ack1_0), .input2(Ack2_0), .input3(Ack3_0), .input4(Ack4_0),
             .RoutingDirection(DirectionIn_in0), .output_wire(Ack_Out0));
@@ -317,7 +340,9 @@ module CircuitSwitching_new #(
                           .output2(CData0_2[i]), .output3(CData0_3[i]), .output4(CData0_4[i]));
     end
   endgenerate
-
+  demux demux_clock0(.rst_n(rst_n), .input_wire(Clock0), .RoutingDirection(DirectionIn_in0), 
+                          .output0(Clock0_0), .output1(Clock0_1), 
+                          .output2(Clock0_2), .output3(Clock0_3), .output4(Clock0_4));
   demux demux_feedback0(.rst_n(rst_n),.input_wire(Feedback0), .RoutingDirection(DirectionIn_out0), 
                         .output0(Feedback0_0), .output1(Feedback0_1), 
                         .output2(Feedback0_2), .output3(Feedback0_3), .output4(Feedback0_4));

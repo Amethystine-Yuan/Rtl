@@ -690,9 +690,9 @@ module PE_single (
                 else clock_p2r_valid <= clock_p2r_valid;
             end
             always@(*) begin
-                // if(clock_p2r_valid) Clock_p2r = clk;
-                // else Clock_p2r = 1'b0;
-                Clock_p2r = 1'b0;
+                if(clock_p2r_valid) Clock_p2r = clk;
+                else Clock_p2r = 1'b0;
+                // Clock_p2r = 1'b0;
             end
         
         // Circuit Stream Total Latency
