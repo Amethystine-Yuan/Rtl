@@ -1192,7 +1192,7 @@ wire [15:0] scan_check = {enable_wire ,mode_wire , 4'b0011, 4'd2  ,test_mode};
     integer file_result;
     initial begin
         // $error("TRANFER FAILED");
-        file_result = $fopen("result_clock_network_old_0212.txt");
+        file_result = $fopen("result_clock_network_old_0212_second_test.txt");
         clk_global = 0;
         clk0 = 0;
         clk1 = 0;
@@ -1450,121 +1450,121 @@ wire [15:0] scan_check = {enable_wire ,mode_wire , 4'b0011, 4'd2  ,test_mode};
 
 
     //Latency test, 64 frequency ratio
-    run_test(100, 
-            800, 800, 800, 800,
-            800, 700, 600, 500,
-            800, 800, 800, 800,
-            400, 300, 200, 100,
-            5'b01000, 100, 127, 5, 2'b00,
-            80'b00001_00010_00011_00100_01000_01000_01000_01000_00101_00110_00111_01000_01000_01000_01000_01000
-            );
+//     run_test(100, 
+//             800, 800, 800, 800,
+//             800, 700, 600, 500,
+//             800, 800, 800, 800,
+//             400, 300, 200, 100,
+//             5'b01000, 100, 127, 5, 2'b00,
+//             80'b00001_00010_00011_00100_01000_01000_01000_01000_00101_00110_00111_01000_01000_01000_01000_01000
+//             );
 
 
-    run_test(100, 
-            700, 700, 700, 700,
-            700, 600, 500, 400,
-            700, 700, 700, 100,
-            300, 200, 100, 100,
-            5'b01000, 100, 127, 5, 2'b00,
-            80'b00001_00001_00010_00011_00001_00111_00111_00111_00100_00101_00110_00111_00111_00111_00111_00111
-            );
+//     run_test(100, 
+//             700, 700, 700, 700,
+//             700, 600, 500, 400,
+//             700, 700, 700, 100,
+//             300, 200, 100, 100,
+//             5'b01000, 100, 127, 5, 2'b00,
+//             80'b00001_00001_00010_00011_00001_00111_00111_00111_00100_00101_00110_00111_00111_00111_00111_00111
+//             );
 
-    run_test(100, 
-            600, 600, 600, 600,
-            600, 500, 400, 300,
-            600, 600, 200, 200,
-            200, 100, 200, 100,
-            5'b01000, 100, 127, 5, 2'b00,
-            80'b00001_00010_00001_00010_00010_00010_00110_00110_00011_00100_00101_00110_00110_00110_00110_00110
-            );
+//     run_test(100, 
+//             600, 600, 600, 600,
+//             600, 500, 400, 300,
+//             600, 600, 200, 200,
+//             200, 100, 200, 100,
+//             5'b01000, 100, 127, 5, 2'b00,
+//             80'b00001_00010_00001_00010_00010_00010_00110_00110_00011_00100_00101_00110_00110_00110_00110_00110
+//             );
 
-    run_test(100, 
-            500, 500, 500, 500,
-            500, 400, 300, 200,
-            500, 300, 300, 300,
-            100, 300, 200, 100,
-            5'b01000, 100, 127, 5, 2'b00,
-            80'b00001_00010_00011_00001_00011_00011_00011_00101_00010_00011_00100_00101_00101_00101_00101_00101
-            );
+//     run_test(100, 
+//             500, 500, 500, 500,
+//             500, 400, 300, 200,
+//             500, 300, 300, 300,
+//             100, 300, 200, 100,
+//             5'b01000, 100, 127, 5, 2'b00,
+//             80'b00001_00010_00011_00001_00011_00011_00011_00101_00010_00011_00100_00101_00101_00101_00101_00101
+//             );
 
-    run_test(100, 
-            400, 400, 400, 400,
-            400, 300, 200, 100,
-            400, 400, 400, 400,
-            400, 300, 200, 100,
-            5'b01000, 100, 127, 5, 2'b00,
-            80'b00001_00010_00011_00100_00100_00100_00100_00100_00001_00010_00011_00100_00100_00100_00100_00100
-            );
+//     run_test(100, 
+//             400, 400, 400, 400,
+//             400, 300, 200, 100,
+//             400, 400, 400, 400,
+//             400, 300, 200, 100,
+//             5'b01000, 100, 127, 5, 2'b00,
+//             80'b00001_00010_00011_00100_00100_00100_00100_00100_00001_00010_00011_00100_00100_00100_00100_00100
+//             );
 
-        // vsim work.dut_tb +notimingchecks +pulse_e/80 -sdfnoerror -sdfmax /dut_tb/dut=/home/jinzeyuan/Hybrid_NoC/New_202407/NoC_1101_three_stage/pt/final_1101.sdf -voptargs=+acc
+//         // vsim work.dut_tb +notimingchecks +pulse_e/80 -sdfnoerror -sdfmax /dut_tb/dut=/home/jinzeyuan/Hybrid_NoC/New_202407/NoC_1101_three_stage/pt/final_1101.sdf -voptargs=+acc
 
-    // Random Test, Sweep DATA_WIDTH_DBG, Stream_length, Interval 
-    // vsim work.dut_tb -voptargs=+acc -sv_seed random
-    // vsim work.dut_tb -voptargs=+acc -sv_seed 42
-    for(random_num = 0; random_num<8; random_num = random_num+1) begin
-        random_interval = $urandom_range(40,511);
-        random_stream_length = $urandom_range(9,2047);
-        // random_DATA_WIDTH_DBG = $urandom_range(1,15);
-        random_DATA_WIDTH_DBG = $urandom_range(1,6);
+//     // Random Test, Sweep DATA_WIDTH_DBG, Stream_length, Interval 
+//     // vsim work.dut_tb -voptargs=+acc -sv_seed random
+//     // vsim work.dut_tb -voptargs=+acc -sv_seed 42
+//     for(random_num = 0; random_num<8; random_num = random_num+1) begin
+//         random_interval = $urandom_range(40,511);
+//         random_stream_length = $urandom_range(9,2047);
+//         // random_DATA_WIDTH_DBG = $urandom_range(1,15);
+//         random_DATA_WIDTH_DBG = $urandom_range(1,6);
 
-        random_clk0 = $urandom_range(1,8);
-        random_clk1 = $urandom_range(1,8);
-        random_clk2 = $urandom_range(1,8);
-        random_clk3 = $urandom_range(1,8);
-        random_clk4 = $urandom_range(1,8);
-        random_clk5 = $urandom_range(1,8);
-        random_clk6 = $urandom_range(1,8);
-        random_clk7 = $urandom_range(1,8);
-        random_clk8 = $urandom_range(1,8);
-        random_clk9 = $urandom_range(1,8);
-        random_clk10 = $urandom_range(1,8);
-        random_clk11 = $urandom_range(1,8);
-        random_clk12 = $urandom_range(1,8);
-        random_clk13 = $urandom_range(1,8);
-        random_clk14 = $urandom_range(1,8);
-        random_clk15 = $urandom_range(1,8);
+//         random_clk0 = $urandom_range(1,8);
+//         random_clk1 = $urandom_range(1,8);
+//         random_clk2 = $urandom_range(1,8);
+//         random_clk3 = $urandom_range(1,8);
+//         random_clk4 = $urandom_range(1,8);
+//         random_clk5 = $urandom_range(1,8);
+//         random_clk6 = $urandom_range(1,8);
+//         random_clk7 = $urandom_range(1,8);
+//         random_clk8 = $urandom_range(1,8);
+//         random_clk9 = $urandom_range(1,8);
+//         random_clk10 = $urandom_range(1,8);
+//         random_clk11 = $urandom_range(1,8);
+//         random_clk12 = $urandom_range(1,8);
+//         random_clk13 = $urandom_range(1,8);
+//         random_clk14 = $urandom_range(1,8);
+//         random_clk15 = $urandom_range(1,8);
 
-        random_dvfs_config[79:75] = random_clk15;
-        random_dvfs_config[74:70] = random_clk14;
-        random_dvfs_config[69:65] = random_clk13;
-        random_dvfs_config[64:60] = random_clk12;
-        random_dvfs_config[59:55] = random_clk11;
-        random_dvfs_config[54:50] = random_clk10;
-        random_dvfs_config[49:45] = random_clk9;
-        random_dvfs_config[44:40] = random_clk8;
-        random_dvfs_config[39:35] = random_clk7;
-        random_dvfs_config[34:30] = random_clk6;
-        random_dvfs_config[29:25] = random_clk5;
-        random_dvfs_config[24:20] = random_clk4;
-        random_dvfs_config[19:15] = random_clk3;
-        random_dvfs_config[14:10] = random_clk2;
-        random_dvfs_config[9:5] = random_clk1;
-        random_dvfs_config[4:0] = random_clk0;
+//         random_dvfs_config[79:75] = random_clk15;
+//         random_dvfs_config[74:70] = random_clk14;
+//         random_dvfs_config[69:65] = random_clk13;
+//         random_dvfs_config[64:60] = random_clk12;
+//         random_dvfs_config[59:55] = random_clk11;
+//         random_dvfs_config[54:50] = random_clk10;
+//         random_dvfs_config[49:45] = random_clk9;
+//         random_dvfs_config[44:40] = random_clk8;
+//         random_dvfs_config[39:35] = random_clk7;
+//         random_dvfs_config[34:30] = random_clk6;
+//         random_dvfs_config[29:25] = random_clk5;
+//         random_dvfs_config[24:20] = random_clk4;
+//         random_dvfs_config[19:15] = random_clk3;
+//         random_dvfs_config[14:10] = random_clk2;
+//         random_dvfs_config[9:5] = random_clk1;
+//         random_dvfs_config[4:0] = random_clk0;
 
-        random_test_mode = $urandom_range(0,2);
-        if(random_test_mode==1)
-                random_test_mode = 3;
-        else random_test_mode = random_test_mode;
+//         random_test_mode = $urandom_range(0,2);
+//         if(random_test_mode==1)
+//                 random_test_mode = 3;
+//         else random_test_mode = random_test_mode;
     
-        $display("Generated random_interval: %0d", random_interval);
-        $display("Generated random_stream_length: %0d", random_stream_length);
-        $display("Generated random_DATA_WIDTH_DBG: %0d", random_DATA_WIDTH_DBG);
-        $display("Generated random_dvfs_config: %80b", random_dvfs_config);
-        $display("Generated random_test_mode: %0d", random_test_mode);
-        $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk0, random_clk1, random_clk2, random_clk3);
-        $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk4, random_clk5, random_clk6, random_clk7);
-        $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk8, random_clk9, random_clk10, random_clk11);
-        $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk12, random_clk13, random_clk14, random_clk15);
+//         $display("Generated random_interval: %0d", random_interval);
+//         $display("Generated random_stream_length: %0d", random_stream_length);
+//         $display("Generated random_DATA_WIDTH_DBG: %0d", random_DATA_WIDTH_DBG);
+//         $display("Generated random_dvfs_config: %80b", random_dvfs_config);
+//         $display("Generated random_test_mode: %0d", random_test_mode);
+//         $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk0, random_clk1, random_clk2, random_clk3);
+//         $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk4, random_clk5, random_clk6, random_clk7);
+//         $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk8, random_clk9, random_clk10, random_clk11);
+//         $display("Generated frequency: %0d, %0d, %0d, %0d", random_clk12, random_clk13, random_clk14, random_clk15);
         
-        run_test(100, 
-            100*random_clk0,  100*random_clk1,  100*random_clk2,  100*random_clk3,
-            100*random_clk4,  100*random_clk5,  100*random_clk6,  100*random_clk7,
-            100*random_clk8,  100*random_clk9,  100*random_clk10, 100*random_clk11,
-            100*random_clk12, 100*random_clk13, 100*random_clk14, 100*random_clk15,
-            5'b01000, random_interval, random_stream_length, random_DATA_WIDTH_DBG, random_test_mode,
-            random_dvfs_config
-            );
-    end
+//         run_test(100, 
+//             100*random_clk0,  100*random_clk1,  100*random_clk2,  100*random_clk3,
+//             100*random_clk4,  100*random_clk5,  100*random_clk6,  100*random_clk7,
+//             100*random_clk8,  100*random_clk9,  100*random_clk10, 100*random_clk11,
+//             100*random_clk12, 100*random_clk13, 100*random_clk14, 100*random_clk15,
+//             5'b01000, random_interval, random_stream_length, random_DATA_WIDTH_DBG, random_test_mode,
+//             random_dvfs_config
+//             );
+//     end
     
     // //sim1: max throughput, sweep interval 
     // // test_mode = 2'b11 total/packet 2'b00 CS 
