@@ -1192,7 +1192,7 @@ wire [15:0] scan_check = {enable_wire ,mode_wire , 4'b0011, 4'd2  ,test_mode};
     integer file_result;
     initial begin
         // $error("TRANFER FAILED");
-        file_result = $fopen("result_test_0127_origin.txt");
+        file_result = $fopen("result_clock_network_old_0212.txt");
         clk_global = 0;
         clk0 = 0;
         clk1 = 0;
@@ -1500,6 +1500,7 @@ wire [15:0] scan_check = {enable_wire ,mode_wire , 4'b0011, 4'd2  ,test_mode};
 
     // Random Test, Sweep DATA_WIDTH_DBG, Stream_length, Interval 
     // vsim work.dut_tb -voptargs=+acc -sv_seed random
+    // vsim work.dut_tb -voptargs=+acc -sv_seed 42
     for(random_num = 0; random_num<8; random_num = random_num+1) begin
         random_interval = $urandom_range(40,511);
         random_stream_length = $urandom_range(9,2047);
