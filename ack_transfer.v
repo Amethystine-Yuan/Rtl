@@ -63,7 +63,7 @@ module Ack_transfer_l2e(
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n)
             Ack_out <= 1'b0;
-        else if(Ack_in_d!=Ack_in_sync2)
+        else if(!Ack_in_d&&Ack_in_sync2)
             Ack_out <= ~Ack_out;
         else Ack_out <= Ack_out;
     end
