@@ -3,6 +3,7 @@ module arbiter5(
 	input	wire		rst_n,
 	input	wire[4:0]	grant,
 	output wire[4:0]	arbitration,
+	// input wire normal_data_flag,
 	input wire outfifo_wfull
 	);
 
@@ -30,6 +31,7 @@ module arbiter5(
 	assign arbitration_wire[0] = grant[0]& (~grant[4] | ~prio4_0) & (~grant[3] | ~prio3_0) &(~grant[2] | ~prio2_0)& (~grant[1] | ~prio1_0);
 
 	// assign arbitration = outfifo_wfull ? arbitration : arbitration_wire;
+	// assign arbitration = outfifo_wfull_reg&&normal_data_flag ? arbitration : arbitration_wire;
 	assign arbitration = outfifo_wfull_reg ? arbitration : arbitration_wire;
 
 	// always@(*) begin

@@ -97,12 +97,19 @@ module	SA#(
 	wire[4:0]		grant_W;
 	wire[4:0]		grant_E;
 
+	// wire normal_data_flag_W; 
+	// wire normal_data_flag_N; 
+	// wire normal_data_flag_E;
+	// wire normal_data_flag_S;
+	// wire normal_data_flag_L;
+
 
   	arbiter5 arbiterL(
 		.clk(clk),
 		.rst_n(rst_n),
 		.grant(grant_L),
 		.arbitration(L_arb_res),
+		// .normal_data_flag(normal_data_flag_L),
 		.outfifo_wfull(L_outfifo_wfull)
 		);
 
@@ -111,6 +118,7 @@ module	SA#(
 		.rst_n(rst_n),
 		.grant(grant_W),
 		.arbitration(W_arb_res),
+		// .normal_data_flag(normal_data_flag_W),
 		.outfifo_wfull(W_outfifo_wfull)
 		);
 
@@ -119,6 +127,7 @@ module	SA#(
 		.rst_n(rst_n),
 		.grant(grant_N),
 		.arbitration(N_arb_res),
+		// .normal_data_flag(normal_data_flag_N),
 		.outfifo_wfull(N_outfifo_wfull)
 		);
 
@@ -127,6 +136,7 @@ module	SA#(
 		.rst_n(rst_n),
 		.grant(grant_E),
 		.arbitration(E_arb_res),
+		// .normal_data_flag(normal_data_flag_E),
 		.outfifo_wfull(E_outfifo_wfull)
 		);
 
@@ -135,6 +145,7 @@ module	SA#(
 		.rst_n(rst_n),
 		.grant(grant_S),
 		.arbitration(S_arb_res),
+		// .normal_data_flag(normal_data_flag_S),
 		.outfifo_wfull(S_outfifo_wfull)
 		);
 
@@ -215,6 +226,12 @@ module	SA#(
     .S_outfifo_wfull(S_outfifo_wfull),
     .W_outfifo_wfull(W_outfifo_wfull),
     .N_outfifo_wfull(N_outfifo_wfull),
+
+	    // .normal_data_flag_W(normal_data_flag_W), 
+	    // .normal_data_flag_N(normal_data_flag_N), 
+	    // .normal_data_flag_E(normal_data_flag_E),
+	    // .normal_data_flag_S(normal_data_flag_S),
+	    // .normal_data_flag_L(normal_data_flag_L),
 
 		.L_outfifo_rclk_sync(L_outfifo_rclk_sync),
     .E_outfifo_rclk_sync(E_outfifo_rclk_sync),

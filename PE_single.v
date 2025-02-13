@@ -1198,16 +1198,16 @@ module PE_single (
         else req_r2p_cnt <= req_r2p_cnt;
     end
 
-    // reg Ack_r2p_reg_dbg;
-    // always@(posedge clk or negedge rst_n) begin
-    //     if(!rst_n) Ack_r2p_reg_dbg <= 1'b0;
-    //     else Ack_r2p_reg_dbg <= Ack_r2p;
-    // end
+    reg Ack_r2p_reg_dbg;
+    always@(posedge clk or negedge rst_n) begin
+        if(!rst_n) Ack_r2p_reg_dbg <= 1'b0;
+        else Ack_r2p_reg_dbg <= Ack_r2p;
+    end
 
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n)
             ack_r2p_cnt <= 0;
-        else if((Ack_r2p))
+        else if((Ack_r2p_reg_dbg!=Ack_r2p))
             ack_r2p_cnt <= ack_r2p_cnt + 1'b1;
         else ack_r2p_cnt <= ack_r2p_cnt;
     end

@@ -77,6 +77,13 @@ module switch_alloc#(
 	input wire W_outfifo_wfull,
 	input wire N_outfifo_wfull,
 
+	//0213
+	// output reg normal_data_flag_W, 
+	// output reg normal_data_flag_N, 
+	// output reg normal_data_flag_E,
+	// output reg normal_data_flag_S,
+	// output reg normal_data_flag_L,
+
 	input   wire  L_outfifo_rclk_sync,
 	input   wire  W_outfifo_rclk_sync,
 	input   wire  N_outfifo_rclk_sync,
@@ -971,6 +978,57 @@ module switch_alloc#(
 	assign grant_S = {L_label[0]&L_label_valid&(!Local_reqfor_W)&(!Local_reqfor_N)&(!Local_reqfor_E), W_label[0]&W_label_valid, N_label[0]&N_label_valid, E_label[0]&E_label_valid, S_label[0]&S_label_valid};	//down
 	assign grant_L = {~(|L_label),~(|W_label),~(|N_label),~(|E_label),~(|S_label)};	//local
 
+	//reg normal_data_flag_W, normal_data_flag_N, normal_data_flag_E, normal_data_flag_S, normal_data_flag_L;
+	// always @(*) begin
+	// 	case (grant_W)
+	// 		5'b00001: normal_data_flag_W = S_data_in[0] && S_valid_in;
+	// 		5'b00010: normal_data_flag_W = E_data_in[0] && E_valid_in;
+	// 		5'b00100: normal_data_flag_W = N_data_in[0] && N_valid_in;
+	// 		5'b01000: normal_data_flag_W = W_data_in[0] && W_valid_in;
+	// 		5'b10000: normal_data_flag_W = L_data_in[0] && L_valid_in;
+	// 		default: normal_data_flag_W = 1'b0;
+	// 	endcase
+	// end
+	// always @(*) begin
+	// 	case (grant_N)
+	// 		5'b00001: normal_data_flag_N = S_data_in[0] && S_valid_in;
+	// 		5'b00010: normal_data_flag_N = E_data_in[0] && E_valid_in;
+	// 		5'b00100: normal_data_flag_N = N_data_in[0] && N_valid_in;
+	// 		5'b01000: normal_data_flag_N = W_data_in[0] && W_valid_in;
+	// 		5'b10000: normal_data_flag_N = L_data_in[0] && L_valid_in;
+	// 		default: normal_data_flag_N = 1'b0;
+	// 	endcase
+	// end
+	// always @(*) begin
+	// 	case (grant_E)
+	// 		5'b00001: normal_data_flag_E = S_data_in[0] && S_valid_in;
+	// 		5'b00010: normal_data_flag_E = E_data_in[0] && E_valid_in;
+	// 		5'b00100: normal_data_flag_E = N_data_in[0] && N_valid_in;
+	// 		5'b01000: normal_data_flag_E = W_data_in[0] && W_valid_in;
+	// 		5'b10000: normal_data_flag_E = L_data_in[0] && L_valid_in;
+	// 		default: normal_data_flag_E = 1'b0;
+	// 	endcase
+	// end
+	// always @(*) begin
+	// 	case (grant_S)
+	// 		5'b00001: normal_data_flag_S = S_data_in[0] && S_valid_in;
+	// 		5'b00010: normal_data_flag_S = E_data_in[0] && E_valid_in;
+	// 		5'b00100: normal_data_flag_S = N_data_in[0] && N_valid_in;
+	// 		5'b01000: normal_data_flag_S = W_data_in[0] && W_valid_in;
+	// 		5'b10000: normal_data_flag_S = L_data_in[0] && L_valid_in;
+	// 		default: normal_data_flag_S = 1'b0;
+	// 	endcase
+	// end
+	// always @(*) begin
+	// 	case (grant_L)
+	// 		5'b00001: normal_data_flag_L = S_data_in[0] && S_valid_in;
+	// 		5'b00010: normal_data_flag_L = E_data_in[0] && E_valid_in;
+	// 		5'b00100: normal_data_flag_L = N_data_in[0] && N_valid_in;
+	// 		5'b01000: normal_data_flag_L = W_data_in[0] && W_valid_in;
+	// 		5'b10000: normal_data_flag_L = L_data_in[0] && L_valid_in;
+	// 		default: normal_data_flag_L = 1'b0;
+	// 	endcase
+	// end
 
 	//20241220 arb_res can changed if normal pdata
 	// reg	L_data_src_grant;
@@ -1425,6 +1483,8 @@ module switch_alloc#(
 			//20250210
 			else if(S_data_valid&&!S_full&&(S_data_src==S_data_exp))
 				S_data_exp <= (S_data_exp[0]&&S_outfifo_wfull) ? S_data_exp :'hdeadface;
+			else if(S_data_valid&&!S_full&&S_data_out[0]&&S_outfifo_wfull)
+				S_data_exp <= 'hdeadface;
 			else S_data_exp <= S_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
@@ -1435,6 +1495,8 @@ module switch_alloc#(
 			//20250210
 			else if(W_data_valid&&!W_full&&(W_data_src==W_data_exp))
 				W_data_exp <= (W_data_exp[0]&&W_outfifo_wfull) ? W_data_exp :'hdeadface;
+			else if(W_data_valid&&!W_full&&W_data_out[0]&&W_outfifo_wfull)
+				W_data_exp <= 'hdeadface;
 			else W_data_exp <= W_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
@@ -1445,6 +1507,8 @@ module switch_alloc#(
 			//20250210
 			else if(N_data_valid&&!N_full&&(N_data_src==N_data_exp))
 				N_data_exp <= (N_data_exp[0]&&N_outfifo_wfull) ? N_data_exp :'hdeadface;
+			else if(N_data_valid&&!N_full&&N_data_out[0]&&N_outfifo_wfull)
+				N_data_exp <= 'hdeadface;
 			else N_data_exp <= N_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
@@ -1455,6 +1519,15 @@ module switch_alloc#(
 			//20250210
 			else if(E_data_valid&&!E_full&&(E_data_src==E_data_exp))
 				E_data_exp <= (E_data_exp[0]&&E_outfifo_wfull) ? E_data_exp :'hdeadface;
+			else if(E_data_valid&&!E_full&&E_data_out[0]&&E_outfifo_wfull)
+				E_data_exp <= 'hdeadface;
+			//20250212
+			// else if(E_data_valid&&!E_full) begin
+			// 	if((E_data_src==E_data_exp))
+			// 		E_data_exp <= (E_data_exp[0]&&E_outfifo_wfull) ? E_data_exp :'hdeadface;
+			// 	else E_data_exp <= (E_data_exp[0]&&(E_data_out==E_data_exp)&&!E_outfifo_wfull_d) ? 'hdeadface : E_data_exp;
+				// else E_data_exp <= E_data_exp;
+			// end
 			else E_data_exp <= E_data_exp;
 		end
 		always @(posedge clk or negedge rst_n) begin
