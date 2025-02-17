@@ -328,6 +328,27 @@ module PE_single (
                     packet_dst[2] <= ID[2];
                     packet_dst[3] <= ID[3];
                 end
+            // else if(mode[3:0]==4'b1101) // Custom
+            //     begin
+            //         case(ID)
+            //         4'b0000: packet_dst <= 4'b1111; // Hop=5
+            //         4'b0001: packet_dst <= ID;
+            //         4'b0010: packet_dst <= ID;
+            //         4'b0011: packet_dst <= 4'b1111;
+            //         4'b0100: packet_dst <= ID;
+            //         4'b0101: packet_dst <= ID;
+            //         4'b0110: packet_dst <= ID; 
+            //         4'b0111: packet_dst <= ID;
+            //         4'b1000: packet_dst <= ID; 
+            //         4'b1001: packet_dst <= ID;
+            //         4'b1010: packet_dst <= ID;
+            //         4'b1011: packet_dst <= ID;
+            //         4'b1100: packet_dst <= 4'b1111;
+            //         4'b1101: packet_dst <= ID; 
+            //         4'b1110: packet_dst <= ID; 
+            //         4'b1111: packet_dst <= ID; 
+            //         endcase
+            //     end
             else // Hot-pot
                 begin
                     packet_dst <= hotpot_target;
@@ -391,6 +412,11 @@ module PE_single (
             if((ID==4'b0000)|(ID==4'b0110)|(ID==4'b1000)|(ID==4'b1101)|(ID==4'b1110)|(ID==4'b1111)) packet_valid_p2r1 <= 1'b1;
             else packet_valid_p2r1 <= 1'b0;
         end
+        // custom
+        // else if(issue_flag&&enable&&(mode[3:0]==4'b1101)) begin
+        //     if((ID==4'b0011)|(ID==4'b1100)|(ID==4'b0000)) packet_valid_p2r1 <= 1'b1;
+        //     else packet_valid_p2r1 <= 1'b0;
+        // end
         else if(issue_flag&&enable) 
             packet_valid_p2r1 <= 1'b1;
         else 
@@ -405,6 +431,7 @@ module PE_single (
         else receive_patch_num <= receive_patch_num;
     end
     always@(*)begin
+        // if(receive_patch_num[DATA_WIDTH_DBG+2]==1'b1) receive_finish_flag = 1'b1;
         if(receive_patch_num[DATA_WIDTH_DBG]==1'b1) receive_finish_flag = 1'b1;
         else receive_finish_flag = 1'b0;
     end
