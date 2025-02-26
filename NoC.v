@@ -389,7 +389,9 @@ module NoC (
     output wire  error_packet30,
     output wire  error_packet31,
     output wire  error_packet32,
-    output wire  error_packet33
+    output wire  error_packet33,
+
+    input wire [31:0] delay
     // Test
 
     // output   wire                                   clk_test,
@@ -536,39 +538,39 @@ module NoC (
     wire                    packet_fifo_wfull33;
 
     // handshake
-    wire                    Tail_p2r00, Stream_p2r00;
-    wire                    Tail_p2r01, Stream_p2r01;
-    wire                    Tail_p2r02, Stream_p2r02;
-    wire                    Tail_p2r03, Stream_p2r03;
-    wire                    Tail_p2r10, Stream_p2r10;
-    wire                    Tail_p2r11, Stream_p2r11;
-    wire                    Tail_p2r12, Stream_p2r12;
-    wire                    Tail_p2r13, Stream_p2r13;
-    wire                    Tail_p2r20, Stream_p2r20;
-    wire                    Tail_p2r21, Stream_p2r21;
-    wire                    Tail_p2r22, Stream_p2r22;
-    wire                    Tail_p2r23, Stream_p2r23;
-    wire                    Tail_p2r30, Stream_p2r30;
-    wire                    Tail_p2r31, Stream_p2r31;
-    wire                    Tail_p2r32, Stream_p2r32;
-    wire                    Tail_p2r33, Stream_p2r33;
+    // wire                    Tail_p2r00, Stream_p2r00;
+    // wire                    Tail_p2r01, Stream_p2r01;
+    // wire                    Tail_p2r02, Stream_p2r02;
+    // wire                    Tail_p2r03, Stream_p2r03;
+    // wire                    Tail_p2r10, Stream_p2r10;
+    // wire                    Tail_p2r11, Stream_p2r11;
+    // wire                    Tail_p2r12, Stream_p2r12;
+    // wire                    Tail_p2r13, Stream_p2r13;
+    // wire                    Tail_p2r20, Stream_p2r20;
+    // wire                    Tail_p2r21, Stream_p2r21;
+    // wire                    Tail_p2r22, Stream_p2r22;
+    // wire                    Tail_p2r23, Stream_p2r23;
+    // wire                    Tail_p2r30, Stream_p2r30;
+    // wire                    Tail_p2r31, Stream_p2r31;
+    // wire                    Tail_p2r32, Stream_p2r32;
+    // wire                    Tail_p2r33, Stream_p2r33;
 
-    wire                    Tail_r2p00, Stream_r2p00;
-    wire                    Tail_r2p01, Stream_r2p01;
-    wire                    Tail_r2p02, Stream_r2p02;
-    wire                    Tail_r2p03, Stream_r2p03;
-    wire                    Tail_r2p10, Stream_r2p10;
-    wire                    Tail_r2p11, Stream_r2p11;
-    wire                    Tail_r2p12, Stream_r2p12;
-    wire                    Tail_r2p13, Stream_r2p13;
-    wire                    Tail_r2p20, Stream_r2p20;
-    wire                    Tail_r2p21, Stream_r2p21;
-    wire                    Tail_r2p22, Stream_r2p22;
-    wire                    Tail_r2p23, Stream_r2p23;
-    wire                    Tail_r2p30, Stream_r2p30;
-    wire                    Tail_r2p31, Stream_r2p31;
-    wire                    Tail_r2p32, Stream_r2p32;
-    wire                    Tail_r2p33, Stream_r2p33;
+    // wire                    Tail_r2p00, Stream_r2p00;
+    // wire                    Tail_r2p01, Stream_r2p01;
+    // wire                    Tail_r2p02, Stream_r2p02;
+    // wire                    Tail_r2p03, Stream_r2p03;
+    // wire                    Tail_r2p10, Stream_r2p10;
+    // wire                    Tail_r2p11, Stream_r2p11;
+    // wire                    Tail_r2p12, Stream_r2p12;
+    // wire                    Tail_r2p13, Stream_r2p13;
+    // wire                    Tail_r2p20, Stream_r2p20;
+    // wire                    Tail_r2p21, Stream_r2p21;
+    // wire                    Tail_r2p22, Stream_r2p22;
+    // wire                    Tail_r2p23, Stream_r2p23;
+    // wire                    Tail_r2p30, Stream_r2p30;
+    // wire                    Tail_r2p31, Stream_r2p31;
+    // wire                    Tail_r2p32, Stream_r2p32;
+    // wire                    Tail_r2p33, Stream_r2p33;
 
     wire                    Ack_p2r00, Strobe_p2r00, State_p2r00, Clock_p2r00, Feedback_p2r00;
     wire                    Ack_p2r01, Strobe_p2r01, State_p2r01, Clock_p2r01, Feedback_p2r01;
@@ -603,7 +605,7 @@ module NoC (
     wire                    Ack_r2p31, Strobe_r2p31, State_r2p31, Clock_r2p31, Feedback_r2p31;
     wire                    Ack_r2p32, Strobe_r2p32, State_r2p32, Clock_r2p32, Feedback_r2p32;
     wire                    Ack_r2p33, Strobe_r2p33, State_r2p33, Clock_r2p33, Feedback_r2p33;             
-
+    
     wire [`CDATASIZE-1:0]    CData_p2r00, CData_r2p00;
     wire [`CDATASIZE-1:0]    CData_p2r01, CData_r2p01;
     wire [`CDATASIZE-1:0]    CData_p2r02, CData_r2p02;
@@ -936,6 +938,7 @@ module NoC (
 
 
     PE_all PE00(
+        .delay(delay),
         .ID(4'b0000),
         .clk(clk0),
         .clk_global(clk_global),
@@ -1018,6 +1021,7 @@ module NoC (
     );
 
     PE_all PE01(
+        .delay(delay),
         .ID(4'b0001),
         .clk(clk1),
          .clk_global(clk_global),
@@ -1100,6 +1104,7 @@ module NoC (
     );
 
     PE_all PE02(
+        .delay(delay),
         .ID(4'b0010),
         .clk(clk2),
         .clk_global(clk_global),
@@ -1183,6 +1188,7 @@ module NoC (
     );
 
     PE_all PE03(
+        .delay(delay),
         .ID(4'b0011),
         .clk(clk3),
         .clk_global(clk_global),
@@ -1266,6 +1272,7 @@ module NoC (
     );
 
     PE_all PE10(
+        .delay(delay),
         .ID(4'b0100),
         .clk(clk4),
         .clk_global(clk_global),
@@ -1349,6 +1356,7 @@ module NoC (
     );
 
     PE_all PE11(
+        .delay(delay),
         .ID(4'b0101),
         .clk(clk5),
         .clk_global(clk_global),
@@ -1432,6 +1440,7 @@ module NoC (
     );
 
     PE_all PE12(
+        .delay(delay),
         .ID(4'b0110),
         .clk(clk6),
         .clk_global(clk_global),
@@ -1515,6 +1524,7 @@ module NoC (
     );
 
     PE_all PE13(
+        .delay(delay),
         .ID(4'b0111),
         .clk(clk7),
         .clk_global(clk_global),
@@ -1599,6 +1609,7 @@ module NoC (
     );
 
     PE_all PE20(
+        .delay(delay),
         .ID(4'b1000),
         .clk(clk8),
         .clk_global(clk_global),
@@ -1683,6 +1694,7 @@ module NoC (
     );
 
     PE_all PE21(
+        .delay(delay),
         .ID(4'b1001),
         .clk(clk9),
         .clk_global(clk_global),
@@ -1766,6 +1778,7 @@ module NoC (
     );
 
     PE_all PE22(
+        .delay(delay),
         .ID(4'b1010),
         .clk(clk10),
         .clk_global(clk_global),
@@ -1850,6 +1863,7 @@ module NoC (
     );
 
     PE_all PE23(
+        .delay(delay),
         .ID(4'b1011),
         .clk(clk11),
         .clk_global(clk_global),
@@ -1933,6 +1947,7 @@ module NoC (
     );
 
     PE_all PE30(
+        .delay(delay),
         .ID(4'b1100),
         .clk(clk12),
         .clk_global(clk_global),
@@ -2016,6 +2031,7 @@ module NoC (
     );
 
     PE_all PE31(
+        .delay(delay),
         .ID(4'b1101),
         .clk(clk13),
         .clk_global(clk_global),
@@ -2099,6 +2115,7 @@ module NoC (
     );
 
     PE_all PE32(
+        .delay(delay),
         .ID(4'b1110),
         .clk(clk14),
         .clk_global(clk_global),
@@ -2182,6 +2199,7 @@ module NoC (
     );
 
     PE_all PE33(
+        .delay(delay),
         .ID(4'b1111),
         .clk(clk15),
         .clk_global(clk_global),

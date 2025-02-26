@@ -1252,14 +1252,14 @@ wire [15:0] scan_check = {enable_wire ,mode_wire , 4'b0011, 4'd2  ,test_mode};
         /**************************************************************/
         // 20250212 Other Traffic Patterns, Various Hops, Tornado, etc
         // Custom hotspot
-            run_test(100, 
-            400, 100, 100, 100,
-            100, 100, 100, 100,
-            100, 100, 100, 100,
-            800, 100, 100, 100,
-            5'b01001, 20, 127, 2, 2'b00,
-            80'b00001_00001_00001_01000_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00100
-            );
+        //     run_test(100, 
+        //     400, 100, 100, 100,
+        //     100, 100, 100, 100,
+        //     100, 100, 100, 100,
+        //     800, 100, 100, 100,
+        //     5'b01001, 20, 127, 2, 2'b00,
+        //     80'b00001_00001_00001_01000_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00100
+        //     );
         /**************************************************************/
         // Hop=6
         //     run_test(100, 
@@ -1758,7 +1758,7 @@ gdist clk_noise14 = new;
 gdist clk_noise15 = new;
 
 reg clk_test2;
-/*
+// /*
     always @(posedge clk_global_ori) clk_global <= ~clk_global;
     always @(posedge clk0_ori) clk0 <= #(1*0.8/400.00) ~clk0;
     always @(posedge clk1_ori) clk1 <= #(17*0.8/400.00) ~clk1;
@@ -1773,14 +1773,14 @@ reg clk_test2;
     always @(posedge clk8_ori) clk8 <= #(93*0.8/400.00) ~clk8;
     always @(posedge clk9_ori) clk9 <= #(75*0.8/400.00) ~clk9;
     always @(posedge clk10_ori) clk10 <= #(17*0.8/400.00) ~clk10;
-    always @(posedge clk11_ori) clk11 <= #(89*0.8/400.00) ~clk11;
+    always @(posedge clk11_ori) clk11 <= #(107*0.8/400.00) ~clk11;
     always @(posedge clk12_ori) clk12 <= #(41*0.8/400.00) ~clk12;
     always @(posedge clk13_ori) clk13 <= #(82*0.8/400.00) ~clk13;
     always @(posedge clk14_ori) clk14 <= #(61*0.8/400.00) ~clk14;
-    always @(posedge clk15_ori) clk15 <= #(71*0.8/400.00) ~clk15;
+    always @(posedge clk15_ori) clk15 <= #(1*0.8/400.00) ~clk15;
 
-    */
-
+//     */
+ /*
   // clock randomize
 
     always @(posedge clk_global_ori) clk_global <= ~clk_global;
@@ -1803,6 +1803,7 @@ reg clk_test2;
     always @(posedge clk14_ori) clk14 <= #((61+clk_noise14.gussian_dist())*0.8/400.00) ~clk14;
     always @(posedge clk15_ori) clk15 <= #((1+clk_noise15.gussian_dist())*0.8/400.00) ~clk15;
 
+        */
     integer file00, file01, file02, file03;
     integer file10, file11, file12, file13;
     integer file20, file21, file22, file23;

@@ -25,6 +25,7 @@
 */
 
 module PE_single (
+        input   wire [31:0]                     delay,
         input   wire [3:0]                      ID,
         input   wire                            clk,
         input   wire                            rst_n,
@@ -202,20 +203,43 @@ module PE_single (
         endcase
     end
 
+
+    // A delayed clock
+    wire clk_d;
+    delay_line inst_delay_line(
+        .delay(delay),
+        .max_delay(TX_Index),
+        .in(clk),
+        .out(clk_d)
+    );
+
     reg receive_finish_flag_tmp;
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk_d or negedge rst_n) begin
         if(!rst_n)
             receive_finish_flag_tmp <= 0;
         else
             receive_finish_flag_tmp <= receive_finish_flag;     
     end
 
+    reg [`TIME_WIDTH-1:0] time_stamp_d;
+    reg [`TIME_WIDTH-1:0] time_stamp1_d;
+    always @(posedge clk_d or negedge rst_n) begin
+        if(!rst_n) begin
+            time_stamp1_d <= 0;
+            time_stamp_d <= 0;
+        end
+        else begin
+            time_stamp1_d <= time_stamp_global;
+            time_stamp_d <= time_stamp1_d;
+        end
+    end
+
     latency_comp latency_comp(
-        .clk(clk),
+        .clk(clk_d),
         .TX_Index(RX_Index_comp),
         .RX_Index(TX_Index),
         .rst_n(rst_n),
-        .time_stamp(time_stamp),
+        .time_stamp(time_stamp_d),
         .CData(sel_data),
         // .EN(data_valid&&(sel_data[`CDATASIZE-2]==1'b0)),
         .EN((RX_Head||mask_four_stage_data_valid)&&data_valid),
@@ -424,7 +448,7 @@ module PE_single (
     end
 
     // RX Receive_finish_flag Signal Generation
-    always@(posedge clk or negedge rst_n) begin
+    always@(posedge clk_d or negedge rst_n) begin
         if(!rst_n) receive_patch_num <= 0;
         else if(receive_finish_flag) receive_patch_num <= receive_patch_num;
         else if((RX_Head||mask_four_stage_data_valid)&&data_valid&&(sel_data[`CDATA_WIDTH-1:0]==Stream_Length+1)) receive_patch_num <= receive_patch_num + 1'b1;
@@ -988,12 +1012,14 @@ module PE_single (
 
         // four_stage interface or three_stage interface
         three_stage inst_three_stage (
-            .clk(clk),
+            .clk(clk_d),
+        .interface_en(1'b1),
         // .clk(clkout),
+        // .interface_en(interface_en),
         .rst_n(rst_n),
         .M(M), 
         .N(N), 
-        .interface_en(interface_en),
+
         .CData_r2p(CData_r2p),
         .Strobe_r2p(Strobe_r2p_fixed),
         .State_r2p(State_r2p),
@@ -1011,11 +1037,30 @@ module PE_single (
         .strobe3_meta_error(strobe3_meta_error)
     );
 
+    // Baseline:AFIFO,MPAM
+    // Simulation Only
+    // reg Strobe_r2p_d;
+    // always @(posedge Clock_r2p or negedge rst_n) begin
+    //     if(!rst_n)
+    //         Strobe_r2p_d <= 1'b0;
+    //     else Strobe_r2p_d <= Strobe_r2p;
+    // end
+
+    // FIFO_async2 #(`CDATASIZE, `PE_FIFO_DEPTH) pe_fifo (
+	// 	.rdata(sel_data),
+    //     .wfull(),
+    //     .rempty_n(data_valid),
+    //     .wdata(CData_r2p),
+    //     .winc(Strobe_r2p_d^Strobe_r2p), .wclk(Clock_r2p),
+    //     .rinc(1'b1), .rclk(clk),
+    //     .rst_n(rst_n));
+
     // There are few datas 
     // reg mask_four_stage_data_valid;
 
     always @(*) begin
-        RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1)||(sel_data[`CDATA_WIDTH-1:0] == 1+N))&&(data_valid);
+        // RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1)||(sel_data[`CDATA_WIDTH-1:0] == 1+N))&&(data_valid);
+        RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1))&&(data_valid);
         RX_Tail = (sel_data[`CDATASIZE-1] == 1)&&(data_valid);
     end
 
@@ -1030,7 +1075,7 @@ module PE_single (
 
     // end
 
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk_d or negedge rst_n) begin
         if(!rst_n)
             mask_four_stage_data_valid <= 0;
         else if(RX_Head)
@@ -1150,7 +1195,7 @@ module PE_single (
     // reg error_circuit;
     reg first_pc_flag;// learning phase compensation
     reg [`stream_cnt_width-1:0] error_circuit_cnt;
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk_d or negedge rst_n) begin
         if(!rst_n) 
             error_circuit <= 1'b0;
         else if(error_circuit==1'b1)
@@ -1162,7 +1207,7 @@ module PE_single (
         else
             error_circuit <= error_circuit;
     end
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk_d or negedge rst_n) begin
         if(!rst_n) 
             error_circuit_cnt <= 1'b1 ;
         //else if((error_circuit_cnt==Stream_Length+1)&&((RX_Head||mask_four_stage_data_valid))&&(data_valid)&&(sel_data[`CDATASIZE-2]==1'b0))
@@ -1174,7 +1219,7 @@ module PE_single (
             error_circuit_cnt <= 1'b1 + error_circuit_cnt;
         else error_circuit_cnt <= error_circuit_cnt;
     end
-    always @(posedge clk or negedge rst_n) begin
+    always @(posedge clk_d or negedge rst_n) begin
         if(!rst_n) 
             first_pc_flag <= 1'b0 ;
         else if((RX_Head||mask_four_stage_data_valid)&&data_valid)

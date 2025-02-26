@@ -1,6 +1,7 @@
 `include "./noc_define.v"
 
 module PE_all (
+        input   wire [31:0]                     delay,
         input   wire [3:0]                      ID,
         input   wire                            clk,
         input   wire                            clk_global, // All Router clk
@@ -323,6 +324,7 @@ module PE_all (
     );
 
     PE_single PE_dut(
+      .delay(delay),
         .ID(ID),
         .clk(clk),
         //  .clk_global(clk_global),
