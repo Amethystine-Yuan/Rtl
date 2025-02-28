@@ -26,7 +26,7 @@ module PE_all (
         input   wire                            packet_valid_r2p,
         output  wire                            L_full,
 
-        input   wire                            packet_fifo_wfull,
+        input   wire                            packet_fifo_wfull, // PE domain, Rotuer2PE
 
         input   wire                            Ack_r2p,
         output  wire                             Ack_p2r,

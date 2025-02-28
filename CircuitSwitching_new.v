@@ -351,6 +351,10 @@ module CircuitSwitching_new #(
 
   
   //fifo intf
+
+  //State Register Out
+
+  
   reg State_Out0_sync, State_Out0_sync2, State_Out0_d;
   reg State_Out1_sync, State_Out1_sync2, State_Out1_d;
   reg State_Out2_sync, State_Out2_sync2, State_Out2_d;

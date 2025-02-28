@@ -205,12 +205,13 @@ module PE_single (
 
 
     // A delayed clock
-    wire clk_d;
+    wire clk_d, clkout, clk_delay;
+    assign clk_d = clk_delay;
     delay_line inst_delay_line(
         .delay(delay),
         .max_delay(TX_Index),
         .in(clk),
-        .out(clk_d)
+        .out(clk_delay)
     );
 
     reg receive_finish_flag_tmp;
@@ -454,10 +455,12 @@ module PE_single (
         else if((RX_Head||mask_four_stage_data_valid)&&data_valid&&(sel_data[`CDATA_WIDTH-1:0]==Stream_Length+1)) receive_patch_num <= receive_patch_num + 1'b1;
         else receive_patch_num <= receive_patch_num;
     end
-    always@(*)begin
+    always@(posedge clk_d or negedge rst_n)begin
+        if(!rst_n)
+            receive_finish_flag <= 1'b0;
         // if(receive_patch_num[DATA_WIDTH_DBG+2]==1'b1) receive_finish_flag = 1'b1;
-        if(receive_patch_num[DATA_WIDTH_DBG]==1'b1) receive_finish_flag = 1'b1;
-        else receive_finish_flag = 1'b0;
+        else if(receive_patch_num[DATA_WIDTH_DBG]==1'b1) receive_finish_flag <= 1'b1;
+        else receive_finish_flag <= 1'b0;
     end
 
 
@@ -763,6 +766,12 @@ module PE_single (
 
         //////////////// RX ////////////////
         reg Ack_p2r_flip_flag, Ack_p2r_flip_flag_reg;
+        // reg State_r2p_tx_reg;
+        // always@(posedge Clock_r2p or negedge rst_n) begin
+        //     if(!rst_n) 
+        //         State_r2p_tx_reg <= 1'b0;
+        //     else State_r2p_tx_reg <= State_r2p;
+        // end
         reg State_r2p_reg;
         // State_r2p_sync
         reg State_r2p_sync1, State_r2p_sync2;
@@ -855,8 +864,8 @@ module PE_single (
 
         reg [4:0] RX_Index_interface; // Period of the TX PE
         always@(*) begin
-            if(State_r2p)
-            case(CData_r2p[`TIME_WIDTH+`CDATA_WIDTH+`ADDR_WIDTH+`ADDR_WIDTH-1 : `TIME_WIDTH+`CDATA_WIDTH+`ADDR_WIDTH])
+            if(packet_valid_r2p)
+            case(packet_data_r2p[`TIME_WIDTH+`PDATA_WIDTH+`ADDR_WIDTH+`ADDR_WIDTH-1 : `TIME_WIDTH+`PDATA_WIDTH+`ADDR_WIDTH])
                 4'b0000: RX_Index_interface = dvfs_config[4:0];
                 4'b0001: RX_Index_interface = dvfs_config[9:5];
                 4'b0010: RX_Index_interface = dvfs_config[14:10];
@@ -889,15 +898,16 @@ module PE_single (
             else TX_Index_fixed <= TX_Index_fixed;
         end
 
-        always @(posedge Clock_r2p or negedge rst_n) begin
+        always @(posedge clk or negedge rst_n) begin
             if(!rst_n)
                 RX_Index_interface_fixed <= 5'b0;
             else if(RX_Index_interface_fixed == 5'b0)
                 RX_Index_interface_fixed <= RX_Index_interface;
             else RX_Index_interface_fixed <= RX_Index_interface_fixed;
         end
-
+        // clk domain
         wire [3:0] N = (RX_Index_interface_fixed == 0) ? RX_Index_interface : RX_Index_interface_fixed[3:0];
+        // clk domain. static
         wire [3:0] M = (TX_Index_fixed == 0) ? TX_Index : TX_Index_fixed[3:0];
         
         // Learning Phase Compensation
@@ -949,7 +959,7 @@ module PE_single (
             .error(error_leading));
 
         var_delay grls_d1 (
-            .din(clk),
+            .din(clk_delay),
             .delay_sel(var_clk_sel_leading),
             .dout(clk_grls_leading)
             //.dout(clk_leading_tobuf)
@@ -963,7 +973,7 @@ module PE_single (
         /* ctrl */
 	    // BUFFD4BWP30P140LVT clk_lagging_buffer (.I(clk_lagging), .Z(clk_lagging_buf));
         BUFFD4BWP30P140LVT clk_grls_origin_buffer (.I(clk_grls_origin), .Z(clk_grls_origin_buf));
-        wire clk_sel, clkout;
+        wire clk_sel;
         ctrl ctrl (
             // .clk(clk),
             // .clk(clk_lagging_buf),

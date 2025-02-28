@@ -8,7 +8,7 @@
 module three_stage (
         input   wire                    clk,
         input   wire                    rst_n,
-        input   wire [3:0]              M, 
+        input   wire [3:0]              M, //
         input   wire [3:0]              N, 
         // input   wire [`base_log2:0]     M, 
         // input   wire [`base_log2:0]     N, 
@@ -157,6 +157,7 @@ module three_stage (
     always@(posedge clk or negedge rst_n) begin
         if(!rst_n) sel_state <= 2'b00;
         else if((valid_state&&sel_data[`CDATASIZE-1])) sel_state<=sel_state;
+        // CDC happens there
         else if(State_r2p_reg2||valid_state) begin
                 case (sel_state)
                     2'b00: sel_state <= 2'b01;

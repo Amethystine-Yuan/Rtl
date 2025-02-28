@@ -761,7 +761,8 @@ module dut_tb ();
         .ack_r2p_cnt30(ack_r2p_cnt30),
         .ack_r2p_cnt31(ack_r2p_cnt31),
         .ack_r2p_cnt32(ack_r2p_cnt32),
-        .ack_r2p_cnt33(ack_r2p_cnt33)
+        .ack_r2p_cnt33(ack_r2p_cnt33),
+        .delay(32'b0)
 
 
 	// .clk_test(clk_test),
@@ -1197,7 +1198,7 @@ wire [15:0] scan_check = {enable_wire ,mode_wire , 4'b0011, 4'd2  ,test_mode};
     integer file_result;
     initial begin
         // $error("TRANFER FAILED");
-        file_result = $fopen("backup_0213_2.txt");
+        file_result = $fopen("0228backup.txt");
         clk_global = 0;
         clk0 = 0;
         clk1 = 0;

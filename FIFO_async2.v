@@ -11,10 +11,10 @@ module FIFO_async2 #(parameter DSIZE = 8, parameter ASIZE = 4) (
     wire [ASIZE:0] wptr, rptr, wq2_rptr, rq2_wptr;
 
     wire rempty;
-    reg rinc_d;
-    always @(posedge rclk ) begin
-        rinc_d <= rinc;
-    end
+    // reg rinc_d;
+    // always @(posedge rclk ) begin
+    //     rinc_d <= rinc;
+    // end
     //20241220 modified
     assign rempty_n = ~rempty && rinc;
 

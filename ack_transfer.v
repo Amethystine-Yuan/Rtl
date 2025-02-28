@@ -1,6 +1,6 @@
 module Ack_transfer_e2l(
     input wire Ack_in,
-    output wire Ack_out,
+    output reg Ack_out,
     input wire clk,
     input wire rst_n
 );
@@ -23,7 +23,13 @@ module Ack_transfer_e2l(
             cnt <= 4'd1;
     end
 
-    assign Ack_out = (cnt!=4'b0);
+    // assign Ack_out = (cnt!=4'b0);
+    always @(posedge clk or negedge rst_n) begin
+        if(!rst_n)
+            Ack_out <= 0;
+        else 
+            Ack_out <= (cnt!=4'b0);
+    end
 endmodule
 
 
