@@ -352,7 +352,120 @@ module CircuitSwitching_new #(
   
   //fifo intf
 
-  //State Register Out
+  //State Register Out, 
+  reg State_Out0_reg, State0_reg;
+  reg State_Out1_reg, State1_reg;
+  reg State_Out2_reg, State2_reg;
+  reg State_Out3_reg, State3_reg;
+  reg State_Out4_reg, State4_reg;
+  reg State_Out0_reg2, State0_reg2;
+  reg State_Out1_reg2, State1_reg2;
+  reg State_Out2_reg2, State2_reg2;
+  reg State_Out3_reg2, State3_reg2;
+  reg State_Out4_reg2, State4_reg2;
+  always @(posedge Clock0 or negedge rst_n) begin
+    if(!rst_n) begin
+      State0_reg <= 1'b0;
+      State0_reg2 <= 1'b0;
+    end
+    else begin
+      State0_reg <= State0;
+      State0_reg2 <= State0_reg;
+    end
+  end
+  always @(posedge Clock1 or negedge rst_n) begin
+    if(!rst_n) begin
+      State1_reg <= 1'b0;
+      State1_reg2 <= 1'b0;
+    end
+    else begin
+      State1_reg <= State1;
+      State1_reg2 <= State1_reg;
+    end
+  end
+  always @(posedge Clock2 or negedge rst_n) begin
+    if(!rst_n) begin
+      State2_reg <= 1'b0;
+      State2_reg2 <= 1'b0;
+    end
+    else begin
+      State2_reg <= State2;
+      State2_reg2 <= State2_reg;
+    end
+  end
+  always @(posedge Clock3 or negedge rst_n) begin
+    if(!rst_n) begin
+      State3_reg <= 1'b0;
+      State3_reg2 <= 1'b0;
+    end
+    else begin
+      State3_reg <= State3;
+      State3_reg2 <= State3_reg;
+    end
+  end
+  always @(posedge Clock4 or negedge rst_n) begin
+    if(!rst_n) begin
+      State4_reg <= 1'b0;
+      State4_reg2 <= 1'b0;
+    end
+    else begin
+      State4_reg <= State4;
+      State4_reg2 <= State4_reg;
+    end
+  end
+
+
+  always @(posedge Clock_Out1 or negedge rst_n) begin
+    if(!rst_n) begin
+      State_Out1_reg <= 1'b0;
+      State_Out1_reg2 <= 1'b0;
+    end
+    else begin
+      State_Out1_reg <= State_Out1;
+      State_Out1_reg2 <= State_Out1_reg;
+    end
+  end
+  always @(posedge Clock_Out2 or negedge rst_n) begin
+    if(!rst_n) begin
+      State_Out2_reg <= 1'b0;
+      State_Out2_reg2 <= 1'b0;
+    end
+    else begin
+      State_Out2_reg <= State_Out2;
+      State_Out2_reg2 <= State_Out2_reg;
+    end
+  end
+  always @(posedge Clock_Out3 or negedge rst_n) begin
+    if(!rst_n) begin
+      State_Out3_reg <= 1'b0;
+      State_Out3_reg2 <= 1'b0;
+    end
+    else begin
+      State_Out3_reg <= State_Out3;
+      State_Out3_reg2 <= State_Out3_reg;
+    end
+  end
+  always @(posedge Clock_Out4 or negedge rst_n) begin
+    if(!rst_n) begin
+      State_Out4_reg <= 1'b0;
+      State_Out4_reg2 <= 1'b0;
+    end
+    else begin
+      State_Out4_reg <= State_Out4;
+      State_Out4_reg2 <= State_Out4_reg;
+    end
+  end
+  always @(posedge Clock_Out0 or negedge rst_n) begin
+    if(!rst_n) begin
+      State_Out0_reg <= 1'b0;
+      State_Out0_reg2 <= 1'b0;
+    end
+    else begin
+      State_Out0_reg <= State_Out0;
+      State_Out0_reg2 <= State_Out0_reg;
+    end
+  end
+
 
   
   reg State_Out0_sync, State_Out0_sync2, State_Out0_d;
@@ -373,7 +486,7 @@ module CircuitSwitching_new #(
       State0_d <= 0;
     end
     else begin
-      State0_sync <= State0;
+      State0_sync <= State0_reg2;
       State0_sync2 <= State0_sync;
       State0_d <= State0_sync2;
     end
@@ -386,7 +499,7 @@ module CircuitSwitching_new #(
       State1_d <= 0;
     end
     else begin
-      State1_sync <= State1;
+      State1_sync <= State1_reg2;
       State1_sync2 <= State1_sync;
       State1_d <= State1_sync2;
     end
@@ -399,7 +512,7 @@ module CircuitSwitching_new #(
       State2_d <= 0;
     end
     else begin
-      State2_sync <= State2;
+      State2_sync <= State2_reg2;
       State2_sync2 <= State2_sync;
       State2_d <= State2_sync2;
     end
@@ -412,7 +525,7 @@ module CircuitSwitching_new #(
       State3_d <= 0;
     end
     else begin
-      State3_sync <= State3;
+      State3_sync <= State3_reg2;
       State3_sync2 <= State3_sync;
       State3_d <= State3_sync2;
     end
@@ -425,7 +538,7 @@ module CircuitSwitching_new #(
       State4_d <= 0;
     end
     else begin
-      State4_sync <= State4;
+      State4_sync <= State4_reg2;
       State4_sync2 <= State4_sync;
       State4_d <= State4_sync2;
     end
@@ -438,7 +551,7 @@ module CircuitSwitching_new #(
       State_Out0_d <= 0;
     end
     else begin
-      State_Out0_sync <= State_Out0;
+      State_Out0_sync <= State_Out0_reg2;
       State_Out0_sync2 <= State_Out0_sync;
       State_Out0_d <= State_Out0_sync2;
     end
@@ -451,7 +564,7 @@ module CircuitSwitching_new #(
       State_Out1_d <= 0;
     end
     else begin
-      State_Out1_sync <= State_Out1;
+      State_Out1_sync <= State_Out1_reg2;
       State_Out1_sync2 <= State_Out1_sync;
       State_Out1_d <= State_Out1_sync2;
     end
@@ -464,7 +577,7 @@ module CircuitSwitching_new #(
       State_Out2_d <= 0;
     end
     else begin
-      State_Out2_sync <= State_Out2;
+      State_Out2_sync <= State_Out2_reg2;
       State_Out2_sync2 <= State_Out2_sync;
       State_Out2_d <= State_Out2_sync2;
     end
@@ -477,7 +590,7 @@ module CircuitSwitching_new #(
       State_Out3_d <= 0;
     end
     else begin
-      State_Out3_sync <= State_Out3;
+      State_Out3_sync <= State_Out3_reg2;
       State_Out3_sync2 <= State_Out3_sync;
       State_Out3_d <= State_Out3_sync2;
     end
@@ -490,7 +603,7 @@ module CircuitSwitching_new #(
       State_Out4_d <= 0;
     end
     else begin
-      State_Out4_sync <= State_Out4;
+      State_Out4_sync <= State_Out4_reg2;
       State_Out4_sync2 <= State_Out4_sync;
       State_Out4_d <= State_Out4_sync2;
     end

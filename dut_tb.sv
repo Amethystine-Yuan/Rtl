@@ -1198,7 +1198,7 @@ wire [15:0] scan_check = {enable_wire ,mode_wire , 4'b0011, 4'd2  ,test_mode};
     integer file_result;
     initial begin
         // $error("TRANFER FAILED");
-        file_result = $fopen("0228backup.txt");
+        file_result = $fopen("0228backup2.txt");
         clk_global = 0;
         clk0 = 0;
         clk1 = 0;
@@ -2024,5 +2024,22 @@ add wave -position insertpoint sim:/dut_tb/dut/Router33/PacketSwitching/fifo/fif
 add wave -position insertpoint sim:/dut_tb/dut/Router33/PacketSwitching/fifo/fifo_L/fifo_medac/medac_w/ctrl/state
 add wave -position insertpoint sim:/dut_tb/dut/Router33/PacketSwitching/fifo/fifo_N/fifo_medac/medac_r/ctrl/state
 add wave -position insertpoint sim:/dut_tb/dut/Router33/PacketSwitching/fifo/fifo_N/fifo_medac/medac_w/ctrl/state
+
+add wave -position insertpoint sim:/dut_tb2/dut/PE00/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE01/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE02/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE03/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE10/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE11/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE12/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE13/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE20/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE21/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE22/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE23/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE30/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE31/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE32/PE_dut/clk_sel
+add wave -position insertpoint sim:/dut_tb2/dut/PE33/PE_dut/clk_sel
 
 */

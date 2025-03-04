@@ -206,7 +206,8 @@ module PE_single (
 
     // A delayed clock
     wire clk_d, clkout, clk_delay;
-    assign clk_d = clk_delay;
+    // MPAM:clkout Origin:clkd
+    assign clk_d = clkout;
     delay_line inst_delay_line(
         .delay(delay),
         .max_delay(TX_Index),
@@ -743,10 +744,22 @@ module PE_single (
                 else if((counter==(Stream_Length+1))) clock_p2r_valid <= 1'b0;
                 else clock_p2r_valid <= clock_p2r_valid;
             end
+
+            reg clock_p2r_valid_d, clock_p2r_valid_d2;
+            always @(posedge clk or negedge rst_n) begin
+                if(!rst_n) begin
+                    clock_p2r_valid_d <= 1'b0;
+                    clock_p2r_valid_d2 <= 1'b0;
+                end
+                else begin
+                    clock_p2r_valid_d <= clock_p2r_valid;
+                    clock_p2r_valid_d2 <= clock_p2r_valid_d;
+                end
+            end
             always@(*) begin
-                Clock_p2r = clk;
-                // if(clock_p2r_valid) Clock_p2r = clk;
-                // else Clock_p2r = 1'b0;
+                // Clock_p2r = clk;
+                if(clock_p2r_valid_d2) Clock_p2r = clk;
+                else Clock_p2r = 1'b0;
                 // Clock_p2r = 1'b0;
             end
         
@@ -766,12 +779,17 @@ module PE_single (
 
         //////////////// RX ////////////////
         reg Ack_p2r_flip_flag, Ack_p2r_flip_flag_reg;
-        // reg State_r2p_tx_reg;
-        // always@(posedge Clock_r2p or negedge rst_n) begin
-        //     if(!rst_n) 
-        //         State_r2p_tx_reg <= 1'b0;
-        //     else State_r2p_tx_reg <= State_r2p;
-        // end
+        reg State_r2p_tx_reg, State_r2p_tx_reg2;
+        always@(posedge Clock_r2p or negedge rst_n) begin
+            if(!rst_n) begin
+                State_r2p_tx_reg <= 1'b0;
+                State_r2p_tx_reg2 <= 1'b0;
+            end
+            else begin 
+                State_r2p_tx_reg <= State_r2p;
+                State_r2p_tx_reg2 <= State_r2p_tx_reg;
+            end
+        end
         reg State_r2p_reg;
         // State_r2p_sync
         reg State_r2p_sync1, State_r2p_sync2;
@@ -781,7 +799,7 @@ module PE_single (
                 State_r2p_sync2 <= 1'b0;
                 State_r2p_reg <= 1'b0;
             end else begin
-                State_r2p_sync1 <= State_r2p;
+                State_r2p_sync1 <= State_r2p_tx_reg2;
                 State_r2p_sync2 <= State_r2p_sync1;
                 State_r2p_reg <= State_r2p_sync2;
             end
@@ -997,7 +1015,7 @@ module PE_single (
 
         // Control the selection phase
 
-        reg [4:0] interface_en_cnt;
+        reg [5:0] interface_en_cnt;
         reg interface_en;
 
         always @(posedge Clock_r2p or negedge rst_n) begin
@@ -1014,7 +1032,7 @@ module PE_single (
         always @(posedge Clock_r2p or negedge rst_n) begin
             if(!rst_n)
                 interface_en <= 1'b0;
-            else if(interface_en_cnt==M-1 && M!=0)
+            else if(interface_en_cnt==2*M-1 && M!=0)
                 interface_en <= 1'b1;
             else interface_en <= interface_en;
         end
@@ -1023,9 +1041,9 @@ module PE_single (
         // four_stage interface or three_stage interface
         three_stage inst_three_stage (
             .clk(clk_d),
-        .interface_en(1'b1),
+        // .interface_en(1'b1),
         // .clk(clkout),
-        // .interface_en(interface_en),
+        .interface_en(interface_en),
         .rst_n(rst_n),
         .M(M), 
         .N(N), 
@@ -1069,8 +1087,8 @@ module PE_single (
     // reg mask_four_stage_data_valid;
 
     always @(*) begin
-        // RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1)||(sel_data[`CDATA_WIDTH-1:0] == 1+N))&&(data_valid);
-        RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1))&&(data_valid);
+        RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1)||(sel_data[`CDATA_WIDTH-1:0] == 1+2*N))&&(data_valid);
+       //  RX_Head = ((sel_data[`CDATA_WIDTH-1:0] == 1))&&(data_valid);
         RX_Tail = (sel_data[`CDATASIZE-1] == 1)&&(data_valid);
     end
 

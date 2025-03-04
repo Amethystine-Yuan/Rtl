@@ -1199,20 +1199,12 @@ reg clk15_tmp;
             enable_wire = 0;
             rst_n = 0;
 
-            #(1*tb_global)
-            // #(100*tb_global)
-		    rst_n = 0;
+            # 840
 
-            #(3);
-            #(1*tb_global) //100
 		    rst_n = 1;
 
-            #(3);
-            #(1*tb_global) //100
+            # 840 //100
 
-
-            #(11);
-            #(1*tb_global)//50
 		    enable_wire = 1;
 
             while( 
@@ -1232,7 +1224,7 @@ reg clk15_tmp;
                 // ~receive_finish_flag03
                 )begin
                     // #(3000*tb_global);
-                    #(2*tb_global);
+                    # 840;
             end
             save_results;
 
@@ -1412,97 +1404,97 @@ reg clk15_tmp;
         latency_all_min_circuit32 = 9999;
         latency_all_min_circuit33 = 9999;
 
-/*
+
    //base=5
         max_T = 1000;
-        for(j=0; j<2*max_T; j=j+5) begin
-            for(k=0;k<400;k=k+20) begin
+        for(j=0; j<2*max_T; j=j+40) begin
+            for(k=0;k<400;k=k+40) begin
                 run_test(100, 
             500, 500, 500, 500,
             500, 400, 300, 200,
             500, 500, 500, 500,
             100, 300, 200, 100,
-            5'b01000, 100, 839, 1, 2'b00,
+            5'b01000, 100, 839, 0, 2'b00,
             80'b00001_00010_00011_00001_00101_00101_00101_00101_00010_00011_00100_00101_00101_00101_00101_00101
             );
                      
             if(j<2000) begin
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
             end
 
             if(j<2000) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<2000) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
             end
             
             if(j<800) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         
@@ -1671,77 +1663,77 @@ reg clk15_tmp;
         max_T = 600;
         global_flag = 1;
 
-        for(j=0; j<2*max_T; j=j+20) begin
-            for(k=0;k<400;k=k+20) begin
+        for(j=0; j<2*max_T; j=j+40) begin
+            for(k=0;k<400;k=k+40) begin
             run_test(100, 
             300, 300, 300, 300,
             300, 300, 200, 100,
             300, 300, 300, 300,
             300, 300, 200, 100,
-            5'b01000, 100, 839,  2, 2'b00,
+            5'b01000, 100, 839,  0, 2'b00,
             80'b00001_00010_00011_00011_00011_00011_00011_00011_00001_00010_00011_00011_00011_00011_00011_00011
             );
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
 
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
 
             if(j<1200) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<1200) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
 
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
 
             if(j<800) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
 
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
 
             if(j<1200) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
 
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
 
             if(j<800) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         
@@ -1905,98 +1897,98 @@ reg clk15_tmp;
         latency_all_min_circuit31 = 9999;
         latency_all_min_circuit32 = 9999;
         latency_all_min_circuit33 = 9999;
-*/
+
         max_T = 1600;
 
         //base=8
 
-        for(j=0; j<2*max_T; j=j+4) begin
-            for(k=0;k<400;k=k+400) begin
+        for(j=0; j<2*max_T; j=j+40) begin
+            for(k=0;k<400;k=k+40) begin
             run_test(100, 
             800, 800, 800, 800,
             800, 700, 600, 500,
             800, 800, 800, 800,
             400, 300, 200, 100,
-            5'b01000, 100, 31, 1, 2'b00,
+            5'b01000, 100, 839, 0, 2'b00,
             80'b00001_00010_00011_00100_01000_01000_01000_01000_00101_00110_00111_01000_01000_01000_01000_01000
             );
             if(j<3200) begin
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
             end
 
             if(j<3200) begin
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
             end
 
             if(j<3200) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<3200) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
             if(j<3200) begin
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
             end
 
             if(j<2800) begin
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
             if(j<3200) begin
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
             end
 
             if(j<3200) begin
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
             end
 
             if(j<3200) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<3200) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         
@@ -2158,96 +2150,96 @@ reg clk15_tmp;
         latency_all_min_circuit32 = 9999;
         latency_all_min_circuit33 = 9999;
 
-       
+
         //base=7
         max_T = 1400;
-        for(j=0; j<2*max_T; j=j+20) begin
-            for(k=0;k<400;k=k+20) begin
+        for(j=0; j<2*max_T; j=j+40) begin
+            for(k=0;k<400;k=k+40) begin
             run_test(100, 
             700, 700, 700, 700,
             700, 600, 500, 400,
             700, 700, 700, 700,
             300, 200, 100, 100,
-            5'b01000, 100, 839, 1, 2'b00,
+            5'b01000, 100, 839, 0, 2'b00,
             80'b00001_00001_00010_00011_00111_00111_00111_00111_00100_00101_00110_00111_00111_00111_00111_00111
             );
             if(j<2800) begin
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
             end
 
             if(j<2800) begin
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
             end
 
             if(j<2800) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<2800) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
             if(j<2800) begin
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
             if(j<2800) begin
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
             end
 
             if(j<2800) begin
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
             end
 
             if(j<2800) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<2800) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
             end
             
             if(j<400) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         
@@ -2410,92 +2402,92 @@ reg clk15_tmp;
         //base=6
         max_T = 1200;
         for(j=0; j<2*max_T; j=j+40) begin
-            for(k=0;k<400;k=k+5) begin
+            for(k=0;k<400;k=k+40) begin
             run_test(100, 
             600, 600, 600, 600,
             600, 500, 400, 300,
             600, 600, 600, 600,
             200, 100, 200, 100,
-            5'b01000, 100, 839, 1, 2'b00,
+            5'b01000, 100, 839, 0, 2'b00,
             80'b00001_00010_00001_00010_00110_00110_00110_00110_00011_00100_00101_00110_00110_00110_00110_00110
             );
             if(j<2400) begin
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
             end
 
             if(j<2400) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<2400) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
             end
 
             if(j<2000) begin
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<2400) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
             end
             
             if(j<800) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         
@@ -2664,93 +2656,93 @@ reg clk15_tmp;
      
         //base=4
         max_T = 800;
-  for(j=0; j<2*max_T; j=j+20) begin
-            for(k=0;k<400;k=k+5) begin
+  for(j=0; j<2*max_T; j=j+40) begin
+            for(k=0;k<400;k=k+40) begin
                          run_test(100, 
             400, 400, 400, 400,
             400, 300, 200, 100,
             400, 400, 400, 400,
             400, 300, 200, 100,
-            5'b01000, 100, 839, 1, 2'b00,
+            5'b01000, 100, 839, 0, 2'b00,
             80'b00001_00010_00011_00100_00100_00100_00100_00100_00001_00010_00011_00100_00100_00100_00100_00100
             );
             if(j<1600) begin
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
             end
 
             if(j<1600) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<1600) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
             if(j<1600) begin
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
             end
 
             if(j<1200) begin
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
             end
             
             if(j<800) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         
@@ -2926,82 +2918,82 @@ reg clk15_tmp;
 //             );
           
 //             if(j<1200) begin
-//             latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+//             latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
 //             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
 //             end
 
 //             if(j<1200) begin
-//             latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+//             latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
 //             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
 //             end
 
 //             if(j<800) begin
-//                 latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+//                 latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
 //                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
 //             end
 
 //             if(j<400) begin
-//                 latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+//                 latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
 //                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
 //             end
 
 //             if(j<1200) begin
-//             latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+//             latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
 //             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
 //             end
 
 //             if(j<1200) begin
-//             latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+//             latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
 //             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
 //             end
 
 //             if(j<800) begin
-//             latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+//             latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
 //             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
 //             end
 
 //             if(j<400) begin
-//             latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+//             latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
 //             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
 //             end
 
 //             if(j<1200) begin
-//             latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+//             latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
 //             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
 //             end
 
 //             if(j<1200) begin
-//             latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+//             latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
 //             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
 //             end
 
 //             if(j<800) begin
-//             latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+//             latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
 //             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
 //             end
 
 //             if(j<400) begin
-//             latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+//             latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
 //             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
 //             end
 
 //             if(j<1200) begin
-//             latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+//             latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
 //             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
 //             end
 
 //             if(j<1200) begin
-//             latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+//             latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
 //             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
 //             end
             
 //             if(j<800) begin
-//             latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+//             latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
 //             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
 //             end
 
 //             if(j<400) begin
-//             latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+//             latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
 //             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
 //             end
         
@@ -3166,93 +3158,93 @@ reg clk15_tmp;
 
         //base=2
         max_T = 400;
-for(j=0; j<2*max_T; j=j+20) begin
-            for(k=0;k<400;k=k+20) begin
+for(j=0; j<2*max_T; j=j+40) begin
+            for(k=0;k<400;k=k+40) begin
             run_test(100, 
             200, 200, 200, 200,
             200, 100, 200, 100,
             200, 200, 200, 200,
             200, 100, 200, 100,
-            5'b01000, 100, 839, 2, 2'b00,
+            5'b01000, 100, 839, 0, 2'b00,
             80'b00001_00010_00001_00010_00010_00010_00010_00010_00001_00010_00001_00010_00010_00010_00010_00010
             );
             if(j<800) begin
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
             end
 
             if(j<800) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<800) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
             if(j<800) begin
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
             end
             
             if(j<800) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         
@@ -3416,93 +3408,93 @@ for(j=0; j<2*max_T; j=j+20) begin
 
         //base=1
         max_T = 200;
-for(j=0; j<2*max_T; j=j+20) begin
-            for(k=0;k<400;k=k+20) begin
+for(j=0; j<2*max_T; j=j+40) begin
+            for(k=0;k<400;k=k+40) begin
             run_test(100, 
             100, 100, 100, 100,
             100, 100, 100, 100,
             100, 100, 100, 100,
             100, 100, 100, 100,
-            5'b01000, 100, 839, 2, 2'b00,
+            5'b01000, 100, 839, 0, 2'b00,
             80'b00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001_00001
             );
             if(j<400) begin
-            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(1680.0);
+            latency_all_sum_circuit00 = latency_all_sum_circuit00 + latency_sum_circuit00/(840.0);
             latency_all_sum_circuit00_integer = latency_all_sum_circuit00_integer + latency_sum_circuit00;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(1680.0);
+            latency_all_sum_circuit01 = latency_all_sum_circuit01 + latency_sum_circuit01/(840.0);
             latency_all_sum_circuit01_integer = latency_all_sum_circuit01_integer + latency_sum_circuit01;
             end
 
             if(j<400) begin
-                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(1680.0);
+                latency_all_sum_circuit02 = latency_all_sum_circuit02 + latency_sum_circuit02/(840.0);
                 latency_all_sum_circuit02_integer = latency_all_sum_circuit02_integer + latency_sum_circuit02;
             end
 
             if(j<400) begin
-                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(1680.0);
+                latency_all_sum_circuit03 = latency_all_sum_circuit03 + latency_sum_circuit03/(840.0);
                 latency_all_sum_circuit03_integer = latency_all_sum_circuit03_integer + latency_sum_circuit03;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(1680.0);
+            latency_all_sum_circuit10 = latency_all_sum_circuit10 + latency_sum_circuit10/(840.0);
             latency_all_sum_circuit10_integer = latency_all_sum_circuit10_integer + latency_sum_circuit10;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(1680.0);
+            latency_all_sum_circuit11 = latency_all_sum_circuit11 + latency_sum_circuit11/(840.0);
             latency_all_sum_circuit11_integer = latency_all_sum_circuit11_integer + latency_sum_circuit11;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(1680.0);
+            latency_all_sum_circuit12 = latency_all_sum_circuit12 + latency_sum_circuit12/(840.0);
             latency_all_sum_circuit12_integer = latency_all_sum_circuit12_integer + latency_sum_circuit12;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(1680.0);
+            latency_all_sum_circuit13 = latency_all_sum_circuit13 + latency_sum_circuit13/(840.0);
             latency_all_sum_circuit13_integer = latency_all_sum_circuit13_integer + latency_sum_circuit13;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(1680.0);
+            latency_all_sum_circuit20 = latency_all_sum_circuit20 + latency_sum_circuit20/(840.0);
             latency_all_sum_circuit20_integer = latency_all_sum_circuit20_integer + latency_sum_circuit20;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(1680.0);
+            latency_all_sum_circuit21 = latency_all_sum_circuit21 + latency_sum_circuit21/(840.0);
             latency_all_sum_circuit21_integer = latency_all_sum_circuit21_integer + latency_sum_circuit21;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(1680.0);
+            latency_all_sum_circuit22 = latency_all_sum_circuit22 + latency_sum_circuit22/(840.0);
             latency_all_sum_circuit22_integer = latency_all_sum_circuit22_integer + latency_sum_circuit22;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(1680.0);
+            latency_all_sum_circuit23 = latency_all_sum_circuit23 + latency_sum_circuit23/(840.0);
             latency_all_sum_circuit23_integer = latency_all_sum_circuit23_integer + latency_sum_circuit23;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(1680.0);
+            latency_all_sum_circuit30 = latency_all_sum_circuit30 + latency_sum_circuit30/(840.0);
             latency_all_sum_circuit30_integer = latency_all_sum_circuit30_integer + latency_sum_circuit30;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(1680.0);
+            latency_all_sum_circuit31 = latency_all_sum_circuit31 + latency_sum_circuit31/(840.0);
             latency_all_sum_circuit31_integer = latency_all_sum_circuit31_integer + latency_sum_circuit31;
             end
             
             if(j<400) begin
-            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(1680.0);
+            latency_all_sum_circuit32 = latency_all_sum_circuit32 + latency_sum_circuit32/(840.0);
             latency_all_sum_circuit32_integer = latency_all_sum_circuit32_integer + latency_sum_circuit32;
             end
 
             if(j<400) begin
-            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(1680.0);
+            latency_all_sum_circuit33 = latency_all_sum_circuit33 + latency_sum_circuit33/(840.0);
             latency_all_sum_circuit33_integer = latency_all_sum_circuit33_integer + latency_sum_circuit33;
             end
         

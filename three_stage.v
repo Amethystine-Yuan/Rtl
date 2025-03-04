@@ -247,16 +247,22 @@ module three_stage (
     reg Strobe3_8, Strobe3_7, Strobe3_6, Strobe3_5, Strobe3_4, Strobe3_3, Strobe3_2, Strobe3_1;
     reg Strobe3_out;
 
-    reg Strobe1_d, Strobe2_d, Strobe3_d;
-    always @(Clock_r2p) begin //posedge tx clk
-		#0.025 Strobe1_d = Strobe1;
-	end
-    always @(Clock_r2p) begin //posedge tx clk
-        #0.025 Strobe2_d = Strobe2;
-	end
-    always @(Clock_r2p) begin //posedge tx clk
-        #0.025 Strobe3_d = Strobe3;
-	end
+    // reg Strobe1_d, Strobe2_d, Strobe3_d;
+    // always @(Clock_r2p) begin //posedge tx clk
+	// 	#0.025 Strobe1_d = Strobe1;
+	// end
+    // always @(Clock_r2p) begin //posedge tx clk
+    //     #0.025 Strobe2_d = Strobe2;
+	// end
+    // always @(Clock_r2p) begin //posedge tx clk
+    //     #0.025 Strobe3_d = Strobe3;
+	// end
+    wire Strobe1_d, Strobe2_d, Strobe3_d;
+    assign #0.025 Strobe1_d = Strobe1;
+    assign #0.025 Strobe2_d = Strobe2;
+    assign #0.025 Strobe3_d = Strobe3;
+
+
     // Strobe1
     always @(negedge clk or negedge rst_n) begin
 	    if (!rst_n) begin
